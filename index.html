@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Яндекс Путешествия · Прототип «Сюрприз-поездка»</title>
+<title>Яндекс Путешествия · Сюрприз-поездка</title>
 <style>
   :root{
     --bg:#E9E9E9; --screen:#fff; --text:#1A1A1A; --muted:#8E8E93; --label:#AEAEB2;
     --card:#F4F4F5; --line:#ECECEE;
     --yellow:#FFDB4D; --yellow-press:#F2C93B; --soft:#FFF2A6;
-    --dark:#161616; --gray-btn:#EFEFF0; 
+    --dark:#161616; --gray-btn:#EFEFF0;
     --red:#F03C3C; --red-bg:#FDECEC; --green:#22A55B; --green-bg:#E7F6EC;
     --org-bg:#FFF0DE; --org-bd:#FFC98F; --org-tx:#9A5B13;
     --r-lg:22px; --r-md:16px; --r-sm:12px;
@@ -20,10 +20,10 @@
   #stage{transform-origin:center center}
   .phone{position:relative;width:390px;height:844px;background:#000;border-radius:58px;padding:12px;box-shadow:0 30px 80px rgba(0,0,0,.28),0 0 0 2px #2a2a2a inset}
   .phone-inner{position:relative;width:100%;height:100%;background:var(--screen);border-radius:46px;overflow:hidden}
-  .island{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:120px;height:34px;background:#000;border-radius:20px;z-index:60}
+  .island{position:absolute;top:15px;left:50%;transform:translateX(-50%);width:98px;height:30px;background:#000;border-radius:20px;z-index:60}
   .indicator{position:absolute;bottom:9px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:3px;background:#111;z-index:60;opacity:.9}
-  .status{height:56px;flex:0 0 56px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 30px 6px;font-size:15px;font-weight:600;position:relative;z-index:5}
-  .status svg{display:block}.status .icons{display:flex;gap:6px;align-items:center}
+  .status{height:52px;flex:0 0 52px;display:flex;align-items:center;justify-content:space-between;padding:8px 8.8% 0 12.8%;font-size:16px;line-height:20px;letter-spacing:-.045em;font-weight:600;font-variant-numeric:tabular-nums;color:#070707;position:relative;z-index:5;user-select:none}
+  .status svg{display:block}.status .icons{display:flex;align-items:center;gap:5px}
   .screen{position:absolute;inset:0;display:none;flex-direction:column;background:var(--screen);border-radius:46px;overflow:hidden}
   .screen.active{display:flex;animation:slideIn .28s cubic-bezier(.3,.8,.3,1)}
   .screen.active.back{animation:slideBack .28s cubic-bezier(.3,.8,.3,1)}
@@ -150,16 +150,61 @@
   .trip-btn{margin-top:12px;height:46px;font-size:15px}
   #toast{position:absolute;left:50%;bottom:120px;transform:translateX(-50%) translateY(20px);background:rgba(20,20,20,.92);color:#fff;font-size:13.5px;font-weight:600;padding:11px 18px;border-radius:14px;opacity:0;pointer-events:none;transition:.25s;z-index:90;max-width:80%;text-align:center}
   #toast.show{opacity:1;transform:translateX(-50%)}
-  #panel-btn{position:fixed;right:18px;bottom:18px;z-index:200;background:#161616;color:#FFDB4D;border:none;border-radius:14px;padding:12px 16px;font-family:inherit;font-size:13.5px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.3)}
-  #panel{position:fixed;right:18px;bottom:70px;z-index:200;width:250px;max-height:70vh;overflow-y:auto;background:#161616;color:#eee;border-radius:18px;padding:14px;display:none;box-shadow:0 16px 48px rgba(0,0,0,.4)}
-  #panel.open{display:block}
-  #panel h4{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#888;margin:12px 0 6px}#panel h4:first-child{margin-top:0}
-  #panel .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
-  #panel button.p{border:none;background:#262626;color:#ddd;border-radius:9px;padding:9px 0;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
-  #panel button.p:active,#panel button.p.cur{background:var(--yellow);color:#111}
-  #panel .tog{display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:8px 2px;cursor:pointer;gap:8px}
-  #panel .tog input{accent-color:var(--yellow);width:16px;height:16px;flex:0 0 auto}
-  #panel .hint{font-size:11px;color:#777;margin-top:10px;line-height:1.45}
+
+  button:focus-visible, input:focus-visible,[tabindex]:focus-visible{outline:3px solid #816900;outline-offset:2px}
+  .fine,.sub,.grp .hint,.field .lbl,.micro,.trip-region,.trip-pp,.info .tiny{color:#63636b}
+  .sheet .btn{margin-top:12px}.sheet h3{margin:8px 0}.sheet p{line-height:1.55;margin:8px 0}
+  .check input{width:20px;height:20px;flex:none;accent-color:#c49700}
+  .linkbtn{background:transparent;border:0;text-decoration:underline;color:#403900;cursor:pointer;font:inherit;padding:5px 0}
+  .body{min-height:0}.mini{min-width:0}
+  @media(max-width:520px){#stage{transform:none!important;width:100%;height:100dvh}.phone,.phone-inner,.screen{width:100%;height:100%;padding:0;border-radius:0}.phone{box-shadow:none}.status,.island,.indicator{display:none!important}.navrow{margin-top:env(safe-area-inset-top)}.body{padding-top:12px!important}.cta,.tabbar{padding-bottom:max(16px,env(safe-area-inset-bottom))}}
+  @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+.sheet-close{position:sticky;top:0;float:right;z-index:1;border:0;background:#eee;border-radius:50%;width:34px;height:34px;font-size:22px;cursor:pointer}.sheet h3{padding-right:40px}
+/* Visual language shared by search, checkout and trips. */
+:root{--yellow:#ffda24;--yellow-press:#f2c600;--text:#161619;--card:#f2f2f3;--dark:#242428;--soft:#fff4c1;--r-md:20px}
+h1{font-size:32px;line-height:1.06;letter-spacing:-.045em;font-weight:730}
+.btn{border-radius:20px;font-size:17px;font-weight:650}
+.navrow .back{font-size:27px;font-weight:450}.navrow .nt{font-size:14px;color:#65656b}
+.sub{font-size:15px}.field,.trip,.info,.soft{border-radius:20px}
+#s3,#s4,#s5,#s6,#s7,#e2,#e3,#e4{background:#f5f5f5}
+:is(#s3,#s4,#s5,#s6,#s7,#e2,#e3,#e4) :is(.field,.trip,.info){background:white}
+:is(#s3,#s4,#s5,#s6,#s7,#e2,#e3,#e4) .cta{background:#f5f5f5}
+.field{padding:15px 16px;margin-top:7px}.field .val{font-size:17px}
+#s3 .body>.field:first-of-type,.sub+.field{margin-top:18px}
+#s3 .mini{background:#f3f3f4;padding:10px 9px;border-radius:13px}
+#s3 .soft{background:#fff}.soft .d{color:#514c36}
+.filter-card{background:#fff;border-radius:20px;padding:16px;margin-top:8px}
+.filter-card .grp{margin:0 0 10px;font-size:16px}.filter-card .hint{font-size:11px;font-weight:450}
+.filter-card .chip{border-radius:14px;font-weight:550}.chip.sel-yellow{background:#ffe478}
+#s4 .body>.sub{margin-bottom:16px}
+.trip{padding:17px}.trip-top{padding-bottom:11px;border-bottom:1px solid var(--line)}
+.trip-city{font-size:18px}.trip-price{font-size:21px;letter-spacing:-.04em}.trip-btn{border-radius:16px}
+#s2 .soft{background:#fff1b2}#s2 .step .n{background:#f0eef9;color:#53407f}
+#s9 .navrow .nt{display:none}#orders{display:flex;flex-direction:column}
+#orders .empty-trip{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:255px}
+.empty-trip img{width:min(48%,170px);height:auto;margin-bottom:15px}.empty-trip .t{font-size:21px;font-weight:650;letter-spacing:-.035em}
+.empty-trip .l{font-size:14px;color:#6c6c73;margin:7px 0 14px}#orders>.btn{flex-shrink:0}
+#journey>.soft{background:#fff5c7;border:1px solid #f5e6a4}.sheet{padding-top:16px}.sheet h3{font-size:22px}
+#s1 .travel-home{padding:0 14px 16px!important}.mast{display:flex;align-items:center;justify-content:space-between;margin:7px 3px 14px}
+.mast .brand{padding:0}.brand .ya{border-radius:50%;height:26px;width:26px;font-size:18px}.brand span{font-size:20px;letter-spacing:-.055em}
+.account{width:34px;height:34px;border-radius:50%;border:0;background:#f1f1f3;display:grid;place-items:center;cursor:pointer}
+.cover{overflow:hidden;border-radius:26px;background:#ddeff7}.cover-photo{width:100%;height:auto;display:block;aspect-ratio:2.63;object-fit:cover}
+.cover-copy{padding:19px}.cover h1{font-size:clamp(28px,8vw,36px);letter-spacing:-.055em}.cover p{font-size:14px;line-height:1.36;max-width:32ch;margin:8px 0 16px;color:#2e3f49}
+.cover-action{border:0;background:white;border-radius:30px;min-height:47px;padding:7px 16px 7px 8px;display:flex;align-items:center;gap:10px;width:100%;line-height:1.2;font-family:inherit;font-weight:650;font-size:15px;cursor:pointer}
+.flight-icon{display:grid;place-items:center;width:31px;height:31px;border-radius:50%;background:#ffe053;color:#6239b9;font-size:23px}.arr{margin-left:auto;font-size:23px;font-weight:500}
+.home-tools{margin:20px 3px 4px}.home-tools h2{font-size:22px;letter-spacing:-.04em;margin-bottom:10px}
+.shortcuts{display:grid;grid-template-columns:1fr 1fr;gap:8px}.shortcuts button{border:0;background:#f4f4f5;border-radius:18px;padding:10px 8px;display:flex;align-items:center;gap:5px;text-align:left;cursor:pointer;font-family:inherit;color:inherit;font-weight:600;font-size:13px}.shortcuts img{width:43px;height:43px;object-fit:cover;border-radius:12px}
+@media(max-width:520px){.mast{margin-top:max(12px,env(safe-area-inset-top))}#s1 .travel-home{padding-top:0!important}.cover-photo{max-height:210px}}
+.mast{gap:12px}.mast .account{flex:0 0 34px}.travel-wordmark{display:block;width:218px;max-width:calc(100% - 46px);height:auto}
+
+#s1{--dock-bottom:max(14px,env(safe-area-inset-bottom,0px));--dock-height:62px}
+#s1 .tabbar{position:absolute;z-index:8;bottom:var(--dock-bottom);left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:360px;height:var(--dock-height);align-items:stretch;padding:5px;gap:2px;border:1px solid rgba(30,30,35,.09);border-radius:999px;background:#fff;box-shadow:0 5px 19px rgba(29,32,43,.14),0 1px 3px rgba(29,32,43,.06)}
+#s1 .tab{min-width:0;justify-content:center;border-radius:999px;color:#525259;padding:3px 0;gap:2px;line-height:1.15}
+#s1 .tab.on{color:#17171a;background:#f1f1f3}
+#s1 .tab:focus-visible{outline-offset:-2px}
+#s1 .travel-home{padding-bottom:calc(var(--dock-height) + var(--dock-bottom) + 14px)!important;scroll-padding-bottom:calc(var(--dock-height) + var(--dock-bottom) + 14px)}
+@supports (backdrop-filter:blur(16px)){#s1 .tabbar{background:rgba(255,255,255,.93);backdrop-filter:blur(16px)}}
 </style>
 </head>
 <body>
@@ -168,37 +213,29 @@
 
   <!-- S1 -->
   <section class="screen" id="s1">
-    <div class="body" style="padding-top:0">
-      <div class="brand"><div class="ya">Я</div><span>Путешествия</span></div>
-      <h1 style="margin-top:22px">Куда отправимся?</h1>
-      <div class="sub">Отели, билеты и новые впечатления</div>
-      <div class="field static" onclick="toast('Поиск — вне рамок этого прототипа')"><div class="lbl">Направление</div><div class="val" style="color:#B6B6BA;font-weight:500">Город, регион или отель</div></div>
-      <div class="row2">
-        <div class="field static" onclick="toast('Календарь — вне рамок прототипа')"><div class="lbl">Даты поездки</div><div class="val" style="font-weight:500;color:#B6B6BA">Выбрать</div></div>
-        <div class="field static" onclick="toast('Гости — вне рамок прототипа')"><div class="lbl">Путешественники</div><div class="val" style="font-weight:500">2 взрослых</div></div>
-      </div>
-      <div class="soft promo" style="margin-top:22px;padding-right:64px">
-        <div class="doc"><i></i><i></i><i></i></div>
-        <div class="t" style="font-size:19px">Попробуйте<br>поездку-<br>сюрприз</div>
-        <div class="d" style="color:#6B5B00">Задайте бюджет и пожелания.<br>Город откроем перед вылетом.</div>
-        <button class="btn dark" style="margin-top:16px;height:48px;font-size:15px" onclick="go('s2')">Узнать, как это работает</button>
-      </div>
-    </div>
-    <nav class="tabbar">
-      <button class="tab on" onclick="go('s1')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Главная</button>
-      <button class="tab" onclick="toast('Поиск — вне рамок прототипа')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Поиск</button>
+    <div class="body travel-home">
+      <header class="mast"><img class="travel-wordmark" alt="Яндекс Путешествия" width="1000" height="106" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA+gAAABqCAYAAAAvM3uqAAAAAXNSR0IArs4c6QAAAIRlWElmTU0AKgAAAAgABQESAAMAAAABAAEAAAEaAAUAAAABAAAASgEbAAUAAAABAAAAUgEoAAMAAAABAAIAAIdpAAQAAAABAAAAWgAAAAAAAABIAAAAAQAAAEgAAAABAAOgAQADAAAAAQABAACgAgAEAAAAAQAAA+igAwAEAAAAAQAAAGoAAAAApqNz+AAAAAlwSFlzAAALEwAACxMBAJqcGAAAABxpRE9UAAAAAgAAAAAAAAA1AAAAKAAAADUAAAA1AAAch26dCasAABxTSURBVHgB7J3PqyTHkcd11w/mT3h/gv6EOVrDHuai87ZPy4LAc5vL4n1gdtfsQc832bDQvhj79uaya4MNjS4CXfSwWBtkkArpIHxy72HRTdsb30dlky8nMysiKrOqeub7oKjqqsyMiE9E/oiuetVvvME/EiABEiCBiyBwvTtdyfa4sr17EYZQSRIgARIgARIgARIgARIgARIgARLYOoExCX8q++t//vvTrWwH2U6O7Q510Y5sO9mYvG/d+dSPBEiABEiABEiABEiABEiABEhgPQKSOOOu+E6S6b1sgyMRtybvIWlnwr6e2ymZBEiABEiABEiABEiABEiABEhgCwTGpPyZJOO4y21NsFuWxxcCe95d30JUUAcSIAESIAESIAESIAESIAESIIHFCIx3yg8rJ+WlBH8Q/fA4/NViQCiIBEiABEiABEiABEiABEiABEiABJYiIAnvIyS+kpTjbnUpOd7aedxVv1qKEeWQAAmQAAmQAAmQAAmQAAmQAAmQQDcCUWJ+vKDEPP2igIl6twhhwyRAAiRAAiRAAiRAAiRAAiRAAt0JSHKO/y9fNDHfX39+uv3Z70+HX/7q9MlvfnH66uPnxe3Pv/vJfTmURb2Pnn+ZJubpZybq3aOGAkiABEiABEiABEiABEiABEiABJoRkMT8sSTmi7z47eZHf71PxL/99IPT/339pMmGpB7JPRJ9tJ/c+T+KfdfNYLEhEiABEiABEiABEiABEiABEiABEmhNAI+zSzJ7kyS0aYLb7DPufLdKymvt/O2PP7xP2HGXPbLtTuzlT7S1DiK2RwIkQAIkQAIkQAIkQAIkQAIkMI8AklVJXocogY2T2ebHuMNdS6p7Xfvui/dPn7348Pw4PO+mz4sb1iYBEiABEiABEiABEiABEiABEmhIQJJU/K958yS81CYeO++VgFvaxZ313/78xenf//F/DsLgUUOkbIoESIAESIAESIAESIAESIAESIAE9ASQlEoSvS8l0r3O4w62JZHuXRZ31f/yhx8Pf/rPf+Ej7/rwYUkSIAESIAESIAESIAESIAESIIEWBMbkfJEXwcWJ/r/9w/+ekBD3Trqd7R9P3zzZteDLNkiABEiABEiABEiABEiABEiABEhgkoAk5/h/80V/Pi0k6Wv977klYWeSPhlCLEACJEACJEACJEACJEACJEACJDCXwJrJOX72zJIor1mWSfrcSGN9EiABEiABEiABEuhE4JH8vfXWW4+xvfPOO9e9NhFz1ckENksCJEACb6yZnONlbGsm3B7ZW07S33777YNspwveDuySJEACJEACJEACJKAiEBLxcQF0XGoBBLkqBVmIBEiABIwE1krOP3r+5emrj59fXHIeEvqtJunj/MQE3dgPWJwESIAESIAESOBCCMhi56lse9kWS8hF1oPFFRP0CwkWqkkCF0ZAknO8rX3R/znHT6lt7W3tIem27reYpMv8cUjnkAv7zDvoFzaOUF0SIAESIAESWISALGh2sg1bWNgwQV/E5RRCAq8VgTE5X+xt7fvrz1+ZxDxO5E/D3z3eUuDInMUEfUsOoS4kQAIkQAIkQALzCMjiBnfMN5GYhy8HmKDP8ylrkwAJvExA7pzfhjeo99zj59NelTvmcWIeHR9Pww+uXia8zhkm6Otwp1QSIAESIAESIIHGBPDCN1nY3IakeEt7JuiNnc3mSOA1JyB3z697JuVx2694ch7+h/7uNDx9tIWwYoK+BS9QBxIgARIgARIggVkE3nzzzXflDex3W0rKY12YoM9yLyuTAAlEBCQ5fxwn0L2PL/lFcNFd8pCIF/fff/3eTYR5tUMm6Kuhp2ASIAESIAESIIEWBJCcy4JmtRfAxYl46ZgJegtPsw0SIIHx/86H3kl53P4l/oyaJTGPy56+ee/p2lHGBH1tD1A+CZAACZAACZCAm8AlJOdI2pmgu13MiiRAAhEBSZxv4uR5iWO8tT1OYjXHf/vjD09I7PFiudKG64df/ur+/9s3dJde/h993UfdmaBHAc9DEiABEiABEiCByyEw/s/5pu+chzvqTNAvJ66oKQls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"><button class="account" aria-label="Профиль" onclick="openSheet('profile')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-7 14-7 14 0"/></svg></button></header>
+      <article class="cover"><img class="cover-photo" alt="" src="data:image/webp;base64,UklGRiJEAABXRUJQVlA4IBZEAAAwUwGdASrCAgwBPi0WiUMhoSETefy8GALEsrSc6uH/fwjuuqXldfjMBUZNHEGoHUj/SeCJY2yHOCNcSAcYXMl6X8zf8L77fG/f167/B/qb+9dG/2b4Tufv+F/l/ys+W//P9c/6u9g79Y+ob+5Hqf/cX9rfdw/7fr2/pv/D9i/+kf4z//9kv6GPm4/+f2mv3L9LX//6ij8k/+ncf0hHyHyC6Q0Sn5z+Uv5n+P9pnenwFPy/+qf7HMH+yP/M6G3/i89v2R6PwhQd1kQk/qOzQejuvFf7QdIJgxvUQapCso9eP6U3n9tRT5tUGCVGTcx77N37+kRup+zj+i/D0ff9YNN9yM7PbrI6iWCGXmWciJvDcqt//3HWjfmcNpTeOxMoXzjV7QTJPrtcibr2T9FGLpFH5Wm9ezjibbCfN4MhIY0qeoQonVKzo+9NkQpSeAdht72S075t4Z2YW73jbCu3jEc/Rl3ceeR5Xwg/sJ3nPE9fTRaEh7M2TNh7rl/ayEckfWAvMUWj0YZVkwtJLej9MthwwdvIuGXCoa1bUhqqmCmY7vUikpjsXhaiX351wl7LTUSGgAKmmSKATGhF7+oTf/tQV8V3FtsWOv78kfKmhnZKvraL3Ly+0fPDe4hCgA//z3bD3aQ25cnkZSy+4or9GroHNwGy6lrdm2TSVleKlCjooBVkDiUsRS6/VxgsBYU/g0CFlihS8Cdg0/pqbcxw+QsmCEcAPRuWwe9OHkDpPFzbi2VQxjaV6fbP+IDpnmAsYZSdfAHC4D9JBKInpcLwFPUBvRiEA9lTfftl9yuOZVo+eMteHEpftoKEMrd6FD7CZEUltfpNQ4fwP6yTPp6xU9secr9GGpfnqhLUHDU1Lgzi6fLKGfMKUDp05y3RiLyMD1K+vOHxOoJMxg+n4e1vTfrSy+dYEoFbpNrW6E+Y0aZbdOlnaxm7z1RNlMnNf4pM2gERBPhLaHi5t7PG/AzWI+66kJM38DfhDdSTJyV1/4FaDXpIgzkHe3/gacqh7UAT5BjpmYObJMVD95KOvvChrFYfmpip1MBOhGX+wW8fSVJzS3vQiIuY0ILfjoaUYxhiTtaQP8xQkOiAbEBtKNJKwn7egO7IFNH5/nCqmKkNes6MieswhPkIdaVMcxey2ceJ4vA0SvZZOvtU60kKiP4HyylfFwlIs2vg4r8zCi/ReNH2zdaqR39KJw7aVEXEIydbUBj2B3ePhm5hUTuDPhDeFXI9vPE7FGWS7GOBRuY0h3Y1c3gVxonFOzmwmbBc4+4epDAmnulQgVGG5xKbIw5K+Ayn52TRXnz64lc+wf2CCWoZ6Lfgzl7XFgZ/JemYh/L/c5G8OoqRcgk3Wsjr0bRNcFC3pdk5OhTyHUTqg8GbR4gfrLVk/s0IO9H7SiIttKn/VK8qa5saxPHzstIg8K/NPp+JaaQkm/WvZQctKOUwmVy4m5YanOuXgVFWho0HpZn3oqlo0rwAxXqXFVb02doYfJJ/wyImvtCyuYPtWA2XP7pdgHcthyAm6fSL0GEGuaSSuYA8B3Sxa6kXz87UZTMB6GHFU0kwaP+f2XAF/IOaJ04hrxj/j8n5Jz3VOtcX7Z+DrZzkWjVpSNMbUUtrnH3W+1hLLUCSxxmWuWHDTmV6FBcji20PsB9SWJ6QffTtOMyP/TieCDO2Knp6uN0oX5u9pn+MYtDS+ikes4y8eN+etLQzmFG3G1KtA+K2r74dLpNGc0k60uDvZqDKLQTCXGYtZdc5lcrrswKi0Xq6igtulUva2AUyU3Tq7k4cCwMNUIb+XyqTxwGHEEiEtREzB8ADpbx0hfJO5tyvO7hbSdM/29o9SCa4cdzVfKSevszecXXKKg/eWzb/e9kgDnBfJuN683bUaDzBXnscaTnBce6gFd/NXPswkikdxIMUpWzAkZTCE9zQO4P2iea8YRmqPyW25KNky9jBQ3DnP8mg1XpuwIoC1JEvhzsS7X50yg0FnEOkJZoDphrr7XHdxnIMXNHg6vOA/tXRYcR6/L83jVawDwZNrywkJ7JwnLWH4LKTQmMBn7vhIT23R3jUhm4Ur2XruK8x3Y/9AvIo8TvrN8AypElQMdlLM0ZQskGO5YW4OwfJFPCllbp0i62slP0rKB+i60upnC7cUsxeMZbBShhtMQx+NNWZytQ5frLRhqqYEet9br7++ZvZd+i3Ur63a34a+nBK0FGd+WCm6LzNedLSTwhnBDac7S7LKfXBSjqu6WrgvAZLy/3ubqT/U1U83GYrUoYzahqjElYCg1cee6dvU+h053L+uLzqlbwgUFVehhlsI2YOKXdSnN5bCce1/ihpUVdHW6SyYg0GhXTjCtqWNj1gDFKYvsi/lFcHfY+CQoIox6u5Bv1NHg+CtFERFAsWMsBNe/pCWEsoVJ3GtYbaGUcrQsl7bmjA62xE3/929bq2Y/RmqA7iFYcpLCppCRHZJZ4CsXNDRx1+DSHPPXREQM7/GL/qAqGBRfDTEl8wD2B3pMzQc5tYRrrcTdFzgGpeddlavW7Tj0XcuWYQ82jVsxgkJLydGUqNIk9amdiPGphX0HNLaPzkVFCYXFv5/2qi1a4wV6iu0GPThxrZl4CZeFyQfemZCajGnMkHEoi5f/sZ3StprOJCrMXhh3YpO8FmwFjK7431J1Ny7cSEsFDFjIAzycqzXVIXK+y5TnHn+ZijFD+6kr1em2S4QYc/79q1S1JV+/OPATFBkLrX4A567EkPs7n1/e4q8darKzh0aVVzUTzKBVvGcn45KRn3e/PUofK+k/dzt8Jbnu/LlNeijfOE+X/QN4YullcwJ2wZqhGkNl4yqLFnmq0foXwi+jSRdhmEZwmRTOA7/+OIzwzdpW8/KCGsTQ4rivjcg7eaK9I3WnsRi5r6NFaVoj2Xf+uE0M/YNjcUfmuPJu0OrL+0qzDl0pKITh0l1DcoBqzeqU2ZN+iydL9HMG1Th+nYxPwvt8ly9Kncdgn0w+l3+wefFZ9QJHL9uY9j4pxHsRNmI7JEBm9ODI5TVQb4DmUNyDVmCcQkTlRtWTlT+fhO78m/geD+8AtwJWP+ka13tmzYva6YhItY7T7EePMjT7f1w4Tzm2OuDd6jWNw/5EIfv2dMU8KKPP9gqokZ5FaE9/AwV8SU3R2xzv3KdPYXxeeGStCA3oVEqF8ZkN9MvBpiwdvv+b0S1Wbt7rb4F+kqSeU3e77WTfbuLaGdQBbva+BlPE4Unf3p+wEGntJSaMG4t4DaVeNmSK1n6ms/gKMBgUzmPt5/F/CkWEVf01Y0rOHh9UXiIqDsKc1PFsAK3vpg0+RrYXx8Xk2X6yyIjEcAqsM/oYQqJzCMrkTJ/UtSyH2Ui4m0V34Gb6U96zWD1igQRPHzIt3UAzaDVu1C71qexwivQKtH5kT1w7kSAYLZf/maSoToJhVoSWgJ6ONkoWgoDJfZb9bWgUBX9KAZef5MJHHENXhaYHcL/YFXy3dYympKjN6d8ZUgg/nzyPDSTlxN1SqEAUiN5T/48kyIYmor9wXdKx8DAnK5AgYYV2CeLwgJGxmwpZYoDZ3GtSFxMffjtoIkptgIOKhoOxfXXAWOrc9pFKel7OVAlv2hGAW8Qc/EOGkvU9Tw45gr+wCcTvOIbGP70LyN2blwAP70efIhYT/+R50JZJu4//zUXs33zegdrwsty57vsM1XdQQIfXw+wq20R697CUdvkiK1VdEAH43Yb/UAzIMAUWKOU6SoRMSEKzv7Y+WsuWPwqNgsNylewvujXB83eMXENsH2lrGFNfE5jAEWv7HB5Jsy0S1jaFk9jzrOlBqkge4IPXfhZrkRjUr47U3FbdPTJCbZIjPCvhkfjnlTDgEZLSo2HG45ZAKuS0A86pCkMdWfphqTWTmk4QXWB/XgoxlavTG7DopqolwFX/Fw1hMxLN7ZM/5PemMSZP9AVXJElnh8v5Jf8LLWALVYt47/oWpwjsuKxlFRwabM7XMi7PcU68iPzl+n5UhUDrs6oAxJhsD7+hB5lCulvcark8uAZs1ggAKcGhHTy5yNLQn6BraI0N7DxmmpbCTApdoUFp5GANrlYliRY4fpsnscGELh2QOIMTaPWRW4HgGkVrztOkiC3WZSrDsxVR40GbcFOaytTKipmrx8PioXffBRszTMKaM0kZj1ccPh9BbatAto+h5EW8/EFtY2yzyuzeGqA9UT/ZdFLXBtUcSNul/b9A4sw0Uv/VzG/EoACWUznmxy1Jgv/aiffRQliqC1iV1JrGMHa+wnlBmIxYf31zvXgUecAlpvEyvlYxLBa1nMPUeVBnfcYy11Yy3DvDRH+BjxXIJm/IXdd2P8QPA8sCMRFyol0UFtMpGbmMV/C/sCGWXfzZe/bjvrzv+F5QT/1n8rkvy9De5K7EMasij1satUPht0vMRg4nXk93GdWPz17ovIDheQFdtCwjV39F6/GYM8it+8w4puDqSXzXsQVVnfBiBsQxMuNt8fH7cKvRoDVRVnXNc7DuSBJsKzs/LDUEr0HJ6A8MdTl2J4ToZe3mXrLzOwEeGUXhg1EwQaOhZSUHjbAUY5Gh4zxiSXZdPzH2O4OAYe5ye3EH48z/ENd0XkbdkWRWIkP2eL9DUAmxuYLbtnC/3Mjs3fy9Jq59YH3t20G4Ypx6OjbgmBEuMZ2DMBOsez8+gUBpD2Q7PC5FA7zfP4S3pRWtjZgD4pVPWPCBi7045K8NolomWXv6P3l/vJbXv0JGrRn+CNsGLE/vTawLYQrAZdqwxvd1DIgjk2gvwx4vsUu4MlNxEL1BogMv20bJx9eKppAPv77f9Y/oIlcBeBeK8g5mHko+/y1CO/ajGt/Q+ozvBXWL6jwLIWgQ7MG7kOFwiGRCWHTNVxCHTnxkpMD4d3vkinj8/9SwhCicWnz9W1GwTq/MiOskBZ7xPCUFxeC3rjk3Y23WTLeCN6xdao/W9ljEnyXRXqvEbbDwWzeya51m+Yuwfqm4B2Jf50v8K2SqXiP0zru8I98/rovAwzyNwWCAm/rvjtG1pFMnw7tI16ypETki1QC+pm3vbjOyjOn6FijCyUKtjfhUh4l32bxuFS2K3e7SDBdws9ORGb2NIJxGJvf42Pg8gQNGPZ4iCdXf0+SZevTdaSFAWhCSnYwRYERqq4CWqpF+uiGhKpjrYS7tufZ4nbEo+TDrgiSoicwYsHIYKR5zhtEPg3ODVCRobOI6EUFj1z5dr3y7F3bSHBYwX73TbFWbQqfg5sCpiVavBdnyJYiXDkM+eeXfr5sVRm/wxGPrmkVf8vkAn15W0FClY4l8ra9XF/F8/LJQZQYd3o8u3b3oQj06zhOW7Jun3w2InqfXbP/sNHbtvt2eC7aQeLBpRz32Rio9Yg/k0IXbILzbJ1qn0/gvEQXUJBNeZ6lbLUWBmEgE1PB2xfxke5ZGspRYUFp3yzJToixqAvkzFpP72gbHC2VcbDtpi9HrX80k+tJ23n7LpNe37faZem+yjSH0Vv0XFKV9J6trQNvUF1pFf4m34oZgAVBZWXf+3vvkDLbYVNE3gQAaeE3CH9xCQ/8rZe9FJ6PVTJ2sWMRx4sEbRCGiO/qpPZDKfflZ0VW6nlCUee1uwDQJzW3O6A7stTemaSXocrCAXcXuz61aeQ2ys1m34/CmAfGIgyd8fjBIOmcDkEiwgqGWhrDBUI5ujTHPTbETb1fY+JdI0NEhJ4w+9d+Q8vee0yQyRjq6DelQqim86Em5AcPVJqexAJxDkavDT7rItVAnPQcgAd6+ddQp7viyISPVwm1GPvOTMrh7j+hDZrikPoN6BijlID0f9n5dVnaYXcqMOazmz2WaeHW0d3zCvSarqlzuwz+zga5HjGWj3vQycilSnutfdjNt4jhSmRKrMECEkZUozeK9P3vLk3jj19D2LybGCSwnLYwHnDDVp+V9N6e/YhRS53FkD6tbbvSRZvd2mJnbwUMjJ4AH/LXSSrQnDg/hip8aRr/Coy8R0PWNgcBTKwMZUtZLhNIlYLFk6/0SfvnT4sv7SecjTRpa1/LIWY66s+7+uKqpNHXntdAC++e8wRUhMvbn753vVe2Jsgyl9hIYVqt0Kb1C6Bg01x8z7ThcUPZyKvBcMT/vIWBK1l7Omw4vKTJgdHt+rYV2BQ6iAzOu5rXImr52Qg/kdNKU91a2lq64855Fzkr4MF7MP8a/DS/rP3q5en9+SjXwL3L0k93SeY7QkiwF40Zxk9ENMWsVRGXW7tvIcQ/ts+ZWe7ZGkFaF32I4MbWUvZ8pjiaawf1ZoP9xKr87vmytpO2at3cxfrvH7jmNPYvTbo5LB2/tLJfoUKF7/pBdBW9b7S+MQhpwePC6+jroi77+O/1jwRmkCtrUAFgwL/xD1XF9Bsz/Hk98gEQRFg/lnTHovszmLJO+lPskqPMfn0a67sMJrSM2lNBnYgVj8F9peOAIKAcnpOwzlxaKXgoZz4Z9/ZKeI604XlsgXZgWi209c8o8gRywbUlJ1s5Lrh0qFlIjqksGkydsxnJmLYTJVChSnhjrALuMoMM1Ll5RNTeYhFXhA/BmfQ73UqSe+68gSL07RILiwFXkylBt4eE3X1S7VlT6EvO8+72sjrzCErezQdv0fJQVYVSY7/x5eRfwaZtCHS1BbFZP+aCCmosEHj/b9GLJ52rCOFbEXsA5Fm9bdFr+9lHtKjl3535O4RLOKQgZWartJwrmPd3/UOtcpiPvk/xsagYUKYi3BMLhmbEDWto6E8WyiFX++5/ts98mvLegEHAOToQnPe2wz85JLJytROG4luO8SPUuc6Ek5Io2ce1oS9bZGxlcbd9Ftq732Ppq/jTNzlCTxSyJKTkhBnySX6xWEBO1ZO8umDzAHqwQkrqsdzqGUl3MO2G8HI1cyr88HcE4lB11DrLSpsK5kOL+BtTx5BMWvOJJ0aBLnC6+dZSg4ERb0siTS5eFXMwY75Yy7QNI4LxJffY6wQMtJ9UQm51VYXXlOM7grC6jSS737X19VS56w6VekUzAzIeUxBL9ju8kkCEPAjyM4qGTBELkvYArLdyG88mLq/ySnbg6jt6azLv5UdcJ7YVTrfjjPLe8jxsg7kRPs55ui74zFFajo69ODweU2WvqdW/JIPfuqjsZVoxd3XJw3ftFHfblFmlJg40DingeS8fEq0bq53AUsBlAnhAoWSx23SqtVLS21KscTXfsIHNjlxT0ezbfNd5o/ZDZbYIwD7fd6ES+9ymVGGgSayMaREsca1+HR6fFdsA/tvGyMbagAMUBDmupBUHKs/ljk5AsCm569m7A5AqfNjYXZvKiOq0H7N62MJdPaPbo+sUGHzGOBlZ7chsSpwwzq+BebpwqrZ3QNOh7v9dVXu7IPH+D/wImZVRpUkh5+Msje+zNVGLApQeG3V7mbxl/HGarqsfDkCIQZYrrlAtdR32Ya78yTduipvVIezIlnxS6eF4Z7S7eAHMkEzVUO+ItK6gDOQ38ivcUsj/JJK7+FS+dIEsrvaLT9Je29AtqMyn0cPHc5NIvkCx9o6eEG22L2p/eW4Y4+w2MV7RQaYdat5ccxtQXA8LYWAB6iWe0FCWBcTcnCkc+TPZhFoYWNtJSITeX3LGcv3LTz03Jam04EmTCzKQfflmnbsK+NLSDX3WFj3Am1m6HDqA3zGhaTbthLoMJqd+/pRCnnxzgZnAARkkfcl3h2sBJrs4f2VyePr1nbtqzG2wWiFMk5YTL5bMh8kq3RXFFm5zCJNSUPi/YAfNoQ9CAmSEisEgmrza1UE/hx/UXAAeDJvqJpcja6of+Zo380jdKEsHOtxUMbkD11sM28q3c4M2/16CgrgNKFF/9IRVzuYCQoQvNil2RZfc9t/RBQtqwgQk8/vKQdNbVAd734xDsHayWNr+9Q39j7di9VxjcUzpfVN2n4TvwzqDWlcTtNB7u3bwFdMpAsoeNaK1EiSjzFcJo7YH5t3PwuvASBzad++kysC5ZC2cwNF64KA81c2BLu466efAtEutySCh0j0HYFvb5AzxHbyCyDde+2OooXW+E4dVE+z9+jsBAXVS+rNmIAebPEAZW9sTlrnO6nUFujxyBczS4kT7j5NOkwsSwgDvnLJkow1eGluwn/p1M6kFOsqlFx+4xlzBp5pE6ZF/44qs4l0jA7Lzsa4y0Bgj7ujltkRnAJ+N/xvit509CBybT6lAARAYnX1vCxwDBC9x4wyz9liRiSMfFef2Nr1pS+nhbLn+SZZFQPu9DNmAHI9J65IMmZjGwRAdkmDqytyoQA1GkTYlvqS59Y2p20S5IFSQjXO722BhxE6cHcm7m9XOcQThq8OuiObYrQS1THvu6fWfNZQjtRYUKFnUu4ZHkLapRgFsDhI7aa/7gnkzd3KBz2VVIuwImtgB1SE2HIdY8k9EYLwtobGup6Y8EptjtRoXm5bgbF9+10QSetxvJkhNATuJPydAOtWEzBYcEgbAZUQqmgSj+Gofpb1he0ngOelEHOhEAGuWKT8MkpECKYvp+sAxvhjzf+9WAZaeJN/BCwjI+dngFySxpWVHKyxigK8RCEtgGWBmAzMuTgR3ndt2X7w9si6Bkd8kSBEAw9EXuq6LbgTUvwyWyg0qs+MHSylGINPn28YrgMTjMuNIc76sgDuNRX4h3G7NY0gMY8mVfL2Yhq5bm7zmNz5xYLCJVGvKFdHar3KFonGOUdartnmyBVqVP6VSZmrAJ0zCK1ha1tT0gocdoFS1wJVPQ7zsQSrJnjDmzM3DuT81GrXzBXgOYeBOqdksdMitrr36ygraKHXEMpv7q4SFJrrrzp+bDj/Aa5SwLX+pztexufIi153pyxEKcyX6yibgnAjlOBDj3NggSoJD2DRIRZLmE2zc9l+vYf9ucqWV25Mc+5mb79fRCjaW1VHySGuAAaX+LwIEfcL3eOzO1cm8NSTXyrwaBGAopxqHEqiONqgobTBXoBtMNB8ODYEqbD1I1CkX5+ZeCQAkGqcjBRc4X+ER+fS10IWLGxyUTDLbrcSTTjaKsmLSrnOoU3lxUZbCd/GkbrvnXR56VsNgpuXQHf7xCSXhcosqP5IwjtvwDHzOitBS6vLlOI8KNJdeGxAam2fPdWZeg7u/4IGiASN8FtNjR05PNH8RvRtep/SZDoRLPFULnunad2GRuwuVILL7ZQcIBFgPxUlqkT+uNjwPOcYNcEef9fXMw0gwuKpfsE8F9yQa0EMmj0EnU2rmFpB9oUvRpt/kEgiJPEs6FW7ZinuKAS5bUk0w0KPu3xMlTfySImJHTPNqEv4d8G7dhwQHekxEuy27SUmdxg6TgcFGmz86YX3WaQwopJKBxJlDwbmdGDbx/ivv/sPMnkk9n0YctFPhl2zV+KSrG19s/EPqq8moAgnWa9AiYrhbcscEJRU90huqfvnbSlUk40bzLra6J/5XG0NGJbf0fA2Kp4iG9SLzeFJTILTXvtIgIvmWnt69pZA7jYzpdSEGyEIY8f7YR8Ezan47tGZPyFCtp6qhBzQ+dcUbX7teMk9OkTLZNmgcp8qxhNnRWH5QvpnG5fNwQy2vFozdMcj07fH2D/fEhKK3I+IE8zWKQwIOEChQ9+f/fIrz9IyuGIMBHoBM4P2shLzEq252Ljag8xzqAj1Q6QJr4GiTKRIE3vsuHyqzn1GbxYlp43cOti3fZJLqRVRCGZb+O28PSn7s30RHoY0ZCZTBWlH9SJBHOrnSUQCoU61IzRrBtzr9qZQ5HOwH8UTRKjigURFprkeGezDX6xnQHpAZFdmt5JTnugTJA8OITwUOlBeb865GCZF5aTu+E5tDUSAstczgPMoQclWwgsep5rX/S2iv5E5ZpTh9X/YAhCwohKEP8ghO0UK86PEEN83KxMIgK0fG0t/ZnaSsMJgpmk8GaZOZgkq6EtI37HImjXsJzjpKtIfXB8m9FBHFZorrOTc3R53kxYPfDS6DJNgr41rIL4plfATSl2xctc2B8XgJmVbxdtamR9YkyUpvHd72oDSHrfso4itgJ1QKPMaINDrWKbU4MhY1U8NnjZ5EPJ1+B2rNhAY/DBLWdUWPZaU4waXZFpVDYc/cmXg2WCQjNExswdZsb0yOmQlzhizeNZj1vCq/1wVs+84iydgWfl5jA4sFWEfCjHDNkjSjFtpTCVdjDWxNQuldTgc6PPgMgNAw34Af6qIZ55jiP9mn7Czzk5+IR2gYbB7i9noXRyyZlH34rP6tCc5oi+BAK7kagLwv+lZ5XtW7kgLV0/6Ye3wvlDiWVGgCpAvy0pta6vXf1/kONHZOmFMRFO4QxDrUHd+rMn9HHPe9rREoo5R/9CeZHUurFsnkn6qsWER3DVKJqJsPQUCeawRQ4abP4aDBfs/184Y/sZ6d9kcYbmkgmc+ILPZxHuLgkZiOaTDcbbg4cQHZ3wQRWbRJrtPkivvurH+ES0UDA4RymelpJXpJycyLFkx5icWYOH1MWZItQ6IM6A6uHbSxJp1l3eoQpdNyz6y6wQ7c0+xh8f7YtghYpti61wnTq+cwF+Lw0/sQj7hO5V1bykoalNH4JfoQsxPWFltGhBaPnKcj7oVMLcjqfmzzTZzqDddDGZh7tx+/DFQN3QmxE//pCGl2DQ1JPmcvDTbIY1rmAgyXtAImhWzqpRUhpRnd8Icv7qjZ7JO0Q97N0mWcDbxeGkQb6qAwZ4y0jcn8W6zkgHGgnaX2iwUcQhqL+iXWJQsn4o8uQBQl52U58ntrcb5UKmDJLc8enOTgHHjDzNt9lPwtq4q7HH/b+1hE5FrlZ/umc5b5tJL1tY95h84M4xpgqtIaSZ0MB0KnFyOlOdWRmOMHqdjsCieBa+KV8qJdMxN+QdZCp5HUb68uWXf1BWsg8YcLln4tixtM4d4Wzlf5qrzkHCFOnvY2WdvBRUGKjOcJj9aKGSD8oCL415ZfsIOkNzmVtr28GcInXBT24JUtEdh5FjkyWOxiCurmiSeWlYl7nhE8OLteEquhDm6kbpO+5omRJlTvsPsJFRMB8F/kUh0Yz1uLqg5RMbkEgDArm6PHlW1MX9imRBAsWPhf3k9OeirVYP5EmMDvcfdVYcJ85tgvAxwknQa+Id3PNfUZ2cgNq+GOCIGjIlD6PLIxcdABjpQ1S8yhNoAAYZlV9yfxIaXJvwBJDr3gOp9SLaY7T9uL2NTqpnFmMW9ZNYmZIASBbaJx+tEL8Npbqv5phBn0QhZAAl4GHsWvqrcCW8j9wxcBgddFvIUPZu6v5E1oxMH923Mi51skfl5HTYn6CboJtT9oxnatUGqV9o+NOFIaD1n42xWDZMAtUtoAaxSQxP8cgBVXaGZvLXLoCBhIWSMpjdJjcScn8XOYFqgENxSUfLnxHkU1LYnY4iRvqvCQE3/i1NiCOnbhu0UpyLIbE7NAKfRLFW/nmCdb7CrO6po5QE9Tv/cROv+toAGv48nUikKuAhujW43CcpZ1YCJegiVmdXvSFskJcigoDl25FpOo+WJj7trjXTewhXjVb0XS/5rCGGZDAGSdHDxtrq70KBPn+FOvNhyHN4EL5SVKvGjQCn39XRraS1rXnjpOcHszFU2ZckMRiJzTKOhBXDwJhcg/yKomC5J/SgFfvgaDqg4mzNdr4jdvLu1glmuQuva/KM/Ly5NDbzwAUdFutxExqhK50F3VSqtFYAskGe0w3wN0Ohd0C+pnr1PmWFCID+tXRGP/NzPoNXoWeQcfSgRfQ7j0HVHMphGXWWbhKFOBF8lS7SexFC5SSWVsNYmKhfSmdmwLNS22o++6KXH+T+rFiiw5nAGoPJ2sJHjdeANcdRRYcSmiqxaKA1wttSRBgScEypl3s8GrA2VGh7CsE/LI5yMn4LInUmfeCvWIfoVduEhdtUxjF/e8tu+HZ9wcjSPLtNefPGXBErv1TFcp5yd1ljA0dft6jy4MGnbqWC/7vqDmvAc31OpcbNHTRKcKsGV5p7++Zd/vAAw7/6PwDCSMMgt+3SQsV0PeIqpcumLdJ7Sxl2uJknzHT6/rxyarX55HsnzFSKMmK9Yl9NC1WM571t362EDpjbgE4kKwiQXgLQCyUORTiFzWtZtybH4v9qLSnweYJtBhDbn2xTLxbCKRw7jU67SgyW2VWzCgUFSs5M7tKze5m0lWU6vAGAhZz/ZKPShXbqU3uYbnaWyngcyW12ihL8ZY+3GNcI9bgwMIyWUGWfeCGfkE4rSWZ3r+uatrgptf6GpY8wWoKPwTF2Amew7XeIS+UKR6Nw8xMRfGrm02LsR5LUmmJiVM4JUttvY1kWpG4x2YXv/dmYwAMgwSlHamVT1P93gUwNyhX2ZZP2Hjm4aKme0jqrzspCWFEgAUXUd6bmdlbtr88TtiMyMUvPHWXOQT8vuKZKKWS8n5dhXdX6yZmZtEESc3PP14qOQ1K0mnPl7HZIG/1uvzmVZxyx8hwvqvEirezKLH6cpNFWmOR4vwqnGbnc9jIoTTuFxX6oRPjXfiRvN0+BX8QCSTNb2HX/N/MhqF7/LfdZiq2HuJDOc0R9SRboH6FdvYQa+f6x7HOl+MORq3upvDe/34uEe6yk1RxfKcZMgyl4kgf0CZ2N5V4B9LU/OgTDkXMNvHlYk0CNKTn2DTPQ9avp+urNPF19/B7W/RFDtUrVJRR1+6sys7PbVxhHqYN1x0/H3CwNtc2FJtUo0yplTn2s4zOLBZ8N9IeLPQ4s3Ehg5fNk7zzBWgLj5yvkW8XRth0pTYKhPk9iR9s5PR/AYR2iIiFV5neOiPJ3cdv8t6TBYFTs1uowgfuYLx7fn63+0+D58bKg1oDqYt/sKJZ1RBor7PXoqVHlxooYzDNEhL3bY/mNuphuzdLA2LG+6hj5VPBkohbWraJKlBbnvWH0Hkh214EsrUp8SlDgVxzudIcEte/yqXQ1Vi4nD5r+nI4ZpqiFKMg+yQoQxCs1QR0rOpJP11TjdtzXBrN0mE3lbDeCV0VxipN4FvVFlrgFQjsY6f+CZFfM4arTvQKdYJdlpxWi0I1oQjD9dnz+fqDMCEpNZRwVIYWrRy8mYbV5iBhrdBGI8wxekaFo+bt2Lag4ZJA4FGgspuhA9yU+4L42NVR+3oQRIVBZP+8p1e/GX9iLoEGmW3+07noRt8l46l5gPhdLnNQMliDhL5hT76XKA+BRbiCZsmOOyhDi/+fpIuU8sicEApSdmaJmOHhPD+ZHXMwFuA9n2gRUrRNtSZ++5h1wBYAy/YKG7thCjG6MyqEe+kyM+ZBrVW5p2jKkDQzyF9/kxGZVfSGLswPNExqu2Lc+2NgzG2WzxsktVauMYz13wS3TrLD4L3RaNqxFdQXEFiVxVg/fiC1naKbOuJECUFEeph8b5Ju8CuGN4DcjmLYrTuAeAhdOqo/+a47+stkx9ypPpafcxotZGw4NEPzi62aHg7y9qotMwpab3CdKgD1uJ4QpFBuT2Q3IvQtfja7B95Cpn1HGiYXkKn5am2BfdTL/OapiEZUZgyDJaHKkkseBnJSh8ZNqk+12yPf9J1LVjyWAt1hWOGsd23RY8D609647OYzmDkHO+33JmqrYt1g2qlZnjCg660YWgssGe9sqFC8+q8goO3rbw/1LrTjgF/CT6z6m212q7bJ29FTFrvWreATa4Ov2Hen1rRYtjLE/h9UeSUM8RwADtENej4+LB7JD1/xf+qUaUp0jPt5P87yddH0AC70TSTAY6zV7UU7HUwm0Ve26W67msQtAtZZZbDfhIYqtrOOixNH5Zdo+NStRH1R3bkFBSxQLciGIN4cdrjWnw4bya9tg9poDqrmUfPzyEFGGJ/6BF6tW7yP5bB87/OcYCzl6meifd+bBTVbQtscQULig/3vPL17JsenhLtsXjQp6bIAvzzUKVLtAozSv0jWbm2e3RM2yWZz7/MApVs7Pab6e2/bHSNFRgqLW3PelHS8YwqBgqdw9X+x03e4hlODASc10ZQ9hJLf0hJDiwgsIyCQoMp58V2hNr0Wbw5MqjihdYpfdEcFqJmOYiSoX605RLSHfOkWfenM8cjo7h4+SGNDk3wXUXpunZgmmtfApHeShbi46/gZJC3Hnc44apMsUgftGgK6oS0HKCy+N11glAXMbXj3Gk9ad54wMqJkJ1usssJhOARz+7PmRx38sM/wKN/0sTpRSZtMLCWuBkMmGdQbo+r7ZM+7ZjhOrm9J7Cjl3bDbv7XZBFcwf5FV4M7N5n5ah7mwncKue8qnrId2zhaPqCslFBHGrMHV7piqPCFvkbI1+wM2wozuN3l1lLFvs5gWYwHED6jyc+Wf2wRNYIh+qZXeN0DtzV7PaixHcvjDNgZWGS1QgGWXW7En4uNEXxB/2kTB8Ei0/MGOq5Unu4QZis1v2DIEFh9Zjzy6IVQ9hkb7oc4kfhuuAbCO31jG02MfNZviAUrJ48LPh+5pZ14e3aTmnW44x6T58hTQqDCntgd9BK5StcmgwN4urGDxW3OyCTGGVv12W/Jc6U+1wCKY2jEFw/ie+gPH5z0FkXtExHvp9sTUow//Xuz3eLm0KozdbzgFZyWNheUVZ8V1/rL8VR9+W29BMCKHAecl3otwUjR74rkgPkgeTW8rVTwxjMu7tS8sMo6PdhEQBeLaSTavh79+cBFz6roRiovKs42DD+0TnUIl3ReYAhLVRyYLkMU8sn71TDckT16r2eDdfH8pk+Ia73Jv4V61s16TB5e9YgCDsPIkDfKaP4H4Vp197fVjmxeMVPa/v0gudFNRlSbOh54G5oBVRkiM+pBlo2V0pLLbZKF47Wd0xV8Enuwwr4Fk+j0cwbcYHZ+xRsARMIkj8azTqeLdXFTBMSfcjlqNTsYNtw/t85i7mVW22RXovXz6Phc/ut809auAuN4N4cDdDjPhuGxmj5Q2a7kiio3AA0PKpMS+eyLogDSwk05W6vNy3PpVkCQHW/5olFrVu9OymweUdCRQQnemvUa3SeFu99Xyw4pcr0S5Fj6riN/sePFV7lGshI7RRFmCj/QYTHwbLo/R/ZgFCZ4f2akHc9FZl4TZcgV5xbGxgbSgi+6yFyzhZ42w8n9h88+iX9TBMC6Xh2z4YmGlWhraQ56q59zryKAKywxkmSrQ2V1bfYJEU+jVGNtHRj0xRrgUCoflU9MYdP+DoV0Ddwa7B5sVO8ystAVKDSfmyev1Abw7KaSAPbQaacEmt98j8jp7a3f0+HV+czCGpPvyBiFNx6oECagy6oYl/QHS8UGFk66uRM9RQp/WwaMBPSDs4Xe++WS9HjY3EEinq7rl2vWjTHTJIwYPL/rc4F7/rtuo10+ySCpnGb33eMNuHMO/qX5W8LCtmtZjg5NH0fuaVr3Vc+5yDiD5EZTy6bMPoRHGOQ6xbqMtCfi6rpD97bj4TDgD17a8+G6swQZqoSinbV3q0fO3m/3Ns7WDdfMYx2YQQo/lN5hna8uvCI3swV3soh5KsO+jPrLP4vp5dsx2CQwnHYcwIeQ7logZUfPGkVRIoC1KFFiDMqJB+Mmc51zpZTXP2dwgXgDtiat6p9poZvSxVO0NqjfUELLusQRVT02K59y4FJLAcKtp8I9j8G7KYTnCuf3hqNyNK/pzvx92q5uJkibsgoaGZC1KCoNwYSomQbuP1TsQitZthnl4EMHsy7xhpsYOGrz66arPfYeQw2/dWYgUYS3IuKI8gHqNiYERFqn3+Pvb8KlbJvbzmS8ahzY3+oZ3h2azDRboptHu3+fQ9WOgzDWXAJVonqYlm0jBSqZU8VFdn4ce0BHRVcv1FJBiLZiSTxWUigXyxTZJi036iU0IEX+tXOur9xBNfAUjUEfFfgjJT8JAQPagDZU+HbEa0Kq4J4h26tYW2WCAODNMFU3BNt/qNEVQLb3rBiDFzyYfLyJ4K83Hsm6wVua2snymmjuCWko71lSNoEud76fEu1mSAVXQDuNUlEEo5Kp5liRpwpKDkLCEOr2SM+EK7kt0gAnp2EWLHGIqdAG+ewgc7++e/UxzFAzhDUsp8TfNmTjAaLKI5nVby+4QqUJAlsz6Mnbc06o2hio3fs849SATgBZ1zeFQ2ABziHVBlMMJR4vYGBIZHN+NBCyDQ/a0F30kWhbG2gRfKzdRcXgin/k2Mip/HqWX9bwP3HXjRQhDMaCEPM+3BgIeGYChZloWoi7PPevr5XIVzy1cnBcdOXj58h4vtIG3Wq/sGUnRK5V53umsHvy7yZqUnVYZ+niK0/K7dT4GDYsHgCBvO4rvqQxFbZPcHFFrdLZL1FtcObge560WZD0UsN5Mz3ud8TddpoBoLLjga8vsR3Zoikyr6yq1GBGwOmLZkp7OmOQeuM8z/atX/RJpxUNlMSrLiw2TI8mIElF7bH3OqmSV0Wg/y+ujNZegL1oKtriTMbzlgZWYPTNMaNEYUMa3OEfY6nQicoJ76dYNl87v10FPJWYRY+a/fSYuoanoFD1H5r8bSkCQOdCWvUO0ACH4yy8/mVPKrVU2ww8LXdW1Vkh+nKZDubZxcKwX7Oe3h5AOt8HypR7L57dWFgdfKRaaZV4BgvNKTddd/GiYB+JHgYRJSozfgoJqV3gPTUEK46VWoXacTq/cwSuIFE+ZJvTE9Fnpdf2BxEAdFJe1nCgerl1OERfZHQVgwwy1yq5KvrlqD+6cdVtdc3u+UJl8KpF6jZjxAvggz+5ykJTIXx5bkbGw4dD66zwYXpAvIZzwqfHSvwhO9GuJ1Yn04hhb/6+f3M3tzdUbQwycLqgIKW2/D4PLqL6BSnLgpvz4Mx2PdeMV6w2Tej+KwkC+L7PyEhqtRF84+kAkpg+TwJXHEhI2dqoUI95KnRJRh933UPWbhTFOXaOLW3FC9T6Rp3vH5tVfHbPrkaD9f02I/nk+eUKeY+PDjdqCzPPgO0eXdqE2XZ0bnkReJHeHeBvI6cCr1NKnq8P1qmrOimRn7byfbYSNxH6M408OVOCZxsdU6k8iEnXlo3MNnnNlQZLTM/7Kb0WXdlcJokQe02Ri7WQeU6upOseHte0Sbyjey2+qz5/ajm0BbD2OPK39kXpCUAv4nbk4/14L4irVDiaB2g8VgSMiTvtutaaCa4fTAY0e4vmEnF0jF7/gS5QbpSiOz1J1yCSl1jWVW+p2hmHduNr+3V4cjZ7SdlnpT7mSDfLykmaEW+H0jQMJC+pOFkbBPoIq9jh2vuP44JBbuYJ91/WzD3Q/WnthWtp7KSUoY14QWzsPn/B5rj1J0uXEEMjyouSBZJCvLdO8EzEeLCW2lBgvhyc0+2Gwx12LLt/9mIeewbcYh2wdB5slwXQ//ZtAU6EF+tF1Ppp6tzcdmoqkrQ7ysbdPUlZRVI04fVp1piEpuun4mGh+KUTfBjaR1d3tcrr5bIt3/LS5KjBpOkzK3xajWNeRrwt2XP7cGr8QCWXfuffRILaElxBEa+aK58nwL8AHJxQbtwybAW0bwsbhN69ME9r6WqvfSV2BG7J8qIjd5PpbnJBt4eJoMX/MTf2ASOsfyjfaJJVjtttBiULXWniEParzjiiTScF4s8Y1UvgQ0Sg1re+gc+0u/tD6oi0Z+Ys2g9V5xEdgUnT+BqHu4zbrMdJVx69QZirNkQU+eGvL2K3wU07Si8TMs8TmJ3itrdjeUodJ637ZMj5zoIzsAwx+b7a3y7pQmZp8P3n+O2Yn2Wi4knEUDmaxAkJJ4tjGNi9aWEQz4pld6N0QMbqzhIJA+2h8hcfxwAv6jpVvarzwLsIKhr1QXG0NL+lz5pEsZYaG3A+ScOI0zX4wJWK3gpJe84+qsNBGFa0y5WsjQJIGC1nq7/ag8dnFzCY8D3cqg+2UYIKULRAmCcuxB912Xk+MTLGnGL8zVc45WooKOFs47yHVcR+whSL8LtSDvw/hSTuQBATPDftjYOe312HNCsfO8JyWGebKDdtsqJv4OC/ZbXQg5v//6gz7LBzGYNfqkcECci1U32KE7EAgLdKooeJA3q1txP5tZIgcuZ/ucGaDoYdvocXNBDNuRB+RIjkCgBor4GzAMV5Ct5uoY7tbGuRB3Mx4DSSDPgfbs3Q03S9ZA0C+pB3JOA98O7J+R28t369oWEhTqZdiZ9+6+D2Ujv4C8PsdP40xX63qAYRBLG/rZ7vnYVSLwZ+lUzcsSzADKREEg8/1H1Wb4q40gWHGYfmX4mTfIdoUIYSEwQPzVST4V8l7B8FD8QplELCBcK5s5/+LbHaZW3wrLfSu+KbpoWRIYZf+2IP/DOlp2ZQ64ugz7STsmF5MspLcKK9S0EzOF6UTtALnTwfyJmniUGpVeMnE/AplgBdxILaNDev7Sf+yWtfh0OQ1HV7BlM8+djXBGTBUllzBASyLUxhQ1q45ujUQqfuMa3c1sgexGYbftBThLvnmiL8U20gxk8jxQPDv47oddC9bKI88KcfIehY9K0W/4dT9y9PLk8dhItX6ppteiF+sHu+qBn7ne8uH6qZNHiTxms1Ib62gZt6/lyoU9B2SzC/sppmFVdYG7Us74aWMncV/aqDF89li9XeptkScsALQP8L2JbU2t1wkDtMAjGvHM84qnImNgAB3RLmV9kPnJ7eIshXLgJYBpMYebqV3ECff6+62qQQtqxLqSZsA3B3xnj0xHisu/W6/3CrLNwSN4O4W441mE5UUdo1XGFiV9bbGsUPELEBahGsnGqC4VladO4PXKDUaBMzDtyekbcfRQYk2ZJQ4sNJIAh+MCEFviX6KovocSAL6+w3kbPfBhA8XyGV5TW07Z3Tem+t8iLh7dddBE3sCkVGpaz8ZWzgW4MOE9ZSyhUNpPP1Dwf7/qI2+2Cfrq4ZjeCcZRlexv5agnnn2pBej3hhAu4LEh0gF2hoAlSrSzALSW355PuFNBBa2d0sPFXE6IPXlM9LQIiVS+LtWw+xjmLCWsfkZY4g0MvvkAN3Yklblfkqaak1CEFGrHnzU3iR7ZXR1bi6YNh0CQE5GBmmhljvYmOpKHAR+1UAi9a8ieJegvUOZ9yT9cqIfMDCi4XapO9X4ARufonHwx5zKJchT8zMuJtQKwDPahD0m0g+9/0Tae8ZRp6lZ71PIRqJjNLEx87cmR8JOn8Guf1PlM57jn1KAhH1BINyZGV9M5MhRx4KoC5//Q3i1G6QaaFw0nyvehvr2fZz4YlSfZQlbXjQIIpiY2JaV3kpjXz/QkRQlYA/e4GhHwZ5YdAPsV+FenAamtVvL063rKZnRO3K92Bjgaxrm4da7mgxYKAquCTdVHft3nOU0Z8Qvq7EHy+mbjvLjD5qG1Pb1Ycmq5rv7DxV269IY9vqjoJ/fnbkrRX2sfQABunGU3LR2N6MF0pd3ebhoOhs1SaE7TKy6FEtsTGZc0CdctrD21ox+QmQybi3LTvQbNew6TQ9EJMrhk7dQA0Bu8SMMWVVv6aqBNgt/0GZFCfuy0UA8U1PKlt16ItMK2o1Pfj53ECz5yzshsmPj1MiWrzyfPqRJhPuZ2y7jnWgraf3D7LEleikYLLsz3kC6u+wuCw+33G/Wy2mSYWwcILRa6hfCWDxVW/2lYLbm1XyiEXRjtY474qw8WEGrJj1MjxMQ+CsMLmokzSekimRPD7abHJX7OQuig69cHx4URr4xPWoNyGxWwRAvswSpbOoWMyyiFhJZtSh8IK3xjVb097yJDVeZjI8p/Prd7oY2K/z/0M74TPPYm1UKuKa5cCOKwlchu3Mtu8mq+f5RLdb9J31lggYhJczwznv/rOEKsEC4opl1gaNGQjfowtzDAzlfecCQW3eY6O8KBLpCn97fRECugKNahLNjPWPZH0Yk3vbb6Fu2VqVYIkPDJSVNQC3LIxUGUPcZJn6UfF2WnpXNXgcOY0zNLZgDlmAx6DTCYTx3GWgwUeRbRpSK8KFtXI4M5kLQ3FrIxyqJ1t/twBqmQwLybfY/TS7kEo/yUYqZt9eGIB+OjYBk2HDm+M9qAE5atXhz3OlnemQ5tQK+hZCdGIsrZfRCvoJ6GTYV49FfpqytC/CXIsZyIExC8Ef7rFzPLc5wC3Hkz7A5Sc32tcHNH1OO1cJAzdHzlYDWDhef4ruAfBs3sbs97WHaN6Vex974OA8xV0ZZAx/YQ51Oau/lpDVkMvlWQyf68jPMe3M/putGJ+V++kTN+seR+KpeVvfLpMdRBsGSrVywywvgPTlXPAXhojh91EPsRkh5OQEesR3Yb7Vbwg333JnM36owR7J+A2xoj3O3UQSdXBp2DPc4ZGYRDxitzV9CgwhAwErtBUMaHAqYU7Dhoof0rJHJbPlgo6QkOq/izHCCXYVVuxDm8UUOwLLLyK46iHeSR2N5ZWC+r2z57WFYEsPSiXpDMSJKaQ3jmsyp+UoRPAl2U0Cm40SFkqHgbxBoK9FipekSlF4auh9e8wIqhDWrMVW8LuumRa2NFi1GVy1j2mpB+X3PdhRxKOaNN2lIqZgvQOzATLuf3XFQ77qUL7lCloQdBTbiTtd5AU/xUPyKp0sb3QeBvh+YE56Pmy7TASTIYp8Mnyp4LF1yKZHagjnlkNGBKdMXaD0X80XK+eUM4JEtOlZpod01TqAVAF05ZwLNz2T97apnibyAzroJJKRqP8fsnPvY+tqFqOkkG8Hi0+anTH66CRl4/fqk2t1JwO0o8Lk6uvfeXzV+/Awie6dzxKSSRf7aGeA4V0ygxnMUI/wc4gZfPqpdYgJYl8NhEl4dSU82ALtmO3D5ICDN+rkaW08csSs6s2132YIrelQIxtBPdbNJOejEO9nt099Eicxb5j3to4gi/yM/2is7c5dIpl0wF+U5J8A4VguEQuXQotOL3akF2jnJhQoGxFzbWEaKz8Z7b9gK7Zeq1YP8dK6okvtliwfGweJK9hAiK5onOLqvD8nE/ojCHLYU3pgy++2VI/KYpo6wVDWggS7cMYjZw90CoufOMBiemQwtKitQIpTJGC6U1mxrHvwkzZd+SIdjAUvTMNlmVCqW0kIgNXxtzjAYzonK2ioXSuNLCrxWZrOSU+REWngqe/cT0ovtVCMC1utCf7lBRdri+tHph+OMTCO9OEeTrcwLCzU8RWycLqs8QZCJaT9rMkuI0CG/GRVjO25yHQRA9rVIZetPDuE5O3EpSGvkx8cZHfPLLrg3y5tGGf1cNPVffopZxfGAyTHd+3SSteAGQTAZqsCoLAslE1UCha4SB2uVnfOgi6bYnTkVPKahAxy9FhLTH8zX8zMQ0jsHTIr2fvLBr73i5oZbKVKDMbT7b/I007KO33z+I/WLtoCpM3hIOgro+g64g38QqTppGuzPnEM3RXJWy3dnBXWB9vSfXcmV79d9rgrfs4mloE9NtTH9ENb2uf9AS+ymHmr1+WDeI9at4cJVtugyVy0ZGVzJyXwva34BX6kwTANmYcv7jfDfWEJ0BuaECUB/UKpy6V/7cZaY/oR9WYFqAdXo2WBu/flP8QVDMBoIi9UwubXj7U7udu+2Ci/jg8X/HtvM4ubLKgZzX/+zkvwYz18a8Lmk7jMB42edQ/C6PYMQ8uvueM+jpPlAFM5F4HGvqC5+Q4yyMdvuLfdsJmmJToq1KX78hxzn6jpBHiDwZBeyuFehT1I5ZqWHUDnGWw37Ft18iHgTa++TR8IlUOhWfgCehw74LoBvTzbRix5iOVfqX4rfxO52sSyVE7EJGbSz+haoE2LXr/NV4DuLAgR6r9vaM9yyzOl5JbHij+3wJOTwMiF6djsgs2m8veRZ0+A8dK/SgewVAiYGc0dUAN8tG86OtxS+nWQoZJOroiVRQTmcPooehh/LfMLiIPFj4so3DYaDzMp2ajECYBE1ylV6id3PMZZjN+Ptd3dLe+tdYCJW1Q6UDaUPoVd6mUXYxcvGYgXSsHf6C3MRUmPIrnLpWwtkV3DW1awGPhE5X3ZQBWPWFVBFlBLwbJpXJQdACs+0jWv6khrGuIT/QrFZInvfTs1OtjXleMbrqNlsqQ5L+67LRaCUNOE5Ol1QWn6uh+HhRk+GbbgejLoiAJDtSM+88Y9eu9nYLS36eJG5VFOR9Utz368fvog6c+cuOy4guno03xc0Q+luqZYk55H02sW85QM7nCvRiRZ0Gvwvt/wsryMc6NrmFreLAuGoymbFpmcmFMDw3T9NZez4wC05hQniZKAMd0ylO/Uzt5OcDbsI5jFQF4BoK0SugZV06gD7e7j0BMnhPIIZ0v0YEfwuoqG0/L0CW7h+MGy9Vw4wn/3ieFLd9/SyvAhTt0EgxZy1+x5mqlVNRPPbAELdkhILwcSCFXN4wycYF6EZVdgs1rEpk1ClDMnqaGi4ZTc461oDFzqJhJ0pHe3lUPWEcZcjJqgynRPdYDXS6x6+DPjMn7iVZNyRIhNklWBBZFT5Pik6D93bfda/vT3H3TfcESskq+TJlNMYc5s+Ln6IC7SG40CWHCHrLcUvzzYeaycL+dEEkxRkWwfoFlpAQrxJeQ/kBQ3tcqI3yQOXSoXXH/+obaO861sQBIZV5kob3NIBQFIn0BObWHWrvU6nCvrpJ9XFsYa26uN+Lw8dhJcxisDMsX5rlbqGEMxWo2sQ7wDILCQOSAFbsRsC48Klmaix7n7I1Pq54bRF9nnNj/5nHK0Qn4X1C/eg0gWgHckOKVz07YZad2utQen02xOWv8xSxM8eoeqZTfhsv4CVBdjmijPFvNbgY77iFO5yIOpJ7YzitKOobpCLDx+8zuqTD+rAIfFKuLDXl5g+nx6D2v1dicdwMkIKMi+6me7eIznjQDzoAFWMxOvh2gsONuL3C7PBai8VwsTcyHtv+rcNHRepwaW5TRTNjoYTMYeqF6RzKSEY27aZ5iC3kksOHQBkuRoLSxlSqPPKLvaKah4ntQhxLL/+JyrXT+Cdv6/R3o5hg95Sa0xb7KmHKRBh6qPaichXwAY8ONRaap4HU/j/EqM4wxAxz6BqFDA9J9w0De6YfYoUuyZP5SMGmWXupnvD3av3tcrbyXipJr+dYeu79sKN3wor4vm+Czz8pDKJ8niXSs9L0qUlu2CpxELozlJqoLAUQOSzkaQXzSszc/GKquaVIK0+Ys3JKv4aynFNTIOaCna18t1Hl1Zl25XLp4BPzMRb57mpyrNn/bSoBcFe/FxEWO+5HSdaL994StrEQHq/cBYn32pE8L9J1l89HxJRMZnYxthbYKaetDw6cRPext7722aeH4D0bqlmNwwEx7+rAS7b3AcUwl2NWXflqSs7NFqsRm9uD9+3Wd1VSHuzZDytkot2Zy4wXpz22cOxixJnINP/Q5VatVzsHXGF3v9YzvK19g3zu9zHhi6unBepKXT1S7hObgAfKO2oHxvTH15vRWwxeRRD5Pd+XE29Mfdg2FKCzs2AiRWk8pw7F8obNtcdgqQs7tw9kgAAA="><div class="cover-copy"><h1>Сюрприз-поездка</h1><p>Вы выбираете даты и бюджет. Мы подбираем перелёт и отель, а город откроем перед вылетом.</p>
+      <button class="cover-action" onclick="go('s2')"><span class="flight-icon" aria-hidden="true">✈</span>Как это работает<span class="arr" aria-hidden="true">→</span></button></div></article>
+      <section class="home-tools"><h2>План поездки</h2><div class="shortcuts">
+      <button onclick="go('s3');document.getElementById('in-from').focus()"><img src="data:image/webp;base64,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" alt=""><span>Даты поездки</span></button>
+      <button onclick="go('s3');openSheet('pax')"><img src="data:image/webp;base64,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" alt=""><span>Кто едет</span></button>
+      </div></section></div>
+    <nav class="tabbar" aria-label="Основная навигация">
+      <button class="tab on" aria-current="page" onclick="go('s1')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Главная</button>
+      <button class="tab" onclick="go('s2')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Поиск</button>
       <button class="tab" onclick="go('s9')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg>Поездки</button>
-      <button class="tab" onclick="toast('Профиль — вне рамок прототипа')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-5.5 8-5.5s6.5 1.5 8 5.5"/></svg>Профиль</button>
+      <button class="tab" onclick="openSheet('profile')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-5.5 8-5.5s6.5 1.5 8 5.5"/></svg>Профиль</button>
     </nav>
   </section>
 
   <!-- S2 -->
   <section class="screen" id="s2">
-    <div class="navrow"><button class="back" onclick="back()">‹</button><div class="nt">Сюрприз-поездка</div></div>
+    <div class="navrow"><button class="back" onclick="back()">←</button><div class="nt">Сюрприз-поездка</div></div>
     <div class="body">
-      <div class="micro">Знакомство</div><h1>Поездка с сюрпризом</h1>
+      <h1>Поездка с сюрпризом</h1>
       <div class="sub">Город — сюрприз. Условия — заранее.</div>
-      <div class="soft"><div class="t">Всё главное<br>в одном заказе</div><div class="d">Перелёт и проживание включены</div></div>
+      <div class="soft"><div class="t">Перелёт и отель</div><div class="d">Вместе в одном заказе</div></div>
       <div class="step"><div class="n">1</div><div><div class="t">Задайте условия</div><div class="d">Даты, бюджет, отель и интересы</div></div></div>
       <div class="step"><div class="n">2</div><div><div class="t">Проверьте предложение</div><div class="d">Цена, время и условия до оплаты</div></div></div>
       <div class="step"><div class="n">3</div><div><div class="t">Узнайте город</div><div class="d">Когда откроется регистрация</div></div></div>
@@ -209,7 +246,7 @@
 
   <!-- S3 -->
   <section class="screen" id="s3">
-    <div class="navrow"><button class="back" onclick="back()">‹</button><div class="nt">Сюрприз-поездка</div></div>
+    <div class="navrow"><button class="back" onclick="back()">←</button><div class="nt">Сюрприз-поездка</div></div>
     <div class="body">
       <div class="micro">Шаг 1 из 3</div><h1>Ваша поездка</h1><div class="sub">Начнём с самого важного</div>
       <div class="field" onclick="openSheet('city')"><div class="lbl">Город вылета</div><div class="val" id="f-city">Москва</div></div>
@@ -224,25 +261,25 @@
       <div class="field static" style="cursor:default"><div class="lbl">Общий бюджет</div>
         <div class="moneyrow"><span class="pre">До</span><input type="text" inputmode="numeric" id="in-budget" value="225 000" oninput="formatBudget(this)"><span class="suf">₽</span></div>
       </div>
-      <div class="soft"><div class="t">Бюджет на всех</div><div class="d">Цена считается на человека и умножается на число гостей. Включает перелёт и проживание.</div></div>
+      <div class="soft"><div class="t">Что входит в бюджет</div><div class="d">Перелёт туда и обратно и отель на все ночи. Покажем общую цену за всех путешественников.</div></div>
     </div>
     <div class="cta"><button class="btn" onclick="continueS3()">Продолжить</button></div>
   </section>
 
   <!-- S4 -->
   <section class="screen" id="s4">
-    <div class="navrow"><button class="back" onclick="back()">‹</button><div class="nt">Сюрприз-поездка</div></div>
+    <div class="navrow"><button class="back" onclick="back()">←</button><div class="nt">Сюрприз-поездка</div></div>
     <div class="body">
       <div class="micro">Шаг 2 из 3</div><h1>Что вам подходит</h1><div class="sub">Учтём пожелания и ограничения</div>
 
-      <div class="grp">Климат <span class="hint">обязательно</span></div>
+      <section class="filter-card"><div class="grp">Климат <span class="hint">учтём при подборе</span></div>
       <div class="chips" id="climate">
         <button class="chip sel-dark" data-v="Любой">Любой</button>
         <button class="chip" data-v="Теплее">Теплее</button>
         <button class="chip" data-v="Прохладнее">Прохладнее</button>
       </div>
 
-      <div class="grp">Интересы <span class="hint">влияют на порядок</span></div>
+      </section><section class="filter-card"><div class="grp">Интересы <span class="hint">влияют на порядок</span></div>
       <div class="chips" id="interests">
         <button class="chip sel-yellow" data-v="Культура">Культура ✓</button>
         <button class="chip sel-yellow" data-v="Прогулки">Прогулки ✓</button>
@@ -260,7 +297,7 @@
         <button class="chip sm" id="strict" data-v="on">Строго по интересам</button>
       </div>
 
-      <div class="grp">Питание в отеле <span class="hint">обязательно</span></div>
+      </section><section class="filter-card"><div class="grp">Питание в отеле <span class="hint">учтём при подборе</span></div>
       <div class="chips" id="meal">
         <button class="chip sel-dark" data-v="Завтраки">Завтраки</button>
         <button class="chip" data-v="Полупансион">Полупансион</button>
@@ -268,15 +305,16 @@
         <button class="chip" data-v="Без требований">Без требований</button>
       </div>
 
-      <div class="grp">Удобства отеля <span class="hint">обязательно</span></div>
+      </section><section class="filter-card"><div class="grp">Удобства <span class="hint">можно выбрать несколько</span></div>
       <div class="chips" id="amen">
+        <button class="chip sm" data-v="bath">Отдельный санузел</button>
         <button class="chip sm" data-v="pool">Бассейн</button>
         <button class="chip sm" data-v="wifi">Wi‑Fi бесплатно</button>
         <button class="chip sm" data-v="parking">Парковка</button>
         <button class="chip sm" data-v="spa">Спа</button>
       </div>
 
-      <div class="grp">Рейтинг гостей <span class="hint">обязательно</span></div>
+      </section><section class="filter-card"><div class="grp">Рейтинг гостей <span class="hint">учтём при подборе</span></div>
       <div class="chips" id="rating">
         <button class="chip sel-dark" data-v="0">Любой</button>
         <button class="chip" data-v="7">7+</button>
@@ -284,19 +322,19 @@
         <button class="chip" data-v="9">9+</button>
       </div>
 
-      <div class="field" onclick="openSheet('star')" style="margin-top:18px"><div class="lbl">Звёздность проживания</div><div class="val" id="f-star">От 3 ★ • отдельный санузел</div></div>
+      </section><div class="field" onclick="openSheet('star')" style="margin-top:18px"><div class="lbl">Категория отеля</div><div class="val" id="f-star">От 3 ★</div></div>
       <div class="field static" id="exField" style="cursor:default" onclick="openSheet('excl')">
         <div class="exhead"><div class="lbl" style="margin:0">Исключить города</div><button class="plus" onclick="event.stopPropagation();openSheet('excl')" aria-label="Добавить город">+</button></div>
         <div class="tags" id="exTags"></div>
       </div>
       <div class="fine">Обязательные ограничения (климат, питание, удобства, рейтинг, звёзды, исключения) соблюдаем строго. Интересы ранжируют список, а режим «Строго по интересам» делает их обязательными. Если вариантов нет, предложим изменить условия.</div>
     </div>
-    <div class="cta"><button class="btn" onclick="findTrip()">Найти поездку</button></div>
+    <div class="cta"><button class="btn" onclick="findTrip()" id="search-btn">Найти поездку</button></div>
   </section>
 
   <!-- S5 -->
   <section class="screen" id="s5">
-    <div class="navrow"><button class="back" onclick="back()">‹</button><div class="nt">Сюрприз-поездка</div></div>
+    <div class="navrow"><button class="back" onclick="back()">←</button><div class="nt">Сюрприз-поездка</div></div>
     <div class="body">
       <div class="micro">Шаг 3 из 3</div>
       <h1 id="s5-title">Подбираем варианты</h1>
@@ -312,24 +350,24 @@
 
   <!-- S6 -->
   <section class="screen" id="s6">
-    <div class="navrow"><button class="back" onclick="back()">‹</button><div class="nt">Сюрприз-поездка</div></div>
+    <div class="navrow"><button class="back" onclick="back()">←</button><div class="nt">Сюрприз-поездка</div></div>
     <div class="body" id="s6-choose">
       <div class="micro">Оформление</div><h1>Кто едет?</h1>
       <div class="sub">Данные нужны для билетов и заселения</div>
       <div class="icon-circle"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#9B9B9B" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-5.5 8-5.5s6.5 1.5 8 5.5"/></svg></div>
-      <div class="fine" style="text-align:center;margin-top:0">Войдите, чтобы подставить пассажиров из профиля, или заполните данные вручную. Параметры поездки сохранятся в любом случае.</div>
-      <div class="seg"><button class="btn" onclick="doLogin()">Войти через Яндекс ID</button></div>
+      <div class="fine" style="text-align:center;margin-top:0">Выберите сохранённых пассажиров или заполните данные вручную.</div>
+      <div class="seg"><button class="btn" onclick="doLogin()">Выбрать из профиля</button></div>
       <div class="seg" style="margin-top:0"><button class="btn gray" onclick="chooseManual()">Заполнить вручную</button></div>
     </div>
     <div class="body" id="s6-login" style="display:none">
-      <div class="micro">Оформление</div><h1>Кто едет?</h1><div class="sub">Данные взяты из профиля</div>
+      <div class="micro">Оформление</div><h1>Кто едет?</h1><div class="sub">Пассажиры из профиля</div>
       <div id="s6-login-list"></div>
-      <div class="soft"><div class="t">Вы вошли через Яндекс ID</div><div class="d">Данные пассажиров заполнены. Черновик сохранён в аккаунте.</div></div>
+      
     </div>
     <div class="body" id="s6-manual" style="display:none">
       <div class="micro">Оформление</div><h1>Кто едет?</h1><div class="sub">Заполните данные по документу</div>
       <div id="s6-manual-fields"></div>
-      <div class="fine">Данные используются только для оформления заказа и передачи перевозчику.</div>
+      <div class="fine">Введите вымышленные данные. Серия и номер паспорта — 10 цифр.</div>
     </div>
     <div class="cta" id="s6-cta-login" style="display:none">
       <button class="btn" onclick="go('s7')">Перейти к оплате</button>
@@ -343,7 +381,7 @@
 
   <!-- S7 -->
   <section class="screen" id="s7">
-    <div class="navrow"><button class="back" onclick="back()">‹</button><div class="nt">Сюрприз-поездка</div></div>
+    <div class="navrow"><button class="back" onclick="back()">←</button><div class="nt">Сюрприз-поездка</div></div>
     <div class="body">
       <div class="micro">Оформление</div><h1>Проверьте заказ</h1><div class="sub">Перед оплатой ещё раз проверим цену</div>
       <div class="info"><div class="t">Сюрприз-поездка</div><div class="l" id="s7-sum"></div>
@@ -354,125 +392,81 @@
       </div>
       <div class="micro" style="margin-top:18px">Пассажиры и контакты</div>
       <div id="s7-travelers"></div>
-      <div class="field static" onclick="toast('Смена карты — демо-экран')"><div class="lbl">Способ оплаты</div><div class="val">Банковская карта • •••• 4242</div></div>
-      <label class="check" id="ck1" onclick="toggleCheck('ck1')"><span class="box"><svg width="13" height="11" viewBox="0 0 13 11" fill="none"><path d="M1 5.5 4.5 9 12 1" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="tx">Принимаю условия тарифа и правила изменений и отмены</span></label>
-      <label class="check" id="ck2" onclick="toggleCheck('ck2')"><span class="box"><svg width="13" height="11" viewBox="0 0 13 11" fill="none"><path d="M1 5.5 4.5 9 12 1" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="tx">Согласен узнать город при открытии регистрации</span></label>
-      <div class="fine">Платёж защищён. Проверим статус заказа.</div>
+
+      <button class="opt" onclick="openSheet('cards')" id="card-label">Банковская карта • 4242</button>
+      <button class="linkbtn" onclick="openSheet('terms')">Условия тарифа и отмены</button>
+      <label class="check"><input id="ck1" type="checkbox">Принимаю условия тарифа и отмены</label>
+      <label class="check"><input id="ck2" type="checkbox">Согласен узнать город при открытии регистрации</label>
+      <div class="fine">Деньги с карты не спишутся.</div>
     </div>
     <div class="cta"><button class="btn" id="btn-pay" onclick="tryPay()">Оплатить 111 000 ₽</button></div>
   </section>
 
   <!-- S8 -->
   <section class="screen" id="s8">
-    <div class="navrow"><button class="back" onclick="go('s1')">‹</button><div class="nt">Сюрприз-поездка</div></div>
+    <div class="navrow"><button class="back" onclick="go('s1')">←</button><div class="nt">Сюрприз-поездка</div></div>
     <div class="body" style="text-align:center">
       <div class="micro">Оплата подтверждена</div>
       <div class="ok-circle"><svg width="40" height="40" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#DFF3E6"/><path d="M7 12.5 10.5 16 17 8.5" stroke="#22A55B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <h1>Можно собирать<br>чемодан</h1>
-      <div class="info" style="text-align:left;margin-top:24px"><div class="l" style="font-weight:700;color:var(--text);margin:0">Ваш заказ № SP-001</div><div class="l" id="s8-sum"></div>
+      <div class="info" style="text-align:left;margin-top:24px"><div class="l" style="font-weight:700;color:var(--text);margin:0"><span id="order-id"></span></div><div class="l" id="s8-sum"></div>
         <div style="border-top:1px solid var(--line);margin-top:10px;padding-top:10px" class="tiny" id="s8-reveal"></div></div>
-      <div class="fine">Заказ и памятка уже в «Моих поездках».</div>
+      <div class="fine">Билеты уже в «Моих поездках».</div>
     </div>
     <div class="cta"><button class="btn" onclick="go('s9')">Открыть мою поездку</button></div>
   </section>
 
-  <!-- S9 -->
+
   <section class="screen" id="s9">
-    <div class="navrow"><button class="back" onclick="go('s1')">‹</button><div class="nt">Сюрприз-поездка</div></div>
-    <div class="body">
-      <div class="micro">Мои поездки</div><h1>Город пока скрыт</h1><div class="sub">Заказ SP-001 • всё готово к поездке</div>
-      <div class="soft" id="reveal-box" style="cursor:pointer" onclick="revealCity()" title="Нажмите, чтобы ускорить время (демо)">
-        <div class="t">Сюрприз уже близко</div><div class="big" id="reveal-title">Остался 1 день</div><div class="d" id="reveal-desc"></div>
-      </div>
-      <div class="info"><div class="tiny" style="margin:0 0 4px">Вылет</div><div class="l" style="margin:0;font-weight:700;color:var(--text)" id="s9-flight"></div></div>
-      <div class="info"><div class="tiny" style="margin:0 0 4px">Подготовка к поездке</div><span class="link" onclick="toast('Памятка, документы и багаж — демо-экран')">Памятка, документы и багаж ›</span></div>
-      <div class="fine">Можно связаться с поддержкой. Кнопка включится в момент раскрытия.</div>
-    </div>
-    <div class="cta"><button class="btn" id="btn-reveal" disabled onclick="go('s10')">Открыть город</button></div>
+    <div class="navrow"><button class="back" onclick="go('s1')">←</button><div class="nt">Мои поездки</div></div>
+    <div class="body" id="orders"></div>
   </section>
-
-  <!-- S10 -->
   <section class="screen" id="s10">
-    <div class="navrow"><button class="back" onclick="go('s9')">‹</button><div class="nt">Сюрприз-поездка</div></div>
-    <div class="body">
-      <div class="micro">Ваш сюрприз</div><h1 id="s10-city">Нижний Новгород</h1><div class="sub">Новая поездка начинается здесь</div>
-      <div class="soft"><div class="d" style="margin:0 0 4px;color:#6B5B00;font-weight:600" id="s10-leg"></div><div class="big" style="font-size:24px" id="s10-time">08:20 — 10:35</div><div class="d" style="margin-top:4px" id="s10-ret"></div><span class="link" style="color:#6B5B00;margin-top:8px" onclick="toast('Регистрация на рейс — демо-экран')">Регистрация открыта ›</span></div>
-      <div class="info"><div class="tiny" style="margin:0 0 4px">Ваше проживание</div><span class="link" id="s10-hotel" onclick="toast('Карточка отеля — демо-экран')">Отель в центре • 3★ ›</span></div>
-      <div class="info"><div class="t" style="margin-bottom:8px">Маршрут поездки</div><div class="l" id="s10-route"></div></div>
-    </div>
-    <div class="cta"><button class="btn" onclick="toast('Маршрут открыт • демо')">Открыть маршрут</button></div>
-  </section>
-
-  <!-- E1 -->
-  <section class="screen" id="e1">
-    <div class="navrow"><button class="back" onclick="back()">‹</button><div class="nt">Сюрприз-поездка</div></div>
-    <div class="body">
-      <div class="trigger">S3 / S6 · проверка данных</div><div class="trigger-arrow">↓</div><div class="trigger-sub">Неверные даты / документ</div>
-      <div class="micro" style="margin-top:18px">Проверка параметров</div><h1>Проверьте даты</h1><div class="sub">Остальные значения сохранены</div>
-      <div class="field static"><div class="lbl">Город вылета</div><div class="val" id="e1-city">Москва</div></div>
-      <div class="field err static"><div class="lbl">Даты поездки</div><div class="val" style="color:var(--red)" id="e1-dates">23 — 20 ноября 2026</div></div>
-      <div class="errbox"><div class="t">Возвращение раньше вылета</div><div class="d">Выберите дату возвращения после даты отправления.</div></div>
-      <div class="field static"><div class="lbl">Путешественники</div><div class="val" id="e1-pax">2 взрослых</div></div>
-      <div class="fine">Для документов: подсказка появляется у поля с ошибкой на экране S6.</div>
-    </div>
-    <div class="cta"><button class="btn" onclick="go('s3')">Исправить данные</button></div>
+    <div class="navrow"><button class="back" onclick="go('s9')">←</button><div class="nt">Моя поездка</div></div>
+    <div class="body" id="journey"></div>
   </section>
 
   <!-- E2 -->
   <section class="screen" id="e2">
-    <div class="navrow"><button class="back" onclick="back()">‹</button><div class="nt">Сюрприз-поездка</div></div>
+    <div class="navrow"><button class="back" onclick="back()">←</button><div class="nt">Сюрприз-поездка</div></div>
     <div class="body">
-      <div class="trigger">S4 · результат подбора</div><div class="trigger-arrow">↓</div><div class="trigger-sub">Нет вариантов</div>
-      <div class="micro" style="margin-top:18px">Результат подбора</div><h1>Пока ничего не нашли</h1><div class="sub">Ваши ограничения остались слишком узкими</div>
+      <div class="micro" style="margin-top:18px">Результат подбора</div><h1>Пока ничего не нашли</h1><div class="sub">Для этих условий нет подходящей поездки</div>
       <div class="icon-circle"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#9B9B9B" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></div>
       <div style="text-align:center"><b style="font-size:16px">Попробуем другие условия?</b><div class="fine" style="margin-top:8px">Увеличьте бюджет, смягчите климат, питание, удобства, рейтинг или звёздность, выключите «Строго по интересам», выберите другие даты или уберите часть исключённых городов.</div></div>
       <div class="info"><div class="tiny" style="margin:0 0 4px">Ваши параметры</div><div class="l" id="e2-sum"></div></div>
       <div class="fine">Измените условия. Остальные параметры сохраним.</div>
     </div>
-    <div class="cta"><button class="btn" onclick="go('s3')">Изменить условия</button></div>
+    <div class="cta"><button class="btn" onclick="go('s3')">Изменить даты или бюджет</button><button class="btn gray" style="margin-top:8px" onclick="go('s4')">Изменить фильтры</button></div>
   </section>
 
   <!-- E3 -->
   <section class="screen" id="e3">
-    <div class="navrow"><button class="back" onclick="back()">‹</button><div class="nt">Сюрприз-поездка</div></div>
+    <div class="navrow"><button class="back" onclick="back()">←</button><div class="nt">Сюрприз-поездка</div></div>
     <div class="body">
-      <div class="trigger">S7 · попытка оплаты</div><div class="trigger-arrow">↓</div><div class="trigger-sub">Отказ банка</div>
       <div class="micro" style="margin-top:18px">Оплата</div><h1>Платёж отклонён</h1><div class="sub">Банк не подтвердил операцию</div>
       <div class="icon-circle red"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#F03C3C" stroke-width="2.6" stroke-linecap="round"><path d="M12 6v8"/><circle cx="12" cy="18" r=".5" fill="#F03C3C"/></svg></div>
       <div style="text-align:center"><b style="font-size:16px">Попробуйте ещё раз</b><div class="fine" style="margin-top:8px">Проверьте лимит и баланс карты или выберите другой способ. Перед повтором проверим статус предыдущего платежа.</div></div>
-      <div class="info"><div class="tiny" style="margin:0 0 4px">К оплате</div><div class="l" style="font-weight:700;color:var(--text)"><span data-price>111 000 ₽</span> • заказ SP-001</div></div>
+      <div class="info"><div class="tiny" style="margin:0 0 4px">К оплате</div><div class="l" style="font-weight:700;color:var(--text)"><span data-price>111 000 ₽</span></div></div>
     </div>
-    <div class="cta"><button class="btn gray" style="margin-bottom:10px" onclick="go('s7');toast('Выберите другой способ оплаты')">Другой способ оплаты</button><button class="btn" id="btn-retry" onclick="retryPay()">Повторить оплату</button></div>
+    <div class="cta"><button class="btn gray" style="margin-bottom:10px" onclick="go('s7');openSheet('cards')">Другой способ оплаты</button><button class="btn" id="btn-retry" onclick="retryPay()">Повторить оплату</button></div>
   </section>
 
   <!-- E4 -->
   <section class="screen" id="e4">
-    <div class="navrow"><button class="back" onclick="back()">‹</button><div class="nt">Сюрприз-поездка</div></div>
+    <div class="navrow"><button class="back" onclick="back()">←</button><div class="nt">Сюрприз-поездка</div></div>
     <div class="body">
-      <div class="trigger">S5–S7 · проверка предложения</div><div class="trigger-arrow">↓</div><div class="trigger-sub">Изменились цена / наличие</div>
       <div class="micro" style="margin-top:18px">Проверка предложения</div><h1>Цена изменилась</h1><div class="sub">Нужно подтвердить новые условия</div>
-      <div class="soft"><div class="d" style="margin:0 0 2px;color:#6B5B00;font-weight:600">Новая стоимость поездки</div><div class="big">115 000 ₽</div></div>
+      <div class="soft"><div class="d" style="margin:0 0 2px;color:#6B5B00;font-weight:600">Новая стоимость поездки</div><div class="big"><span id="reprice"></span></div></div>
       <div class="info"><div class="tiny" style="margin:0 0 6px">Ранее: <span id="e4-prev">111 000 ₽</span></div><div class="l" id="e4-sum">Перелёт и проживание<br>Остальные условия прежние.</div><div class="tiny" style="margin-top:8px;font-weight:700;color:#3A3A3C">Без согласия оплату не проводим.</div></div>
-      <div class="fine">Если мест больше нет, предложим вернуться к подбору.</div>
+      <div class="fine">Можно выбрать другой вариант или подтвердить новую стоимость.</div>
     </div>
-    <div class="cta"><button class="btn gray" style="margin-bottom:10px" onclick="go('s4')">Вернуться к подбору</button><button class="btn" onclick="acceptNewPrice()">Принять 115 000 ₽</button></div>
+    <div class="cta"><button class="btn gray" style="margin-bottom:10px" onclick="go('s4')">Вернуться к подбору</button><button class="btn" onclick="acceptNewPrice()">Принять новую цену</button></div>
   </section>
 
-  <div id="sheet-wrap"><div class="veil" onclick="closeSheet()"></div><div class="sheet" id="sheet"></div></div>
-  <div id="toast"></div><div class="indicator" id="home-ind"></div>
+  <div id="sheet-wrap"><div class="veil" onclick="closeSheet()"></div><div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Подробности"></div></div>
+  <div id="toast" role="status"></div><div class="indicator" id="home-ind"></div>
 </div></div></div>
 
-<button id="panel-btn" onclick="document.getElementById('panel').classList.toggle('open')">⚡ Экраны</button>
-<div id="panel">
-  <h4>Основные</h4><div class="grid" id="pg-main"></div>
-  <h4>Ошибки</h4><div class="grid" id="pg-err"></div>
-  <h4>Демо-переключатели</h4>
-  <label class="tog">S5 · показывать направления<input type="checkbox" id="tg-cities" onchange="S.showCities=this.checked;if(stack[stack.length-1]==='s5')renderS5()"></label>
-  <label class="tog">S6 · сразу войти (Яндекс ID)<input type="checkbox" id="tg-login" onchange="setMode6(this.checked?'login':'choose')"></label>
-  <label class="tog">S9 · город уже раскрыт<input type="checkbox" id="tg-reveal" onchange="setRevealed(this.checked)"></label>
-  <label class="tog">Цена 115 000 ₽ (после E4)<input type="checkbox" id="tg-price" onchange="setPrice(this.checked?115000:111000)"></label>
-  <div class="hint">Время рейсов: прилёт всегда больше вылета (оба плеча). Новые жёсткие фильтры S4: питание, удобства, рейтинг гостей, «Строго по интересам» — сокращают список и меняют цену. Дефолты = прошлый шаг. E1: возвращение раньше вылета. E2: слишком узкие условия.</div>
-</div>
 
 <script>
 /* ============ CATALOG: ~55 направлений, много 4★/5★ ============ */
@@ -551,10 +545,10 @@ const STAR_F={3:1,4:1.45,5:2.0};
 const HOTEL_BASE=9000, SERVICE=1500, PRICE_MULT=1.5;
 const MEAL_ADD={"Завтраки":0,"Без требований":0,"Полупансион":3500,"Всё включено":9000};
 const AMEN_SURCHARGE={pool:2000,spa:1500,wifi:0,parking:0};
-const AMEN_LABEL={pool:"бассейн",wifi:"Wi‑Fi",parking:"парковка",spa:"спа"};
+const AMEN_LABEL={bath:"отдельный санузел",pool:"бассейн",wifi:"Wi‑Fi",parking:"парковка",spa:"спа"};
 const ROUTE_FACTOR={"Москва":1,"Санкт-Петербург":0.92,"Екатеринбург":1.12,"Новосибирск":1.28,"Самара":1.08,"Нижний Новгород":1.02,"Казань":1.05,"Краснодар":1.12,"Сочи":1.2,"Ростов-на-Дону":1.1,"Уфа":1.15,"Красноярск":1.3};
 const ALL_CITIES=Object.keys(ROUTE_FACTOR);
-const EXCL_POOL=["Казань","Санкт-Петербург","Екатеринбург","Новосибирск","Самара","Нижний Новгород","Краснодар","Сочи","Владивосток","Мурманск","Кисловодск","Калининград"];
+const EXCL_POOL=CATALOG.map(g=>g.n).sort((a,b)=>a.localeCompare(b,"ru"));
 const D_NAMES=["Иван Иванович Иванов","Анна Ивановна Иванова","Пётр Петрович Петров","Мария Сергеевна Сидорова","Олег Игоревич Кузнецов","Елена Викторовна Смирнова"];
 const D_DOC=["1234","5678","9012","3456","7890","2345"];
 const ACT={"Культура":"театры и музеи","Прогулки":"прогулки по центру","Гастрономия":"рынки и фуд-корты","Природа":"природа и окрестности","История":"исторические места","Ночная жизнь":"вечерние кварталы","Шопинг":"шоппинг-маршруты","Активный":"активные маршруты","Релакс":"спа и релакс","Семейный":"семейные места","Романтика":"романтические точки"};
@@ -562,11 +556,11 @@ const MAX_SHOW=30;
 
 /* ============ state ============ */
 const S={city:"Москва",from:"2026-11-20",to:"2026-11-23",pax:2,budgetNum:225000,
-  star:"От 3 ★",bath:true,excl:new Set(["Казань","Санкт-Петербург"]),
+  star:"От 3 ★",excl:new Set(),
   climate:"Любой",interests:new Set(["Культура","Прогулки"]),strictInt:false,
   meal:"Завтраки",amen:new Set(),rating:0,
   mode6:"choose",travelers:null,email:"",manual:{names:[],docs:[],email:""},
-  selected:null,trips:[],sort:"rel",showCities:false,
+  selected:null,trips:[],sort:"rel",limit:6,
   revealed:false,price:111000,invalidDates:false};
 const stack=["s1"];
 const $=id=>document.getElementById(id);
@@ -583,41 +577,44 @@ function rangeText(a,b){const A=pd(a),B=pd(b);
   return `${A.d} ${MONTHS[A.m]} ${A.y} — ${B.d} ${MONTHS[B.m]} ${B.y}`;}
 const shortDate=s=>{const A=pd(s);return `${A.d} ${MSHORT[A.m]}`;};
 const fmtDay=s=>{const A=pd(s);return `${A.d} ${MONTHS[A.m]}`;};
-function addDays(s,n){const d=new Date(s+"T00:00");d.setDate(d.getDate()+n);return d.toISOString().slice(0,10);}
-function diffDays(a,b){return Math.round((new Date(b+"T00:00")-new Date(a+"T00:00"))/86400000);}
+
+function localDay(){const d=new Date();return [d.getFullYear(),padH(d.getMonth()+1),padH(d.getDate())].join("-");}
+function addDays(s,n){const d=new Date(s+"T12:00Z");d.setUTCDate(d.getUTCDate()+n);return d.toISOString().slice(0,10);}
+function diffDays(a,b){return Math.round((Date.parse(b)-Date.parse(a))/86400000);}
+
 const maskDoc=r=>{const d=String(r).replace(/\D/g,"");return "Паспорт РФ • •••• "+(d.slice(-4)||"****");};
 const padH=n=>String(n).padStart(2,"0");
 function hashStr(s){let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))>>>0;return h;}
 function parseStar(){if(S.star==="Без требований")return null;const m=S.star.match(/\d/);return m?+m[0]:null;}
-const sel=()=>S.selected||{city:"Нижний Новгород",price:123000,perPerson:61500,star:3,nights:3,cl:"m",int:["Культура","Прогулки"],fl:flightsFor("Нижний Новгород")};
 
-/* ============ атрибуты отеля (детерминированно) ============ */
-function hotelAttrs(name){
-  const hm=hashStr(name+"#m"), ha=hashStr(name+"#a"), hr=hashStr(name+"#r");
-  const meals=["Завтраки"];
-  if(hm%3===0) meals.push("Полупансион");
-  if(hm%7===0) meals.push("Всё включено");
-  const amen={wifi:ha%10!==0, pool:ha%3===0, parking:ha%2===0, spa:ha%5===0};
-  const rating=+(7+(hr%27)/10).toFixed(1);
-  return {meals,amen,rating};
-}
+// Fixed demo inventory. Filters select existing hotel offers and never change their attributes.
+const HOTEL_TYPES=[
+  {star:3,name:"Городской отель",rate:2300,score:8.2,amen:["wifi","parking"],meal:1},
+  {star:3,name:"Бутик-отель",rate:3100,score:9.1,amen:["bath","wifi","parking"],meal:2},
+  {star:3,name:"Парк-отель",rate:3600,score:8.7,amen:["bath","wifi","parking","pool"],meal:2},
+  {star:4,name:"Отель с бассейном",rate:4400,score:8.8,amen:["bath","wifi","pool","parking"],meal:3},
+  {star:4,name:"Спа-отель",rate:5300,score:9.2,amen:["bath","wifi","pool","parking","spa"],meal:3},
+  {star:5,name:"Гранд-отель",rate:6700,score:9.4,amen:["bath","wifi","pool","parking","spa"],meal:3}
+];
+const mealLevel={"Без требований":0,"Завтраки":1,"Полупансион":2,"Всё включено":3};
+
 /* ============ время рейсов: прилёт всегда > вылета ============ */
 function hhmm(min){return padH(Math.floor(min/60))+":"+padH(min%60);}
 function flightsFor(name){
   const h=hashStr(name+"#f");
-  const dur=60+ (h%5)*60 + ((h>>3)%12)*5;          // 1ч00 … 5ч55
-  const outDep=6*60 + (h%10)*30 + ((h>>6)%30);      // 06:00 … ~10:55
+  const dur=60+ (h%5)*60 + ((h>>>3)%12)*5;          // 1ч00 … 5ч55
+  const outDep=6*60 + (h%10)*30 + ((h>>>6)%30);      // 06:00 … ~10:55
   const outArr=outDep+dur;                          // всегда < 24ч и > outDep
-  const retDep=12*60 + (h%8)*30 + ((h>>9)%30);      // 12:00 … ~15:55
+  const retDep=12*60 + (h%8)*30 + ((h>>>9)%30);      // 12:00 … ~15:55
   const retArr=retDep+dur;                          // всегда < 24ч и > retDep
   return {outDep:hhmm(outDep),outArr:hhmm(outArr),retDep:hhmm(retDep),retArr:hhmm(retArr),dur};
 }
 
 /* ============ status bar ============ */
-const STATUS=`<div class="status"><span>9:41</span><span class="icons">
-<svg width="18" height="12" viewBox="0 0 18 12" fill="#111"><rect x="0" y="7" width="3" height="5" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/><rect x="10" y="2.5" width="3" height="9.5" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
-<svg width="17" height="12" viewBox="0 0 17 12" fill="#111"><path d="M8.5 2C5.6 2 3 3.1 1.2 4.9L0 3.6C2.2 1.4 5.2 0 8.5 0s6.3 1.4 8.5 3.6l-1.2 1.3C13.9 3.1 11.4 2 8.5 2Zm0 3.4c-1.9 0-3.6.7-4.9 1.9L2.4 5.9C4 4.5 6.1 3.6 8.5 3.6s4.5.9 6.1 2.3l-1.2 1.4c-1.3-1.2-3-1.9-4.9-1.9Zm0 3.3c-.9 0-1.7.3-2.3.9l2.3 2.4 2.3-2.4c-.6-.6-1.4-.9-2.3-.9Z"/></svg>
-<svg width="25" height="12" viewBox="0 0 25 12"><rect x=".5" y=".5" width="21" height="11" rx="3" fill="none" stroke="#111" opacity=".4"/><rect x="2" y="2" width="16" height="8" rx="1.6" fill="#111"/><path d="M23 4v4c1-.3 1.6-1 1.6-2S24 4.3 23 4Z" fill="#111" opacity=".5"/></svg>
+const STATUS=`<div class="status" aria-hidden="true"><span>21:26</span><span class="icons">
+<svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="1.45"/><rect x="5" y="5" width="3" height="7" rx="1.45"/><g fill="#bfbfbf"><rect x="10" y="2.5" width="3" height="9.5" rx="1.45"/><rect x="15" width="3" height="12" rx="1.45"/></g></svg>
+<svg width="17" height="13" viewBox="0 0 17 13" fill="none"><g stroke="currentColor" stroke-width="2.05" stroke-linecap="round"><path d="M1.15 4.45a10.9 10.9 0 0 1 14.7 0"/><path d="M4.1 7.45a6.65 6.65 0 0 1 8.8 0"/></g><path fill="currentColor" d="M6.15 10.1a3.6 3.6 0 0 1 4.7 0q.4.34.02.76l-1.81 1.72q-.56.5-1.12 0l-1.81-1.72q-.38-.42.02-.76Z"/></svg>
+<svg width="25" height="13" viewBox="0 0 25 13"><rect x="0" y=".7" width="22.6" height="11.6" rx="3.6" fill="#b1b1b1"/><path d="M7.3.7H3.6A3.6 3.6 0 0 0 0 4.3v4.4a3.6 3.6 0 0 0 3.6 3.6h3.7Z" fill="currentColor"/><path d="M23.5 4.3c1.8.6 1.8 3.8 0 4.4Z" fill="#b1b1b1"/></svg>
 </span></div>`;
 document.querySelectorAll(".screen").forEach(sc=>sc.insertAdjacentHTML("afterbegin",STATUS));
 
@@ -626,25 +623,46 @@ function show(id,dir){
   document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active","back"));
   const el=$(id);el.classList.add("active");if(dir==="back")el.classList.add("back");
   $("home-ind").style.display=(id==="s1")?"none":"block";
-  document.querySelectorAll("#panel .p").forEach(b=>b.classList.toggle("cur",b.dataset.go===id));
-  if(id==="s5"){ if(!renderS5()) return; }
+
+  if(id==="s4")updateCount();
+  if(id==="s5")renderS5();
   if(id==="s6")renderS6();
-  if(id==="s9")renderS9();
-  if(id==="e1")renderE1();
-  if(id==="e4")$("e4-prev").textContent=fmt(S.price);
-  if(id==="s7"||id==="s8"||id==="e2"||id==="s10")syncSummary();
-  if(id==="s7")renderTravelers();
+  if(id==="s7"){syncCheckout();renderTravelers();}
+  if(id==="s9")renderOrders();
+  if(id==="s10")renderJourney();
+  if(id==="e2")syncE2();
 }
-function go(id){if(stack[stack.length-1]!==id)stack.push(id);show(id);}
+function go(id){
+  closeSheet();
+  const pos=stack.indexOf(id);
+  if(pos>=0)stack.splice(pos+1);else stack.push(id);
+  show(id);
+}
+
 function back(){if(stack.length>1){stack.pop();show(stack[stack.length-1],"back");}else show("s1","back");}
 let tT;function toast(m){const t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(tT);tT=setTimeout(()=>t.classList.remove("show"),1800);}
 
 /* ============ S3 ============ */
-function validateDates(){S.from=$("in-from").value;S.to=$("in-to").value;
-  const bad=S.from&&S.to&&(S.to<S.from);S.invalidDates=bad;
-  $("f-dates-wrap").classList.toggle("err",bad);$("dates-err").classList.toggle("show",bad);}
+
+function validateDates(){
+  S.from=$("in-from").value; S.to=$("in-to").value;
+  let msg="";
+  if(!S.from||!S.to)msg="Укажите дату вылета и возвращения.";
+  else if(S.from<localDay())msg="Выберите сегодняшнюю или будущую дату вылета.";
+  else if(S.to<=S.from)msg="Возвращение должно быть позже вылета.";
+  $("dates-err").textContent=msg;
+  $("dates-err").classList.toggle("show",!!msg);
+  $("f-dates-wrap").classList.toggle("err",!!msg);
+  return !msg;
+}
+
 function formatBudget(inp){let d=inp.value.replace(/\D/g,"").slice(0,7);S.budgetNum=d?parseInt(d,10):0;inp.value=d?Number(d).toLocaleString("ru-RU"):"";}
-function continueS3(){if(S.invalidDates)go("e1");else go("s4");}
+
+function continueS3(){
+  if(!validateDates()){$("f-dates-wrap").scrollIntoView({block:"center"});return;}
+  if(!S.budgetNum){toast("Введите бюджет больше нуля");$("in-budget").focus();return;}
+  go("s4");
+}
 
 /* ============ S4 чипы (делегирование) ============ */
 function radioGroup(sel_id,key,cast){
@@ -664,58 +682,46 @@ $("amen").addEventListener("click",e=>{const c=e.target.closest(".chip");if(!c)r
 $("strict").addEventListener("click",e=>{const c=e.target.closest(".chip");if(!c)return;
   S.strictInt=!S.strictInt;c.classList.toggle("sel-yellow",S.strictInt);
   c.textContent=S.strictInt?"Строго по интересам ✓":"Строго по интересам";});
-function composeStar(){return S.star==="Без требований"?"Без требований":S.star+(S.bath?" • отдельный санузел":"");}
+
 function renderExcl(){const w=$("exTags");w.innerHTML="";
   if(S.excl.size===0){w.innerHTML='<span style="font-size:13px;color:var(--muted)">Не выбраны — нажмите «+»</span>';return;}
   [...S.excl].forEach(c=>{const t=document.createElement("span");t.className="tag";t.innerHTML=`${c} <b>×</b>`;
-    t.onclick=e=>{e.stopPropagation();S.excl.delete(c);renderExcl();};w.appendChild(t);});}
-function findTrip(){const r=buildTrips();if(r.all.length===0){go("e2");return;}go("s5");}
+    t.onclick=e=>{e.stopPropagation();S.excl.delete(c);renderExcl();updateCount();};w.appendChild(t);});}
 
-/* ============ engine ============ */
-function perPersonOf(g,rf,nights,starF,attrs){
-  let base=g.air*rf + HOTEL_BASE*g.ci*starF*nights;
-  const rmul=S.rating>=9?1.06:S.rating>=8?1.03:1;
-  base=base*rmul;
-  let add=MEAL_ADD[S.meal]||0;
-  S.amen.forEach(k=>add+=(AMEN_SURCHARGE[k]||0));
-  return round500((base+add)*PRICE_MULT);
+function findTrip(){S.limit=6;go(buildTrips().all.length?"s5":"e2");}
+function updateCount(){
+  const n=buildTrips().all.length;
+  $("search-btn").textContent=n?"Показать "+n+" "+plural(n,"вариант","варианта","вариантов"):"Проверить условия";
 }
-function scoreTrip(g,ps){
-  const matched=g.int.filter(i=>S.interests.has(i));
-  let score=matched.length*2;
-  if(ps) score += (g.ms===ps?1:0.5);
-  const maxP=S.interests.size*2 + (ps?1:0);
-  const pct=maxP>0?Math.max(0,Math.min(100,Math.round(100*score/maxP))):100;
-  return {score,pct,matched};
-}
+$("s4").addEventListener("click",updateCount);
 function buildTrips(){
-  const nights=Math.max(1,diffDays(S.from,S.to));
-  const ps=parseStar();
-  const starF=ps?STAR_F[ps]:1.2;
-  const rf=ROUTE_FACTOR[S.city]??1;
-  const depRank=CL_RANK[climatOf(S.city)];
-  const out=[];
+  const nights=diffDays(S.from,S.to), requiredStar=parseStar()||0;
+  const depRank=CL_RANK[climatOf(S.city)], all=[];
   for(const g of CATALOG){
-    if(g.n===S.city) continue;
-    if(S.excl.has(g.n)) continue;
-    if(ps && g.ms<ps) continue;
-    const gr=CL_RANK[g.cl];
-    if(S.climate==="Теплее" && gr<depRank) continue;
-    if(S.climate==="Прохладнее" && gr>depRank) continue;
-    const attrs=hotelAttrs(g.n);
-    if(S.meal!=="Без требований" && !attrs.meals.includes(S.meal)) continue;   // жёстко: питание
-    let amenOk=true; S.amen.forEach(k=>{ if(!attrs.amen[k]) amenOk=false; });
-    if(!amenOk) continue;                                                       // жёстко: удобства
-    if(S.rating>0 && attrs.rating<S.rating) continue;                           // жёстко: рейтинг
-    if(S.strictInt && S.interests.size>0 && !g.int.some(i=>S.interests.has(i))) continue; // жёстко: интересы
-    const pp=perPersonOf(g,rf,nights,starF,attrs);
-    const total=pp*S.pax;
-    if(total>S.budgetNum) continue;
-    const s=scoreTrip(g,ps);
-    out.push({...g,perPerson:pp,price:total,nights,depRank,attrs,fl:flightsFor(g.n),...s});
+    if(g.n===S.city||S.excl.has(g.n))continue;
+    const climate=CL_RANK[g.cl];
+    if(S.climate==="Теплее"&&climate<=depRank)continue;
+    if(S.climate==="Прохладнее"&&climate>=depRank)continue;
+    const matched=g.int.filter(i=>S.interests.has(i));
+    if(S.strictInt&&matched.length!==S.interests.size)continue;
+    // Keep the cheapest matching package per destination so results stay distinct.
+    let best=null;
+    for(const hotel of HOTEL_TYPES){
+      if(hotel.star>g.ms||hotel.star<requiredStar||hotel.score<S.rating)continue;
+      if(hotel.meal<mealLevel[S.meal]||![...S.amen].every(k=>hotel.amen.includes(k)))continue;
+      const airfare=g.air*2*ROUTE_FACTOR[S.city];
+      const dailyMeal=[0,350,1100,2100][mealLevel[S.meal]];
+      const perPerson=round500(airfare+nights*(hotel.rate*g.ci+dailyMeal)+1500);
+      const price=perPerson*S.pax;
+      if(price>S.budgetNum||(best&&price>=best.price))continue;
+      best={...g,hotel,star:hotel.star,perPerson,price,nights,depRank,matched,score:matched.length,
+        pct:S.interests.size?Math.round(100*matched.length/S.interests.size):100,fl:flightsFor(g.n)};
+    }
+    if(best)all.push(best);
   }
-  return {all:out,nights};
+  return {all,nights};
 }
+
 function sortTrips(list){
   const a=[...list];
   if(S.sort==="cheap")a.sort((x,y)=>x.price-y.price);
@@ -726,38 +732,30 @@ function renderS5(){
   const {all}=buildTrips();
   if(all.length===0){ if(stack[stack.length-1]==="s5")stack.pop(); syncE2(); go("e2"); return false; }
   const sorted=sortTrips(all);
-  const shown=sorted.slice(0,MAX_SHOW);
-  S.trips=shown;
-  const rt=rangeText(S.from,S.to);
-  $("s5-title").textContent=`Подобрано ${shown.length} ${plural(shown.length,"вариант","варианта","вариантов")}`;
-  $("s5-summary").textContent=`${S.city} · ${rt} · ${S.pax} взр · до ${S.budgetNum.toLocaleString("ru-RU")} ₽`+
-     (all.length>shown.length?` · из ${all.length} подходящих`:"");
+
+  const shown=sorted.slice(0,S.limit); S.trips=shown;
+  $("s5-title").textContent=all.length+" "+plural(all.length,"вариант","варианта","вариантов");
+  $("s5-summary").textContent=S.city+" · "+rangeText(S.from,S.to)+" · "+paxLabel()+" · до "+fmt(S.budgetNum);
   $("sort-rel").className="chip"+(S.sort==="rel"?" sel-dark":"");
   $("sort-cheap").className="chip"+(S.sort==="cheap"?" sel-dark":"");
-  $("s5-list").innerHTML=shown.map((t,i)=>tripCard(t,i)).join("");
-  $("s5-foot").textContent=S.showCities
-    ? "Режим отладки: направления показаны, чтобы проверить фильтры. По умолчанию город — сюрприз."
-    : "Город каждого варианта — сюрприз. Название откроется после оплаты, когда начнётся регистрация.";
+  $("s5-list").innerHTML=shown.map(tripCard).join("")+(shown.length<all.length?'<button class="btn gray" onclick="S.limit+=6;renderS5()">Показать ещё</button>':"");
+  $("s5-foot").textContent="Название города появится при открытии регистрации.";
   return true;
 }
+
 function plural(n,a,b,c){const m=n%100;if(m>=11&&m<=14)return c;const k=n%10;return k===1?a:(k>=2&&k<=4?b:c);}
 function tripCard(t,i){
-  const cityLine=S.showCities?t.n:"Город-сюрприз";
-  const regionLine=S.showCities?`${t.r} · ${t.hi}`:`${t.nights} ${plural(t.nights,"ночь","ночи","ночей")} · направление откроется после оплаты`;
-  const starBadge=S.star==="Без требований"?'<span class="tb">звёзды любые</span>':`<span class="tb d">${S.star}</span>`;
-  let climateBadge;
-  if(S.climate==="Любой") climateBadge=`<span class="tb">${CL_LABEL[t.cl]}</span>`;
-  else if((S.climate==="Теплее"&&CL_RANK[t.cl]>t.depRank)||(S.climate==="Прохладнее"&&CL_RANK[t.cl]<t.depRank))
-       climateBadge=`<span class="tb g">${S.climate.toLowerCase()} ✓</span>`;
-  else climateBadge=`<span class="tb">такой же климат</span>`;
-  const mealBadge=S.meal==="Завтраки"?'<span class="tb">завтраки</span>':S.meal==="Без требований"?'<span class="tb">питание любое</span>':`<span class="tb d">${S.meal}</span>`;
-  const amenBadges=[...S.amen].map(k=>`<span class="tb g">${AMEN_LABEL[k]} ✓</span>`).join("");
-  const ratingBadge=S.rating>0?`<span class="tb g">рейтинг ${S.rating}+ ✓</span>`:"";
-  const intBadges=t.matched.length
-    ? t.matched.map(x=>`<span class="tb y">${x} ✓</span>`).join("")
-    : (S.interests.size? `<span class="tb">без ваших тем</span>`:"");
-  const pctBadge=`<span class="tb ${t.pct>=70?"g":""}">Совпадение ${t.pct}%</span>`;
-  const dest=S.showCities?t.n:"••••••";
+
+  const cityLine="Вариант "+(i+1);
+  const regionLine=t.nights+" "+plural(t.nights,"ночь","ночи","ночей")+" · город скрыт";
+  const starBadge='<span class="tb d">'+t.hotel.star+' ★</span>';
+  const climateBadge='<span class="tb">'+CL_LABEL[t.cl]+'</span>';
+  const mealBadge='<span class="tb">'+(S.meal==="Без требований"?"Без питания":S.meal)+'</span>';
+  const amenBadges=[...S.amen].map(k=>'<span class="tb g">'+AMEN_LABEL[k]+'</span>').join("");
+  const ratingBadge='<span class="tb g">Оценка '+t.hotel.score.toFixed(1)+'</span>';
+  const intBadges=t.matched.map(x=>'<span class="tb y">'+x+'</span>').join("");
+  const pctBadge="";
+
   const f=t.fl;
   return `<div class="trip">
     <div class="trip-top"><div><div class="trip-city">${cityLine}</div><div class="trip-region">${regionLine}</div></div>
@@ -769,25 +767,25 @@ function tripCard(t,i){
 }
 function setSort(m){S.sort=m;renderS5();}
 function selectVariant(i){const v=S.trips[i];if(!v)return;
-  S.selected={city:v.n,price:v.price,perPerson:v.perPerson,star:parseStar()||3,nights:v.nights,cl:v.cl,int:v.int,fl:v.fl,attrs:v.attrs};
-  setPrice(v.price); go("s6");
+  S.selected={city:v.n,price:v.price,perPerson:v.perPerson,star:v.hotel.star,hotel:v.hotel,nights:v.nights,cl:v.cl,int:v.int,fl:v.fl,hi:v.hi};
+  setPrice(v.price);$("ck1").checked=$("ck2").checked=false; S.mode6="choose";go("s6");
 }
 
 /* ============ sheets ============ */
 const SHEETS={
   city:()=>`<h3>Город вылета</h3>`+ALL_CITIES.map(c=>`<button class="opt" onclick="pickCity('${c}')">${c}${S.city===c?'<span class="ck">✓</span>':''}</button>`).join(""),
-  pax:()=>`<h3>Путешественники</h3><div class="stepper"><button onclick="stepPax(-1)">−</button><span class="v" id="pv">${paxLabel()}</span><button onclick="stepPax(1)">+</button></div><div class="fine" style="margin-top:0">Цена пересчитывается на каждого гостя. Дети и питомцы — в полной версии.</div>`,
-  star:()=>`<h3>Звёздность проживания</h3>`+["Без требований","От 3 ★","От 4 ★","От 5 ★"].map(s=>`<button class="opt" onclick="pickStar('${s}')">${s}${S.star===s?'<span class="ck">✓</span>':''}</button>`).join("")+`<button class="opt ${S.bath?'on':''}" onclick="toggleBath()" style="border-bottom:none"><span>Отдельный санузел</span><span class="sq"><svg width="12" height="10" viewBox="0 0 13 11" fill="none"><path d="M1 5.5 4.5 9 12 1" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>`,
-  excl:()=>`<h3>Исключить города</h3><div class="fine" style="margin:0 0 6px">Отметьте города, которые не подходят. Они появятся тегами.</div>`+EXCL_POOL.map(c=>`<button class="opt ${S.excl.has(c)?'on':''}" onclick="toggleExcl('${c}')"><span>${c}</span><span class="sq"><svg width="12" height="10" viewBox="0 0 13 11" fill="none"><path d="M1 5.5 4.5 9 12 1" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>`).join("")
+  pax:()=>`<h3>Путешественники</h3><div class="stepper"><button onclick="stepPax(-1)">−</button><span class="v" id="pv">${paxLabel()}</span><button onclick="stepPax(1)">+</button></div><div class="fine" style="margin-top:0">Можно выбрать от 1 до 6 взрослых.</div>`,
+  star:()=>`<h3>Категория отеля</h3>`+["Без требований","От 3 ★","От 4 ★","От 5 ★"].map(s=>`<button class="opt" onclick="pickStar('${s}')">${s}${S.star===s?'<span class="ck">✓</span>':''}</button>`).join(""),
+  excl:()=>`<h3>Исключить города</h3><div class="fine" style="margin:0 0 6px">Отметьте города, которые не подходят. Они появятся тегами.</div>`+EXCL_POOL.filter(c=>c!==S.city).map(c=>`<button class="opt ${S.excl.has(c)?'on':''}" onclick="toggleExcl('${c}')"><span>${c}</span><span class="sq"><svg width="12" height="10" viewBox="0 0 13 11" fill="none"><path d="M1 5.5 4.5 9 12 1" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>`).join("")
 };
 const paxLabel=()=>S.pax===1?"1 взрослый":S.pax+" взрослых";
-function openSheet(k){$("sheet").innerHTML=`<div class="grab"></div>`+SHEETS[k]();$("sheet-wrap").classList.add("open");}
+function openSheet(k){$("sheet").innerHTML=`<button class="sheet-close" aria-label="Закрыть" onclick="closeSheet()">×</button>`+SHEETS[k]()+'<button class="btn gray" onclick="closeSheet()">Готово</button>';$("sheet-wrap").classList.add("open");}
 function closeSheet(){$("sheet-wrap").classList.remove("open");}
-function pickCity(c){S.city=c;$("f-city").textContent=c;closeSheet();}
+function pickCity(c){S.city=c;S.excl.delete(c);renderExcl();$("f-city").textContent=c;closeSheet();}
 function stepPax(d){S.pax=Math.min(6,Math.max(1,S.pax+d));$("pv").textContent=paxLabel();$("f-pax").textContent=paxLabel();ensureManual();}
-function pickStar(s){S.star=s;$("f-star").textContent=composeStar();$("sheet").innerHTML=`<div class="grab"></div>`+SHEETS.star();}
-function toggleBath(){S.bath=!S.bath;$("f-star").textContent=composeStar();$("sheet").innerHTML=`<div class="grab"></div>`+SHEETS.star();}
-function toggleExcl(c){S.excl.has(c)?S.excl.delete(c):S.excl.add(c);renderExcl();$("sheet").innerHTML=`<div class="grab"></div>`+SHEETS.excl();}
+function pickStar(s){S.star=s;updateCount();$("f-star").textContent=S.star;$("sheet").innerHTML=`<button class="sheet-close" aria-label="Закрыть" onclick="closeSheet()">×</button>`+SHEETS.star()+doneButton;}
+
+function toggleExcl(c){S.excl.has(c)?S.excl.delete(c):S.excl.add(c);renderExcl();updateCount();$("sheet").innerHTML=`<button class="sheet-close" aria-label="Закрыть" onclick="closeSheet()">×</button>`+SHEETS.excl()+doneButton;}
 
 /* ============ S6 ============ */
 function ensureManual(){while(S.manual.names.length<S.pax)S.manual.names.push("");while(S.manual.docs.length<S.pax)S.manual.docs.push("");S.manual.names.length=S.pax;S.manual.docs.length=S.pax;}
@@ -799,7 +797,7 @@ function renderS6(){
   ["choose","login","manual"].forEach(k=>{$("s6-"+k).style.display=(S.mode6===k)?"block":"none";});
   $("s6-cta-login").style.display=S.mode6==="login"?"block":"none";
   $("s6-cta-manual").style.display=S.mode6==="manual"?"block":"none";
-  $("tg-login").checked=(S.mode6==="login");
+
   if(S.mode6==="login")renderLoginList();
   if(S.mode6==="manual")renderManualForm();
 }
@@ -812,7 +810,7 @@ function renderManualForm(){
   let h="";
   for(let i=0;i<S.pax;i++){
     h+=`<div class="field static" id="fm-name-${i}" style="cursor:default"><div class="lbl">Пассажир ${i+1} • ФИО по документу</div><input class="txtin" value="${esc(S.manual.names[i])}" oninput="setMan('names',${i},this)"></div>`;
-    h+=`<div class="field static" id="fm-doc-${i}" style="cursor:default"><div class="lbl">Документ пассажира ${i+1} • Паспорт РФ</div><input class="txtin" placeholder="Серия и номер" value="${esc(S.manual.docs[i])}" oninput="setMan('docs',${i},this)"></div>`;
+    h+=`<div class="field static" id="fm-doc-${i}" style="cursor:default"><div class="lbl">Документ пассажира ${i+1} • Паспорт РФ</div><input class="txtin" inputmode="numeric" placeholder="1234 567890" value="${esc(S.manual.docs[i])}" oninput="setMan('docs',${i},this)"></div>`;
   }
   h+=`<div class="field static" id="fm-email" style="cursor:default"><div class="lbl">Электронная почта</div><input class="txtin" type="email" placeholder="you@example.com" value="${esc(S.manual.email)}" oninput="setManEmail(this)"></div>`;
   $("s6-manual-fields").innerHTML=h;
@@ -822,11 +820,11 @@ function setManEmail(el){S.manual.email=el.value;el.closest(".field").classList.
 function submitManual(){
   let ok=true;
   for(let i=0;i<S.pax;i++){
-    if(!S.manual.names[i].trim()){$("fm-name-"+i).classList.add("err");ok=false;}
-    if(!S.manual.docs[i].trim()){$("fm-doc-"+i).classList.add("err");ok=false;}
+    if(!/^[А-ЯЁа-яёA-Za-z-]+(?:\s+[А-ЯЁа-яёA-Za-z-]+)+$/.test(S.manual.names[i].trim())){$("fm-name-"+i).classList.add("err");ok=false;}
+    if(!/^\d{10}$/.test(S.manual.docs[i].replace(/\s/g,""))){$("fm-doc-"+i).classList.add("err");ok=false;}
   }
   if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(S.manual.email.trim())){$("fm-email").classList.add("err");ok=false;}
-  if(!ok){toast("Заполните все поля корректно");return;}
+  if(!ok){const field=document.querySelector("#s6-manual .err");field.querySelector("input").focus();toast(field.id.includes("doc")?"Введите 10 цифр паспорта":field.id.includes("name")?"Введите фамилию и имя":"Проверьте электронную почту");return;}
   S.travelers=S.manual.names.map((n,i)=>({name:n.trim(),doc:maskDoc(S.manual.docs[i])}));
   S.email=S.manual.email.trim();
   go("s7");
@@ -841,75 +839,110 @@ function renderTravelers(){guaranteeTravelers();
 }
 
 /* ============ summary sync ============ */
-function hotelLine(v){
-  const a=v.attrs||hotelAttrs(v.city);
-  const parts=[`${v.star}★`];
-  if(S.meal==="Завтраки")parts.push("завтраки"); else if(S.meal!=="Без требований")parts.push(S.meal.toLowerCase());
-  const am=[...S.amen].map(k=>AMEN_LABEL[k]); if(am.length)parts.push(am.join(", "));
-  if(S.rating>0)parts.push(`рейтинг ${a.rating}`);
-  return "Отель в центре • "+parts.join(" • ");
+
+function syncCheckout(){
+  const v=S.selected;
+  $("s7-sum").innerHTML=rangeText(S.from,S.to)+" · "+paxLabel()+"<br>"+S.city+" → город-сюрприз<br>"+v.hotel.name+" · "+v.star+" ★ · "+mealText()+"<br>Перелёт туда и обратно · багаж 10 кг";
+  $("s7-pp").textContent=fmt(v.perPerson)+" × "+S.pax;
 }
-function syncSummary(){
-  const v=sel(), rt=rangeText(S.from,S.to), px=S.pax+" взрослых", f=v.fl;
-  if($("s7-sum"))$("s7-sum").innerHTML=`${rt} • ${px}<br>Перелёт и проживание<br>Багаж 10 кг • ${S.meal==="Без требований"?"питание по тарифу":S.meal.toLowerCase()}`;
-  if($("s7-pp"))$("s7-pp").textContent=`≈ ${fmt(v.perPerson)} / чел · ${S.pax} чел`;
-  if($("s8-sum"))$("s8-sum").innerHTML=`${rt} • ${px}<br>Перелёт и проживание<br>Оплачено: <b data-price>${fmt(S.price)}</b><br><span style="font-size:12px;color:var(--muted)">≈ ${fmt(v.perPerson)} на человека × ${S.pax}</span>`;
-  if($("s8-reveal"))$("s8-reveal").textContent=`Город откроем ${fmtDay(addDays(S.from,-1))} в 10:00`;
-  if($("s9-flight"))$("s9-flight").textContent=`${S.city} • ${shortDate(S.from)}, ${f.outDep}`;
-  if($("s10-city"))$("s10-city").textContent=v.city;
-  if($("s10-leg"))$("s10-leg").textContent=`${fmtDay(S.from)} • ${S.city} → ${v.city}`;
-  if($("s10-time"))$("s10-time").textContent=`${f.outDep} — ${f.outArr}`;
-  if($("s10-ret"))$("s10-ret").textContent=`Обратно ${fmtDay(S.to)}: ${f.retDep} → ${f.retArr} · ${S.city}`;
-  if($("s10-hotel"))$("s10-hotel").textContent=hotelLine(v);
-  if($("s10-route"))$("s10-route").innerHTML=buildRoute(v);
-  if($("e2-sum"))syncE2();
-}
-function buildRoute(v){
-  const nights=Math.max(1,diffDays(S.from,S.to));const days=nights+1;
-  if(days<=1)return `${fmtDay(S.from)} • Прилёт и возвращение в ${S.city}`;
-  const pool=[...(v.int||[])].map(i=>ACT[i]).filter(Boolean);
-  const mid=days-2;let lines=[`${fmtDay(S.from)} • Прилёт, ${pool[0]||"центр города"}`];
-  for(let k=0;k<mid;k++)lines.push(`${fmtDay(addDays(S.from,1+k))} • ${pool.length?pool[(k+1)%pool.length]:"Свободный день"}`);
-  lines.push(`${fmtDay(S.to)} • Возвращение в ${S.city}`);
-  return lines.join("<br>");
-}
+function mealText(){return S.meal==="Без требований"?"Без питания":S.meal;}
+
 function syncE2(){
   const extra=[];
   if(S.meal!=="Завтраки"&&S.meal!=="Без требований")extra.push("питание: "+S.meal.toLowerCase());
   if(S.amen.size)extra.push("удобства: "+[...S.amen].map(k=>AMEN_LABEL[k]).join(", "));
   if(S.rating>0)extra.push("рейтинг "+S.rating+"+");
   if(S.strictInt)extra.push("строго по интересам");
-  $("e2-sum").innerHTML=`${rangeText(S.from,S.to)} • ${S.pax} взрослых<br>До ${S.budgetNum.toLocaleString("ru-RU")} ₽ · ${S.star==="Без требований"?"звёзды любые":S.star} · климат: ${S.climate}${extra.length?" · "+extra.join(" · "):""} · исключены ${S.excl.size} гор.`;
+  $("e2-sum").innerHTML=`${rangeText(S.from,S.to)} • ${paxLabel()}<br>До ${S.budgetNum.toLocaleString("ru-RU")} ₽ · ${S.star==="Без требований"?"звёзды любые":S.star} · климат: ${S.climate}${extra.length?" · "+extra.join(" · "):""} · исключены ${S.excl.size} гор.`;
 }
-function renderE1(){$("e1-city").textContent=S.city;$("e1-dates").textContent=rangeText(S.from,S.to);$("e1-pax").textContent=S.pax+" взрослых";}
-
-/* ============ price / pay ============ */
-function setPrice(v){S.price=v;document.querySelectorAll("[data-price]").forEach(el=>el.textContent=fmt(v));
-  $("btn-pay").textContent="Оплатить "+fmt(v);$("tg-price").checked=v===115000;}
-function acceptNewPrice(){setPrice(115000);go("s7");toast("Новая цена принята");}
-function toggleCheck(id){$(id).classList.toggle("on");}
-function tryPay(){if(!$("ck1").classList.contains("on")||!$("ck2").classList.contains("on")){toast("Подтвердите условия и согласие узнать город");return;}
-  const b=$("btn-pay");b.classList.add("loading");b.textContent="Проводим платёж…";
-  setTimeout(()=>{b.classList.remove("loading");b.textContent="Оплатить "+fmt(S.price);go("s8");},900);}
-function retryPay(){const b=$("btn-retry");b.classList.add("loading");b.textContent="Проверяем статус платежа…";
-  setTimeout(()=>{b.classList.remove("loading");b.textContent="Повторить оплату";go("s8");toast("Платёж прошёл успешно");},900);}
-
-/* ============ reveal ============ */
-function renderS9(){$("reveal-title").textContent=S.revealed?"Регистрация открыта":"Остался 1 день";
-  $("reveal-desc").textContent=S.revealed?"Город раскрыт — можно открывать маршрут.":`Откроем город ${fmtDay(addDays(S.from,-1))} в 10:00, когда начнётся регистрация.`;
-  $("reveal-box").style.cursor=S.revealed?"default":"pointer";$("btn-reveal").disabled=!S.revealed;$("tg-reveal").checked=S.revealed;}
-function revealCity(){if(S.revealed)return;S.revealed=true;renderS9();toast("Время наступило · город доступен");}
-function setRevealed(v){S.revealed=v;renderS9();}
-
-/* ============ panel ============ */
-const MAIN=["s1","s2","s3","s4","s5","s6","s7","s8","s9","s10"],ERR=["e1","e2","e3","e4"];
-const NAMES={s1:"S1",s2:"S2",s3:"S3",s4:"S4",s5:"S5",s6:"S6",s7:"S7",s8:"S8",s9:"S9",s10:"S10",e1:"E1",e2:"E2",e3:"E3",e4:"E4"};
-$("pg-main").innerHTML=MAIN.map(i=>`<button class="p" data-go="${i}" onclick="go('${i}')">${NAMES[i]}</button>`).join("");
-$("pg-err").innerHTML=ERR.map(i=>`<button class="p" data-go="${i}" onclick="go('${i}')">${NAMES[i]}</button>`).join("");
-function fit(){const sc=Math.min(1,(innerHeight-24)/844,(innerWidth-24)/390);$("stage").style.transform=`scale(${sc})`;}
+const doneButton='<button class="btn gray" onclick="closeSheet()">Готово</button>';
+SHEETS.terms=()=>'<h3>Условия тарифа</h3><p>В цену входят перелёт туда и обратно, багаж до 10 кг на пассажира и проживание на выбранные даты. Питание указано в заказе.</p><p>До оплаты можно изменить параметры и повторить подбор. После оформления даты и пассажиров поменять нельзя, стоимость при отмене не возвращается.</p><p>Направление откроется за сутки до вылета.</p>';
+let card="4242";
+SHEETS.profile=()=>'<h3>Профиль</h3><div class="info"><div class="tiny">Основной пассажир</div><div class="t">Иван Иванович Иванов</div><div class="l">traveler@example.com</div></div>';
+SHEETS.cards=()=>'<h3>Банковская карта</h3>'+["4242","5522"].map(c=>'<button class="opt" onclick="chooseCard(\''+c+'\')">Карта • '+c+(card===c?' ✓':'')+'</button>').join("");
+function chooseCard(c){card=c;$("card-label").textContent="Банковская карта • "+c;closeSheet();}
+let scenario=new URLSearchParams(location.search).get("scenario");
+let pendingPrice=0;
+function setPrice(price){
+  S.price=price;
+  document.querySelectorAll("[data-price]").forEach(el=>el.textContent=fmt(price));
+  $("btn-pay").textContent="Оплатить "+fmt(price);
+}
+function acceptNewPrice(){
+  if(!pendingPrice||pendingPrice>S.budgetNum)return;
+  S.selected.price=pendingPrice; S.selected.perPerson=pendingPrice/S.pax;
+  setPrice(pendingPrice);pendingPrice=0;$("ck1").checked=false;go("s7");
+}
+function tryPay(){
+  if(!S.selected||!$("ck1").checked||!$("ck2").checked){toast("Подтвердите условия поездки");return;}
+  if(scenario==="decline"){scenario=null;go("e3");return;}
+  if(scenario==="price"){
+    scenario=null;pendingPrice=S.price+500*S.pax;
+    $("e4-prev").textContent=fmt(S.price);$("reprice").textContent=fmt(pendingPrice);
+    const blocked=pendingPrice>S.budgetNum;
+    document.querySelector("#e4 .cta .btn:last-child").disabled=blocked;
+    $("e4-sum").textContent=blocked?"Новая стоимость выше вашего бюджета. Вернитесь к подбору.":"Перелёт и проживание на выбранные даты.";
+    go("e4");return;
+  }
+  completeOrder();
+}
+function retryPay(){if(stack.at(-1)==="e3")completeOrder();}
+const storageKey="surprise-trips-v1";
+let orders=[];
+try{const data=JSON.parse(sessionStorage.getItem(storageKey)||"[]");if(Array.isArray(data))orders=data;}catch{}
+let activeOrder=null;
+function saveOrders(){try{sessionStorage.setItem(storageKey,JSON.stringify(orders));}catch{}}
+function completeOrder(){
+  if(!S.selected||!["s7","e3"].includes(stack.at(-1)))return;
+  const o={id:"SP-"+String(orders.length+1).padStart(3,"0"),trip:S.selected,origin:S.city,
+    from:S.from,to:S.to,names:S.travelers.map(t=>t.name),price:S.price,meal:mealText(),opened:false};
+  orders.unshift(o);activeOrder=o;saveOrders();
+  $("order-id").textContent="Ваш заказ № "+o.id;
+  $("s8-sum").innerHTML=rangeText(o.from,o.to)+" · "+paxLabel()+"<br>Оплачено "+fmt(o.price);
+  $("s8-reveal").textContent="Регистрация откроется "+revealTime(o)+".";
+  stack.splice(1);go("s8");
+}
+function revealTime(o){return fmtDay(addDays(o.from,-1))+" в "+o.trip.fl.outDep+" по времени города вылета";}
+const ORIGIN_ZONES={"Екатеринбург":"Asia/Yekaterinburg","Уфа":"Asia/Yekaterinburg","Самара":"Europe/Samara","Красноярск":"Asia/Krasnoyarsk","Новосибирск":"Asia/Novosibirsk"};
+function registrationOpen(o){
+  if(o.opened)return true;
+  const parts=new Intl.DateTimeFormat("en-GB",{timeZone:ORIGIN_ZONES[o.origin]||"Europe/Moscow",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",hourCycle:"h23"}).formatToParts(new Date());
+  const p=Object.fromEntries(parts.map(x=>[x.type,x.value]));
+  return p.year+"-"+p.month+"-"+p.day+" "+p.hour+":"+p.minute>=addDays(o.from,-1)+" "+o.trip.fl.outDep;
+}
+function renderOrders(){
+  $("orders").innerHTML="<h1>Мои поездки</h1>"+(orders.length?orders.map((o,i)=>
+    '<div class="info"><div class="tiny">Заказ '+esc(o.id)+'</div><div class="t">'+(o.opened?esc(o.trip.city):"Сюрприз-поездка")+'</div><div class="l">'+rangeText(o.from,o.to)+' · '+fmt(o.price)+'</div><button class="btn trip-btn" onclick="viewOrder('+i+')">Билет и поездка</button></div>').join(""):
+    '<div class="empty-trip"><img src="data:image/webp;base64,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" alt=""><div class="t">Пока нет поездок</div><div class="l">После оформления здесь появится ваш билет.</div></div><button class="btn" style="margin-top:16px" onclick="go(\'s2\')">Подобрать поездку</button>');
+}
+function viewOrder(i){activeOrder=orders[i];go("s10");}
+function renderJourney(){
+  const o=activeOrder;if(!o){go("s9");return;}
+  const city=o.opened?esc(o.trip.city):"Город-сюрприз", f=o.trip.fl;
+  const ready=registrationOpen(o);
+  $("journey").innerHTML='<div class="micro">Заказ '+esc(o.id)+'</div><h1>'+city+'</h1><div class="sub">'+rangeText(o.from,o.to)+'</div>'+
+    '<div class="soft"><div class="t">Ваш билет</div><div class="d">Туда · '+fmtDay(o.from)+'</div><div class="t">'+esc(o.origin)+' → '+city+'</div><div>'+f.outDep+' — '+f.outArr+'</div><div class="d">Обратно · '+fmtDay(o.to)+'</div><div class="t">'+city+' → '+esc(o.origin)+'</div><div>'+f.retDep+' — '+f.retArr+'</div><div class="d">Время обоих рейсов указано по городу отправления в поездку.</div></div>'+
+    '<div class="info"><div class="t">Пассажиры и багаж</div><div class="l">'+o.names.map(esc).join("<br>")+'<br>По 10 кг багажа на человека</div></div>'+
+    (o.opened?'<div class="info"><div class="t">Ваше проживание</div><div class="l">'+esc(o.trip.hotel.name)+' · '+o.trip.star+' ★ · '+esc(o.meal)+'<br>'+o.trip.hotel.amen.map(k=>AMEN_LABEL[k]).join(", ")+'</div></div>'+routeCard(o):
+    '<div class="info"><div class="t">'+(ready?'Регистрация открыта':'Когда откроется город')+'</div><div class="l">'+revealTime(o)+'</div></div><button class="btn trip-btn" onclick="advanceReveal()">'+(ready?'Открыть город':'Перейти к началу регистрации')+'</button>');
+}
+function advanceReveal(){if(!activeOrder)return;activeOrder.opened=true;saveOrders();renderJourney();$("journey").scrollTop=0;}
+function routeCard(o){
+  const themes=o.trip.int.map(i=>ACT[i]).filter(Boolean);
+  const lines=[fmtDay(o.from)+" · Заселение и "+(themes[0]||"прогулка по центру")];
+  if(o.trip.nights>1)lines.push(fmtDay(addDays(o.from,1))+" · "+o.trip.hi);
+  if(o.trip.nights>2)lines.push("В свободные дни · "+themes.slice(0,3).join(", "));
+  lines.push(fmtDay(o.to)+" · Выезд из отеля и обратный рейс");
+  return '<div class="info"><div class="t">Ваш маршрут</div><div class="l">'+lines.map(esc).join("<br>")+'</div></div>';
+}
+function fit(){const sc=Math.min(1,(innerHeight-24)/844,(innerWidth-24)/390);$("stage").style.transform="scale("+sc+")";}
 addEventListener("resize",fit);fit();
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeSheet();});
+if(S.from<=localDay()){S.from=addDays(localDay(),14);S.to=addDays(S.from,3);}
+$("in-from").value=S.from;$("in-to").value=S.to;$("in-from").min=localDay();
+document.querySelectorAll(".navrow .back").forEach(b=>b.setAttribute("aria-label","Назад"));
+show("s1");renderExcl();validateDates();ensureManual();
 
-show("s1");renderS6();renderS9();renderExcl();setPrice(111000);validateDates();ensureManual();
 </script>
 </body>
 </html>
