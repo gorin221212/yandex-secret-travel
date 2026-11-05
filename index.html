@@ -66,12 +66,14 @@
   .step{display:flex;gap:14px;margin-top:18px;align-items:flex-start}
   .step .n{flex:0 0 26px;height:26px;border-radius:50%;background:var(--card);color:#555;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px}
   .step .t{font-size:15px;font-weight:700}.step .d{font-size:13px;color:var(--muted);margin-top:2px}
-  .grp{font-size:13px;font-weight:700;margin:18px 0 9px}
+  .grp{font-size:13px;font-weight:700;margin:18px 0 9px;display:flex;align-items:center;justify-content:space-between}
+  .grp .hint{font-size:11px;font-weight:600;color:var(--muted)}
   .chips{display:flex;gap:8px;flex-wrap:wrap}
   .chip{border:none;background:var(--card);border-radius:999px;padding:9px 16px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;color:#3A3A3C;transition:transform .08s}
   .chip:active{transform:scale(.95)}
   .chip.sel-dark{background:var(--dark);color:#fff}
   .chip.sel-yellow{background:var(--yellow);color:var(--text)}
+  .chip.sm{padding:8px 13px;font-size:13px}
   .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
   .tag{background:#E9E9EB;border-radius:999px;padding:8px 12px;font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:7px;cursor:pointer}
   .tag.ro{cursor:default;background:var(--card)}
@@ -129,8 +131,23 @@
   .plus{flex:0 0 30px;height:30px;border-radius:50%;background:#E2E2E5;border:none;font-size:20px;font-weight:700;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#444}
   .plus:active{background:#D4D4D8}
   .exhead{display:flex;align-items:center;justify-content:space-between}
-  .seg{display:flex;gap:10px;margin-top:18px}
-  .seg .btn{height:50px}
+  .seg{display:flex;gap:10px;margin-top:18px}.seg .btn{height:50px}
+  .seg2{display:flex;gap:8px;margin-top:14px}
+  .seg2 .chip{flex:1;text-align:center;padding:10px 8px}
+  .trip{background:var(--card);border-radius:var(--r-md);padding:14px;margin-top:12px}
+  .trip-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .trip-city{font-size:17px;font-weight:800;letter-spacing:-.01em}
+  .trip-region{font-size:12px;color:var(--muted);margin-top:2px}
+  .trip-price{font-size:18px;font-weight:800;white-space:nowrap;text-align:right}
+  .trip-pp{font-size:11px;color:var(--muted);font-weight:600;margin-top:2px}
+  .trip-badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  .tb{font-size:11.5px;font-weight:700;padding:5px 9px;border-radius:999px;background:#E6E6E8;color:#444}
+  .tb.y{background:var(--yellow);color:var(--text)}
+  .tb.g{background:var(--green-bg);color:#1c7a43}
+  .tb.d{background:var(--dark);color:#fff}
+  .trip-flight{font-size:12px;color:#555;margin-top:10px;line-height:1.5}
+  .trip-flight b{color:var(--text)}
+  .trip-btn{margin-top:12px;height:46px;font-size:15px}
   #toast{position:absolute;left:50%;bottom:120px;transform:translateX(-50%) translateY(20px);background:rgba(20,20,20,.92);color:#fff;font-size:13.5px;font-weight:600;padding:11px 18px;border-radius:14px;opacity:0;pointer-events:none;transition:.25s;z-index:90;max-width:80%;text-align:center}
   #toast.show{opacity:1;transform:translateX(-50%)}
   #panel-btn{position:fixed;right:18px;bottom:18px;z-index:200;background:#161616;color:#FFDB4D;border:none;border-radius:14px;padding:12px 16px;font-family:inherit;font-size:13.5px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.3)}
@@ -182,7 +199,7 @@
       <div class="micro">Знакомство</div><h1>Поездка с сюрпризом</h1>
       <div class="sub">Город — сюрприз. Условия — заранее.</div>
       <div class="soft"><div class="t">Всё главное<br>в одном заказе</div><div class="d">Перелёт и проживание включены</div></div>
-      <div class="step"><div class="n">1</div><div><div class="t">Задайте условия</div><div class="d">Даты, бюджет и города-исключения</div></div></div>
+      <div class="step"><div class="n">1</div><div><div class="t">Задайте условия</div><div class="d">Даты, бюджет, отель и интересы</div></div></div>
       <div class="step"><div class="n">2</div><div><div class="t">Проверьте предложение</div><div class="d">Цена, время и условия до оплаты</div></div></div>
       <div class="step"><div class="n">3</div><div><div class="t">Узнайте город</div><div class="d">Когда откроется регистрация</div></div></div>
       <div class="fine">Питание вне отеля и развлечения оплачиваются отдельно. Правила изменения и отмены доступны до покупки.</div>
@@ -205,9 +222,9 @@
       </div>
       <div class="field" onclick="openSheet('pax')"><div class="lbl">Путешественники</div><div class="val" id="f-pax">2 взрослых</div></div>
       <div class="field static" style="cursor:default"><div class="lbl">Общий бюджет</div>
-        <div class="moneyrow"><span class="pre">До</span><input type="text" inputmode="numeric" id="in-budget" value="80 000" oninput="formatBudget(this)"><span class="suf">₽</span></div>
+        <div class="moneyrow"><span class="pre">До</span><input type="text" inputmode="numeric" id="in-budget" value="225 000" oninput="formatBudget(this)"><span class="suf">₽</span></div>
       </div>
-      <div class="soft"><div class="t">Бюджет на всех</div><div class="d">Включает перелёт и проживание</div></div>
+      <div class="soft"><div class="t">Бюджет на всех</div><div class="d">Цена считается на человека и умножается на число гостей. Включает перелёт и проживание.</div></div>
     </div>
     <div class="cta"><button class="btn" onclick="continueS3()">Продолжить</button></div>
   </section>
@@ -217,25 +234,62 @@
     <div class="navrow"><button class="back" onclick="back()">‹</button><div class="nt">Сюрприз-поездка</div></div>
     <div class="body">
       <div class="micro">Шаг 2 из 3</div><h1>Что вам подходит</h1><div class="sub">Учтём пожелания и ограничения</div>
-      <div class="grp">Климат</div>
+
+      <div class="grp">Климат <span class="hint">обязательно</span></div>
       <div class="chips" id="climate">
         <button class="chip sel-dark" data-v="Любой">Любой</button>
         <button class="chip" data-v="Теплее">Теплее</button>
         <button class="chip" data-v="Прохладнее">Прохладнее</button>
       </div>
-      <div class="grp">Интересы</div>
+
+      <div class="grp">Интересы <span class="hint">влияют на порядок</span></div>
       <div class="chips" id="interests">
         <button class="chip sel-yellow" data-v="Культура">Культура ✓</button>
         <button class="chip sel-yellow" data-v="Прогулки">Прогулки ✓</button>
         <button class="chip" data-v="Гастрономия">Гастрономия</button>
         <button class="chip" data-v="Природа">Природа</button>
+        <button class="chip" data-v="История">История</button>
+        <button class="chip" data-v="Ночная жизнь">Ночная жизнь</button>
+        <button class="chip" data-v="Шопинг">Шопинг</button>
+        <button class="chip" data-v="Активный">Активный</button>
+        <button class="chip" data-v="Релакс">Релакс</button>
+        <button class="chip" data-v="Семейный">Семейный</button>
+        <button class="chip" data-v="Романтика">Романтика</button>
       </div>
-      <div class="field" onclick="openSheet('star')"><div class="lbl">Звёздность проживания</div><div class="val" id="f-star">От 3 ★ • отдельный санузел</div></div>
+      <div class="chips" style="margin-top:10px">
+        <button class="chip sm" id="strict" data-v="on">Строго по интересам</button>
+      </div>
+
+      <div class="grp">Питание в отеле <span class="hint">обязательно</span></div>
+      <div class="chips" id="meal">
+        <button class="chip sel-dark" data-v="Завтраки">Завтраки</button>
+        <button class="chip" data-v="Полупансион">Полупансион</button>
+        <button class="chip" data-v="Всё включено">Всё включено</button>
+        <button class="chip" data-v="Без требований">Без требований</button>
+      </div>
+
+      <div class="grp">Удобства отеля <span class="hint">обязательно</span></div>
+      <div class="chips" id="amen">
+        <button class="chip sm" data-v="pool">Бассейн</button>
+        <button class="chip sm" data-v="wifi">Wi‑Fi бесплатно</button>
+        <button class="chip sm" data-v="parking">Парковка</button>
+        <button class="chip sm" data-v="spa">Спа</button>
+      </div>
+
+      <div class="grp">Рейтинг гостей <span class="hint">обязательно</span></div>
+      <div class="chips" id="rating">
+        <button class="chip sel-dark" data-v="0">Любой</button>
+        <button class="chip" data-v="7">7+</button>
+        <button class="chip" data-v="8">8+</button>
+        <button class="chip" data-v="9">9+</button>
+      </div>
+
+      <div class="field" onclick="openSheet('star')" style="margin-top:18px"><div class="lbl">Звёздность проживания</div><div class="val" id="f-star">От 3 ★ • отдельный санузел</div></div>
       <div class="field static" id="exField" style="cursor:default" onclick="openSheet('excl')">
         <div class="exhead"><div class="lbl" style="margin:0">Исключить города</div><button class="plus" onclick="event.stopPropagation();openSheet('excl')" aria-label="Добавить город">+</button></div>
         <div class="tags" id="exTags"></div>
       </div>
-      <div class="fine">Обязательные ограничения соблюдаем. Если вариантов нет, предложим изменить условия.</div>
+      <div class="fine">Обязательные ограничения (климат, питание, удобства, рейтинг, звёзды, исключения) соблюдаем строго. Интересы ранжируют список, а режим «Строго по интересам» делает их обязательными. Если вариантов нет, предложим изменить условия.</div>
     </div>
     <div class="cta"><button class="btn" onclick="findTrip()">Найти поездку</button></div>
   </section>
@@ -244,47 +298,39 @@
   <section class="screen" id="s5">
     <div class="navrow"><button class="back" onclick="back()">‹</button><div class="nt">Сюрприз-поездка</div></div>
     <div class="body">
-      <div class="micro">Шаг 3 из 3</div><h1>Ваша поездка найдена</h1><div class="sub" id="s5-sub">20—23 ноября • 2 взрослых</div>
-      <div class="soft"><div class="big" data-price>74 000 ₽</div><div class="d">За всех • перелёт и проживание</div></div>
-      <div class="info" id="s5-wishes"></div>
-      <div class="info"><div class="t">Перелёт туда и обратно</div><div class="l" id="s5-flight"></div><div class="tiny">Ручная кладь + багаж 10 кг</div></div>
-      <div class="info"><div class="t" id="s5-hotel">Отель 3★ • завтраки</div><div class="l">Отдельный номер с санузлом<br>Название откроется вместе с городом</div></div>
-      <div class="info"><div class="t">Условия изменения и отмены</div><span class="link" onclick="toast('Правила тарифа — демо-экран')">Посмотреть правила тарифа ›</span></div>
-      <div class="fine" id="s5-excl"></div>
+      <div class="micro">Шаг 3 из 3</div>
+      <h1 id="s5-title">Подбираем варианты</h1>
+      <div class="sub" id="s5-summary"></div>
+      <div class="seg2">
+        <button class="chip sel-dark" id="sort-rel" onclick="setSort('rel')">Подходящие</button>
+        <button class="chip" id="sort-cheap" onclick="setSort('cheap')">Сначала дешевле</button>
+      </div>
+      <div id="s5-list"></div>
+      <div class="fine" id="s5-foot"></div>
     </div>
-    <div class="cta"><button class="btn" id="btn-order" onclick="go('s6')">Оформить за 74 000 ₽</button></div>
   </section>
 
   <!-- S6 -->
   <section class="screen" id="s6">
     <div class="navrow"><button class="back" onclick="back()">‹</button><div class="nt">Сюрприз-поездка</div></div>
-
-    <!-- choose -->
     <div class="body" id="s6-choose">
       <div class="micro">Оформление</div><h1>Кто едет?</h1>
       <div class="sub">Данные нужны для билетов и заселения</div>
       <div class="icon-circle"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#9B9B9B" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-5.5 8-5.5s6.5 1.5 8 5.5"/></svg></div>
       <div class="fine" style="text-align:center;margin-top:0">Войдите, чтобы подставить пассажиров из профиля, или заполните данные вручную. Параметры поездки сохранятся в любом случае.</div>
-      <div class="seg">
-        <button class="btn" onclick="doLogin()">Войти через Яндекс ID</button>
-      </div>
+      <div class="seg"><button class="btn" onclick="doLogin()">Войти через Яндекс ID</button></div>
       <div class="seg" style="margin-top:0"><button class="btn gray" onclick="chooseManual()">Заполнить вручную</button></div>
     </div>
-
-    <!-- logged in -->
     <div class="body" id="s6-login" style="display:none">
       <div class="micro">Оформление</div><h1>Кто едет?</h1><div class="sub">Данные взяты из профиля</div>
       <div id="s6-login-list"></div>
       <div class="soft"><div class="t">Вы вошли через Яндекс ID</div><div class="d">Данные пассажиров заполнены. Черновик сохранён в аккаунте.</div></div>
     </div>
-
-    <!-- manual -->
     <div class="body" id="s6-manual" style="display:none">
       <div class="micro">Оформление</div><h1>Кто едет?</h1><div class="sub">Заполните данные по документу</div>
       <div id="s6-manual-fields"></div>
       <div class="fine">Данные используются только для оформления заказа и передачи перевозчику.</div>
     </div>
-
     <div class="cta" id="s6-cta-login" style="display:none">
       <button class="btn" onclick="go('s7')">Перейти к оплате</button>
       <button class="btn gray" style="margin-top:10px" onclick="toChoose()">Сменить способ</button>
@@ -301,7 +347,10 @@
     <div class="body">
       <div class="micro">Оформление</div><h1>Проверьте заказ</h1><div class="sub">Перед оплатой ещё раз проверим цену</div>
       <div class="info"><div class="t">Сюрприз-поездка</div><div class="l" id="s7-sum"></div>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px"><span style="font-size:13px;color:var(--muted)">Итого</span><b style="font-size:20px" data-price>74 000 ₽</b></div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:12px">
+          <span style="font-size:12px;color:var(--muted)" id="s7-pp"></span>
+          <b style="font-size:20px" data-price>111 000 ₽</b>
+        </div>
       </div>
       <div class="micro" style="margin-top:18px">Пассажиры и контакты</div>
       <div id="s7-travelers"></div>
@@ -310,7 +359,7 @@
       <label class="check" id="ck2" onclick="toggleCheck('ck2')"><span class="box"><svg width="13" height="11" viewBox="0 0 13 11" fill="none"><path d="M1 5.5 4.5 9 12 1" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="tx">Согласен узнать город при открытии регистрации</span></label>
       <div class="fine">Платёж защищён. Проверим статус заказа.</div>
     </div>
-    <div class="cta"><button class="btn" id="btn-pay" onclick="tryPay()">Оплатить 74 000 ₽</button></div>
+    <div class="cta"><button class="btn" id="btn-pay" onclick="tryPay()">Оплатить 111 000 ₽</button></div>
   </section>
 
   <!-- S8 -->
@@ -321,7 +370,7 @@
       <div class="ok-circle"><svg width="40" height="40" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#DFF3E6"/><path d="M7 12.5 10.5 16 17 8.5" stroke="#22A55B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <h1>Можно собирать<br>чемодан</h1>
       <div class="info" style="text-align:left;margin-top:24px"><div class="l" style="font-weight:700;color:var(--text);margin:0">Ваш заказ № SP-001</div><div class="l" id="s8-sum"></div>
-        <div style="border-top:1px solid var(--line);margin-top:10px;padding-top:10px" class="tiny">Город откроем 19 ноября в 10:00</div></div>
+        <div style="border-top:1px solid var(--line);margin-top:10px;padding-top:10px" class="tiny" id="s8-reveal"></div></div>
       <div class="fine">Заказ и памятка уже в «Моих поездках».</div>
     </div>
     <div class="cta"><button class="btn" onclick="go('s9')">Открыть мою поездку</button></div>
@@ -333,7 +382,7 @@
     <div class="body">
       <div class="micro">Мои поездки</div><h1>Город пока скрыт</h1><div class="sub">Заказ SP-001 • всё готово к поездке</div>
       <div class="soft" id="reveal-box" style="cursor:pointer" onclick="revealCity()" title="Нажмите, чтобы ускорить время (демо)">
-        <div class="t">Сюрприз уже близко</div><div class="big" id="reveal-title">Остался 1 день</div><div class="d" id="reveal-desc">Откроем город 19 ноября в 10:00, когда начнётся регистрация.</div>
+        <div class="t">Сюрприз уже близко</div><div class="big" id="reveal-title">Остался 1 день</div><div class="d" id="reveal-desc"></div>
       </div>
       <div class="info"><div class="tiny" style="margin:0 0 4px">Вылет</div><div class="l" style="margin:0;font-weight:700;color:var(--text)" id="s9-flight"></div></div>
       <div class="info"><div class="tiny" style="margin:0 0 4px">Подготовка к поездке</div><span class="link" onclick="toast('Памятка, документы и багаж — демо-экран')">Памятка, документы и багаж ›</span></div>
@@ -346,8 +395,8 @@
   <section class="screen" id="s10">
     <div class="navrow"><button class="back" onclick="go('s9')">‹</button><div class="nt">Сюрприз-поездка</div></div>
     <div class="body">
-      <div class="micro">Ваш сюрприз</div><h1>Нижний Новгород</h1><div class="sub">Новая поездка начинается здесь</div>
-      <div class="soft"><div class="d" style="margin:0 0 4px;color:#6B5B00;font-weight:600" id="s10-leg"></div><div class="big" style="font-size:24px">10:00 — 11:15</div><span class="link" style="color:#6B5B00;margin-top:8px" onclick="toast('Регистрация на рейс — демо-экран')">Регистрация открыта ›</span></div>
+      <div class="micro">Ваш сюрприз</div><h1 id="s10-city">Нижний Новгород</h1><div class="sub">Новая поездка начинается здесь</div>
+      <div class="soft"><div class="d" style="margin:0 0 4px;color:#6B5B00;font-weight:600" id="s10-leg"></div><div class="big" style="font-size:24px" id="s10-time">08:20 — 10:35</div><div class="d" style="margin-top:4px" id="s10-ret"></div><span class="link" style="color:#6B5B00;margin-top:8px" onclick="toast('Регистрация на рейс — демо-экран')">Регистрация открыта ›</span></div>
       <div class="info"><div class="tiny" style="margin:0 0 4px">Ваше проживание</div><span class="link" id="s10-hotel" onclick="toast('Карточка отеля — демо-экран')">Отель в центре • 3★ ›</span></div>
       <div class="info"><div class="t" style="margin-bottom:8px">Маршрут поездки</div><div class="l" id="s10-route"></div></div>
     </div>
@@ -374,11 +423,11 @@
     <div class="navrow"><button class="back" onclick="back()">‹</button><div class="nt">Сюрприз-поездка</div></div>
     <div class="body">
       <div class="trigger">S4 · результат подбора</div><div class="trigger-arrow">↓</div><div class="trigger-sub">Нет вариантов</div>
-      <div class="micro" style="margin-top:18px">Результат подбора</div><h1>Пока ничего не нашли</h1><div class="sub">Ваши ограничения остаются в силе</div>
+      <div class="micro" style="margin-top:18px">Результат подбора</div><h1>Пока ничего не нашли</h1><div class="sub">Ваши ограничения остались слишком узкими</div>
       <div class="icon-circle"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#9B9B9B" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></div>
-      <div style="text-align:center"><b style="font-size:16px">Попробуем другие условия?</b><div class="fine" style="margin-top:8px">Можно увеличить бюджет, выбрать другие даты или пересмотреть список исключённых городов.</div></div>
+      <div style="text-align:center"><b style="font-size:16px">Попробуем другие условия?</b><div class="fine" style="margin-top:8px">Увеличьте бюджет, смягчите климат, питание, удобства, рейтинг или звёздность, выключите «Строго по интересам», выберите другие даты или уберите часть исключённых городов.</div></div>
       <div class="info"><div class="tiny" style="margin:0 0 4px">Ваши параметры</div><div class="l" id="e2-sum"></div></div>
-      <div class="fine">Измените даты, бюджет или исключения. Остальные параметры сохраним.</div>
+      <div class="fine">Измените условия. Остальные параметры сохраним.</div>
     </div>
     <div class="cta"><button class="btn" onclick="go('s3')">Изменить условия</button></div>
   </section>
@@ -391,7 +440,7 @@
       <div class="micro" style="margin-top:18px">Оплата</div><h1>Платёж отклонён</h1><div class="sub">Банк не подтвердил операцию</div>
       <div class="icon-circle red"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#F03C3C" stroke-width="2.6" stroke-linecap="round"><path d="M12 6v8"/><circle cx="12" cy="18" r=".5" fill="#F03C3C"/></svg></div>
       <div style="text-align:center"><b style="font-size:16px">Попробуйте ещё раз</b><div class="fine" style="margin-top:8px">Проверьте лимит и баланс карты или выберите другой способ. Перед повтором проверим статус предыдущего платежа.</div></div>
-      <div class="info"><div class="tiny" style="margin:0 0 4px">К оплате</div><div class="l" style="font-weight:700;color:var(--text)"><span data-price>74 000 ₽</span> • заказ SP-001</div></div>
+      <div class="info"><div class="tiny" style="margin:0 0 4px">К оплате</div><div class="l" style="font-weight:700;color:var(--text)"><span data-price>111 000 ₽</span> • заказ SP-001</div></div>
     </div>
     <div class="cta"><button class="btn gray" style="margin-bottom:10px" onclick="go('s7');toast('Выберите другой способ оплаты')">Другой способ оплаты</button><button class="btn" id="btn-retry" onclick="retryPay()">Повторить оплату</button></div>
   </section>
@@ -402,11 +451,11 @@
     <div class="body">
       <div class="trigger">S5–S7 · проверка предложения</div><div class="trigger-arrow">↓</div><div class="trigger-sub">Изменились цена / наличие</div>
       <div class="micro" style="margin-top:18px">Проверка предложения</div><h1>Цена изменилась</h1><div class="sub">Нужно подтвердить новые условия</div>
-      <div class="soft"><div class="d" style="margin:0 0 2px;color:#6B5B00;font-weight:600">Новая стоимость поездки</div><div class="big">76 500 ₽</div></div>
-      <div class="info"><div class="tiny" style="margin:0 0 6px">Ранее: 74 000 ₽</div><div class="l">20—23 ноября • 2 взрослых<br>Перелёт и проживание<br>Остальные условия прежние.</div><div class="tiny" style="margin-top:8px;font-weight:700;color:#3A3A3C">Без согласия оплату не проводим.</div></div>
+      <div class="soft"><div class="d" style="margin:0 0 2px;color:#6B5B00;font-weight:600">Новая стоимость поездки</div><div class="big">115 000 ₽</div></div>
+      <div class="info"><div class="tiny" style="margin:0 0 6px">Ранее: <span id="e4-prev">111 000 ₽</span></div><div class="l" id="e4-sum">Перелёт и проживание<br>Остальные условия прежние.</div><div class="tiny" style="margin-top:8px;font-weight:700;color:#3A3A3C">Без согласия оплату не проводим.</div></div>
       <div class="fine">Если мест больше нет, предложим вернуться к подбору.</div>
     </div>
-    <div class="cta"><button class="btn gray" style="margin-bottom:10px" onclick="go('s4')">Вернуться к подбору</button><button class="btn" onclick="acceptNewPrice()">Принять 76 500 ₽</button></div>
+    <div class="cta"><button class="btn gray" style="margin-bottom:10px" onclick="go('s4')">Вернуться к подбору</button><button class="btn" onclick="acceptNewPrice()">Принять 115 000 ₽</button></div>
   </section>
 
   <div id="sheet-wrap"><div class="veil" onclick="closeSheet()"></div><div class="sheet" id="sheet"></div></div>
@@ -418,218 +467,449 @@
   <h4>Основные</h4><div class="grid" id="pg-main"></div>
   <h4>Ошибки</h4><div class="grid" id="pg-err"></div>
   <h4>Демо-переключатели</h4>
+  <label class="tog">S5 · показывать направления<input type="checkbox" id="tg-cities" onchange="S.showCities=this.checked;if(stack[stack.length-1]==='s5')renderS5()"></label>
   <label class="tog">S6 · сразу войти (Яндекс ID)<input type="checkbox" id="tg-login" onchange="setMode6(this.checked?'login':'choose')"></label>
   <label class="tog">S9 · город уже раскрыт<input type="checkbox" id="tg-reveal" onchange="setRevealed(this.checked)"></label>
-  <label class="tog">Цена 76 500 ₽ (после E4)<input type="checkbox" id="tg-price" onchange="setPrice(this.checked?76500:74000)"></label>
-  <div class="hint">S3: возвращение раньше вылета → «Продолжить» → <b>E1</b>; бюджет &lt; 70 000 ₽ → в S4 «Найти поездку» → <b>E2</b>. S4: климат/интересы/звёздность/исключения влияют на S5 и маршрут S10. S6: «Заполнить вручную» → данные идут в S7.</div>
+  <label class="tog">Цена 115 000 ₽ (после E4)<input type="checkbox" id="tg-price" onchange="setPrice(this.checked?115000:111000)"></label>
+  <div class="hint">Время рейсов: прилёт всегда больше вылета (оба плеча). Новые жёсткие фильтры S4: питание, удобства, рейтинг гостей, «Строго по интересам» — сокращают список и меняют цену. Дефолты = прошлый шаг. E1: возвращение раньше вылета. E2: слишком узкие условия.</div>
 </div>
 
 <script>
-/* ===== state ===== */
-const S={city:'Москва',from:'2026-11-20',to:'2026-11-23',pax:2,budgetNum:80000,
-  star:'От 3 ★',bath:true,excl:new Set(['Казань','Санкт-Петербург']),
-  climate:'Любой',interests:new Set(['Культура','Прогулки']),
-  mode6:'choose',travelers:null,email:'',manual:{names:[],docs:[],email:''},
-  revealed:false,price:74000,invalidDates:false};
-const stack=['s1'];
-const $=id=>document.getElementById(id);
-const fmt=n=>n.toLocaleString('ru-RU')+' ₽';
-const MONTHS=['','января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
-const MSHORT=['','янв','фев','мар','апр','мая','июн','июл','авг','сен','окт','ноя','дек'];
-const ALL_CITIES=['Москва','Санкт-Петербург','Екатеринбург','Новосибирск','Самара','Нижний Новгород','Казань','Краснодар','Сочи'];
-const EXCL_POOL=['Казань','Санкт-Петербург','Екатеринбург','Новосибирск','Самара','Нижний Новгород','Краснодар','Сочи','Владивосток','Мурманск'];
-const D_NAMES=['Иван Иванович Иванов','Анна Ивановна Иванова','Пётр Петрович Петров','Мария Сергеевна Сидорова','Олег Игоревич Кузнецов','Елена Викторовна Смирнова'];
-const D_DOC=['1234','5678','9012','3456','7890','2345'];
-const ACT={'Культура':'Театры и музеи','Прогулки':'Покровская улица и Стрелка','Гастрономия':'Рынки и фуд-корты','Природа':'Набережная и парки'};
+/* ============ CATALOG: ~55 направлений, много 4★/5★ ============ */
+const CATALOG=[
+ {n:"Санкт-Петербург",r:"СЗФО",cl:"m",int:["Культура","Прогулки","Гастрономия","История","Ночная жизнь","Шопинг"],ms:5,air:3500,ci:1.15,hi:"Эрмитаж и разводные мосты"},
+ {n:"Москва",r:"ЦФО",cl:"m",int:["Культура","Гастрономия","Прогулки","История","Шопинг","Ночная жизнь"],ms:5,air:3000,ci:1.2,hi:"Столичные театры"},
+ {n:"Сочи",r:"ЮФО",cl:"w",int:["Природа","Гастрономия","Прогулки","Релакс","Семейный","Активный"],ms:5,air:6500,ci:1.4,hi:"Море и горы"},
+ {n:"Казань",r:"ПФО",cl:"m",int:["Культура","Гастрономия","Прогулки","История","Семейный"],ms:5,air:4200,ci:0.95,hi:"Кремль и чак-чак"},
+ {n:"Нижний Новгород",r:"ПФО",cl:"m",int:["Культура","Прогулки","История"],ms:5,air:3800,ci:0.9,hi:"Кремль и ярмарки"},
+ {n:"Калининград",r:"СЗФО",cl:"m",int:["Природа","Прогулки","Культура","История","Романтика"],ms:5,air:5800,ci:1.1,hi:"Янтарь и Куршская коса"},
+ {n:"Владивосток",r:"ДВФО",cl:"c",int:["Природа","Гастрономия","Прогулки","Активный"],ms:5,air:12000,ci:1.3,hi:"Океан и сопки"},
+ {n:"Иркутск",r:"СФО",cl:"c",int:["Природа","Культура","Активный"],ms:5,air:9500,ci:1.0,hi:"Байкал рядом"},
+ {n:"Кисловодск",r:"СКФО",cl:"w",int:["Природа","Прогулки","Релакс"],ms:5,air:6000,ci:1.0,hi:"Курортный парк и нарзан"},
+ {n:"Пятигорск",r:"СКФО",cl:"w",int:["Природа","Культура","Прогулки","Релакс"],ms:5,air:6000,ci:0.95,hi:"Машук и Лермонтов"},
+ {n:"Минеральные Воды",r:"СКФО",cl:"w",int:["Природа","Релакс"],ms:5,air:6200,ci:1.0,hi:"Кавказские Минводы"},
+ {n:"Екатеринбург",r:"УФО",cl:"c",int:["Культура","Гастрономия","Ночная жизнь","Шопинг"],ms:5,air:4800,ci:1.0,hi:"Уральская столица"},
+ {n:"Новосибирск",r:"СФО",cl:"c",int:["Культура","Природа","Шопинг"],ms:5,air:7200,ci:0.95,hi:"Сибирский центр"},
+ {n:"Самара",r:"ПФО",cl:"m",int:["Прогулки","Природа","Активный"],ms:5,air:4500,ci:0.85,hi:"Волга и космос"},
+ {n:"Ростов-на-Дону",r:"ЮФО",cl:"w",int:["Гастрономия","Прогулки","Ночная жизнь"],ms:5,air:5000,ci:0.9,hi:"Дон и шаурма"},
+ {n:"Анапа",r:"ЮФО",cl:"w",int:["Природа","Гастрономия","Семейный","Релакс"],ms:5,air:5400,ci:1.05,hi:"Песчаные пляжи"},
+ {n:"Геленджик",r:"ЮФО",cl:"w",int:["Природа","Прогулки","Семейный"],ms:5,air:5600,ci:1.1,hi:"Бухты и канатная дорога"},
+ {n:"Дербент",r:"СКФО",cl:"w",int:["Культура","Гастрономия","История"],ms:5,air:5800,ci:0.9,hi:"Древняя крепость"},
+ {n:"Краснодар",r:"ЮФО",cl:"w",int:["Гастрономия","Прогулки","Ночная жизнь"],ms:4,air:5200,ci:1.0,hi:"Южный колорит"},
+ {n:"Уфа",r:"ПФО",cl:"m",int:["Природа","Культура","Семейный"],ms:4,air:5600,ci:0.9,hi:"Башкирский мёд"},
+ {n:"Пермь",r:"ПФО",cl:"c",int:["Культура","Природа","Активный"],ms:4,air:5200,ci:0.9,hi:"Каменные вышки"},
+ {n:"Красноярск",r:"СФО",cl:"c",int:["Природа","Культура","Активный"],ms:4,air:8200,ci:0.95,hi:"Столбы и Енисей"},
+ {n:"Волгоград",r:"ЮФО",cl:"w",int:["Культура","Прогулки","История"],ms:4,air:5400,ci:0.85,hi:"Мамаев курган"},
+ {n:"Улан-Удэ",r:"ДВФО",cl:"c",int:["Природа","Культура","История"],ms:4,air:9000,ci:0.95,hi:"Байкал и дацаны"},
+ {n:"Хабаровск",r:"ДВФО",cl:"c",int:["Природа","Культура","Активный"],ms:4,air:11000,ci:1.0,hi:"Амур и тайга"},
+ {n:"Якутск",r:"ДВФО",cl:"c",int:["Природа","Культура"],ms:4,air:13000,ci:1.1,hi:"Саха и ледники"},
+ {n:"Тюмень",r:"УФО",cl:"c",int:["Природа","Гастрономия","Релакс"],ms:4,air:5000,ci:0.95,hi:"Термальные источники"},
+ {n:"Псков",r:"СЗФО",cl:"m",int:["Культура","Прогулки","История"],ms:4,air:4800,ci:0.9,hi:"Кремль и Изборск"},
+ {n:"Вологда",r:"СЗФО",cl:"c",int:["Культура","Природа","История"],ms:4,air:5200,ci:0.85,hi:"Деревянное зодчество"},
+ {n:"Рязань",r:"ЦФО",cl:"m",int:["Культура","Прогулки","История"],ms:4,air:3600,ci:0.8,hi:"Кремль и поэзия"},
+ {n:"Тверь",r:"ЦФО",cl:"m",int:["Культура","Прогулки","История"],ms:4,air:3400,ci:0.8,hi:"Волга и путевой дворец"},
+ {n:"Ессентуки",r:"СКФО",cl:"w",int:["Природа","Релакс"],ms:4,air:6100,ci:0.95,hi:"Грязелечебница"},
+ {n:"Железноводск",r:"СКФО",cl:"w",int:["Природа","Прогулки","Релакс"],ms:4,air:6000,ci:0.95,hi:"Гора Железная"},
+ {n:"Махачкала",r:"СКФО",cl:"w",int:["Природа","Гастрономия","Активный"],ms:4,air:5600,ci:0.85,hi:"Каспий и горы"},
+ {n:"Астрахань",r:"ЮФО",cl:"w",int:["Природа","Гастрономия","История"],ms:4,air:5000,ci:0.85,hi:"Волга и осётр"},
+ {n:"Ярославль",r:"ЦФО",cl:"m",int:["Культура","Прогулки","История","Романтика"],ms:4,air:3500,ci:0.85,hi:"Волжская сказка"},
+ {n:"Суздаль",r:"ЦФО",cl:"m",int:["Культура","Прогулки","История","Романтика"],ms:4,air:3600,ci:0.9,hi:"Музей под открытым небом"},
+ {n:"Владимир",r:"ЦФО",cl:"m",int:["Культура","Прогулки","История"],ms:4,air:3400,ci:0.8,hi:"Золотое кольцо"},
+ {n:"Тула",r:"ЦФО",cl:"m",int:["Культура","Гастрономия","История","Семейный"],ms:4,air:3200,ci:0.8,hi:"Пряники и оружие"},
+ {n:"Кострома",r:"ЦФО",cl:"m",int:["Культура","Прогулки","История"],ms:4,air:3500,ci:0.8,hi:"Ипатьевский монастырь"},
+ {n:"Саратов",r:"ПФО",cl:"m",int:["Прогулки","Культура","История"],ms:4,air:4000,ci:0.8,hi:"Волжская набережная"},
+ {n:"Омск",r:"СФО",cl:"c",int:["Культура","Прогулки","История"],ms:4,air:6800,ci:0.85,hi:"Сибирская столица"},
+ {n:"Томск",r:"СФО",cl:"c",int:["Культура","Прогулки","История"],ms:4,air:7200,ci:0.85,hi:"Старый город"},
+ {n:"Барнаул",r:"СФО",cl:"c",int:["Природа","Культура","Активный"],ms:4,air:7600,ci:0.85,hi:"Предгорья Алтая"},
+ {n:"Горно-Алтайск",r:"СФО",cl:"c",int:["Природа","Активный","Релакс"],ms:4,air:8800,ci:1.0,hi:"Алтай и Чуйский тракт"},
+ {n:"Сургут",r:"УФО",cl:"c",int:["Природа"],ms:4,air:8000,ci:1.0,hi:"Север и Обь"},
+ {n:"Кемерово",r:"СФО",cl:"c",int:["Природа","Активный"],ms:4,air:7000,ci:0.8,hi:"Кузбасс и Шория"},
+ {n:"Челябинск",r:"УФО",cl:"c",int:["Природа","Культура","Активный"],ms:4,air:5400,ci:0.85,hi:"Уральское озеро"},
+ {n:"Пенза",r:"ПФО",cl:"m",int:["Культура","Природа","Семейный"],ms:4,air:4200,ci:0.8,hi:"Степь и театр Мейерхольда"},
+ {n:"Смоленск",r:"ЦФО",cl:"m",int:["Культура","Прогулки","История"],ms:4,air:4000,ci:0.85,hi:"Крепостная стена"},
+ {n:"Мурманск",r:"СЗФО",cl:"c",int:["Природа","Активный"],ms:3,air:7800,ci:1.1,hi:"Северное сияние"},
+ {n:"Архангельск",r:"СЗФО",cl:"c",int:["Природа","Культура","История"],ms:3,air:7000,ci:0.95,hi:"Белое море"},
+ {n:"Норильск",r:"СФО",cl:"c",int:["Природа","Активный"],ms:3,air:11500,ci:1.2,hi:"Таймыр"},
+ {n:"Петрозаводск",r:"СЗФО",cl:"c",int:["Природа","Активный"],ms:3,air:6200,ci:0.95,hi:"Карелия и Кижи"},
+ {n:"Абакан",r:"СФО",cl:"c",int:["Природа","Активный"],ms:3,air:8400,ci:0.9,hi:"Хакасия и Енисей"},
+ {n:"Кызыл",r:"СФО",cl:"c",int:["Природа","Активный"],ms:3,air:9200,ci:0.9,hi:"Тыва и степь"},
+ {n:"Элиста",r:"ЮФО",cl:"m",int:["Природа","Культура"],ms:3,air:5200,ci:0.8,hi:"Калмыкия и степь"},
+ {n:"Грозный",r:"СКФО",cl:"w",int:["Культура","Природа","История"],ms:3,air:5800,ci:0.85,hi:"Кавказ и мечети"},
+ {n:"Нальчик",r:"СКФО",cl:"w",int:["Природа","Активный"],ms:3,air:5600,ci:0.85,hi:"Эльбрус рядом"},
+ {n:"Владикавказ",r:"СКФО",cl:"w",int:["Природа","Культура","Активный"],ms:3,air:5700,ci:0.85,hi:"Осетия и горы"},
+ {n:"Майкоп",r:"СКФО",cl:"w",int:["Природа","Активный","Релакс"],ms:3,air:5400,ci:0.8,hi:"Адыгея и плато"},
+ {n:"Йошкар-Ола",r:"ПФО",cl:"m",int:["Культура","Прогулки","Романтика"],ms:3,air:4600,ci:0.8,hi:"Набережная Брюгге"},
+ {n:"Ижевск",r:"ПФО",cl:"c",int:["Культура","Природа","История"],ms:3,air:5000,ci:0.85,hi:"Оружейный край"},
+ {n:"Ульяновск",r:"ПФО",cl:"m",int:["Культура","Прогулки","История"],ms:3,air:4400,ci:0.8,hi:"Волга и Симбирск"},
+ {n:"Тольятти",r:"ПФО",cl:"m",int:["Природа","Прогулки","Активный"],ms:3,air:4500,ci:0.8,hi:"Жигулёвские горы"},
+ {n:"Воронеж",r:"ЦФО",cl:"m",int:["Культура","Природа","Семейный"],ms:3,air:3800,ci:0.85,hi:"Дон и парк"},
+ {n:"Липецк",r:"ЦФО",cl:"m",int:["Природа","Культура","Релакс"],ms:3,air:3900,ci:0.8,hi:"Курорт и липы"},
+ {n:"Калуга",r:"ЦФО",cl:"m",int:["Культура","История","Семейный"],ms:3,air:3500,ci:0.8,hi:"Космонавтика Циолковского"}
+];
+const CL_RANK={w:2,m:1,c:0}, CL_LABEL={w:"тёплый край",m:"умеренный климат",c:"прохладный/север"};
+const STAR_F={3:1,4:1.45,5:2.0};
+const HOTEL_BASE=9000, SERVICE=1500, PRICE_MULT=1.5;
+const MEAL_ADD={"Завтраки":0,"Без требований":0,"Полупансион":3500,"Всё включено":9000};
+const AMEN_SURCHARGE={pool:2000,spa:1500,wifi:0,parking:0};
+const AMEN_LABEL={pool:"бассейн",wifi:"Wi‑Fi",parking:"парковка",spa:"спа"};
+const ROUTE_FACTOR={"Москва":1,"Санкт-Петербург":0.92,"Екатеринбург":1.12,"Новосибирск":1.28,"Самара":1.08,"Нижний Новгород":1.02,"Казань":1.05,"Краснодар":1.12,"Сочи":1.2,"Ростов-на-Дону":1.1,"Уфа":1.15,"Красноярск":1.3};
+const ALL_CITIES=Object.keys(ROUTE_FACTOR);
+const EXCL_POOL=["Казань","Санкт-Петербург","Екатеринбург","Новосибирск","Самара","Нижний Новгород","Краснодар","Сочи","Владивосток","Мурманск","Кисловодск","Калининград"];
+const D_NAMES=["Иван Иванович Иванов","Анна Ивановна Иванова","Пётр Петрович Петров","Мария Сергеевна Сидорова","Олег Игоревич Кузнецов","Елена Викторовна Смирнова"];
+const D_DOC=["1234","5678","9012","3456","7890","2345"];
+const ACT={"Культура":"театры и музеи","Прогулки":"прогулки по центру","Гастрономия":"рынки и фуд-корты","Природа":"природа и окрестности","История":"исторические места","Ночная жизнь":"вечерние кварталы","Шопинг":"шоппинг-маршруты","Активный":"активные маршруты","Релакс":"спа и релакс","Семейный":"семейные места","Романтика":"романтические точки"};
+const MAX_SHOW=30;
 
-const pd=s=>{const[y,m,d]=s.split('-').map(Number);return{y,m,d};};
-const esc=s=>String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+/* ============ state ============ */
+const S={city:"Москва",from:"2026-11-20",to:"2026-11-23",pax:2,budgetNum:225000,
+  star:"От 3 ★",bath:true,excl:new Set(["Казань","Санкт-Петербург"]),
+  climate:"Любой",interests:new Set(["Культура","Прогулки"]),strictInt:false,
+  meal:"Завтраки",amen:new Set(),rating:0,
+  mode6:"choose",travelers:null,email:"",manual:{names:[],docs:[],email:""},
+  selected:null,trips:[],sort:"rel",showCities:false,
+  revealed:false,price:111000,invalidDates:false};
+const stack=["s1"];
+const $=id=>document.getElementById(id);
+const fmt=n=>n.toLocaleString("ru-RU")+" ₽";
+const MONTHS=["","января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];
+const MSHORT=["","янв","фев","мар","апр","мая","июн","июл","авг","сен","окт","ноя","дек"];
+const pd=s=>{const[y,m,d]=s.split("-").map(Number);return{y,m,d};};
+const esc=s=>String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
+const round500=n=>Math.round(n/500)*500;
+const climatOf=name=>{const g=CATALOG.find(x=>x.n===name);return g?g.cl:"m";};
 function rangeText(a,b){const A=pd(a),B=pd(b);
   if(A.y===B.y&&A.m===B.m)return `${A.d}—${B.d} ${MONTHS[A.m]} ${A.y}`;
   if(A.y===B.y)return `${A.d} ${MONTHS[A.m]} — ${B.d} ${MONTHS[B.m]} ${A.y}`;
   return `${A.d} ${MONTHS[A.m]} ${A.y} — ${B.d} ${MONTHS[B.m]} ${B.y}`;}
 const shortDate=s=>{const A=pd(s);return `${A.d} ${MSHORT[A.m]}`;};
 const fmtDay=s=>{const A=pd(s);return `${A.d} ${MONTHS[A.m]}`;};
-function addDays(s,n){const d=new Date(s+'T00:00');d.setDate(d.getDate()+n);return d.toISOString().slice(0,10);}
-function diffDays(a,b){return Math.round((new Date(b+'T00:00')-new Date(a+'T00:00'))/86400000);}
-const maskDoc=raw=>{const d=String(raw).replace(/\D/g,'');return 'Паспорт РФ • •••• '+(d.slice(-4)||'****');};
+function addDays(s,n){const d=new Date(s+"T00:00");d.setDate(d.getDate()+n);return d.toISOString().slice(0,10);}
+function diffDays(a,b){return Math.round((new Date(b+"T00:00")-new Date(a+"T00:00"))/86400000);}
+const maskDoc=r=>{const d=String(r).replace(/\D/g,"");return "Паспорт РФ • •••• "+(d.slice(-4)||"****");};
+const padH=n=>String(n).padStart(2,"0");
+function hashStr(s){let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))>>>0;return h;}
+function parseStar(){if(S.star==="Без требований")return null;const m=S.star.match(/\d/);return m?+m[0]:null;}
+const sel=()=>S.selected||{city:"Нижний Новгород",price:123000,perPerson:61500,star:3,nights:3,cl:"m",int:["Культура","Прогулки"],fl:flightsFor("Нижний Новгород")};
 
-/* ===== status bar ===== */
+/* ============ атрибуты отеля (детерминированно) ============ */
+function hotelAttrs(name){
+  const hm=hashStr(name+"#m"), ha=hashStr(name+"#a"), hr=hashStr(name+"#r");
+  const meals=["Завтраки"];
+  if(hm%3===0) meals.push("Полупансион");
+  if(hm%7===0) meals.push("Всё включено");
+  const amen={wifi:ha%10!==0, pool:ha%3===0, parking:ha%2===0, spa:ha%5===0};
+  const rating=+(7+(hr%27)/10).toFixed(1);
+  return {meals,amen,rating};
+}
+/* ============ время рейсов: прилёт всегда > вылета ============ */
+function hhmm(min){return padH(Math.floor(min/60))+":"+padH(min%60);}
+function flightsFor(name){
+  const h=hashStr(name+"#f");
+  const dur=60+ (h%5)*60 + ((h>>3)%12)*5;          // 1ч00 … 5ч55
+  const outDep=6*60 + (h%10)*30 + ((h>>6)%30);      // 06:00 … ~10:55
+  const outArr=outDep+dur;                          // всегда < 24ч и > outDep
+  const retDep=12*60 + (h%8)*30 + ((h>>9)%30);      // 12:00 … ~15:55
+  const retArr=retDep+dur;                          // всегда < 24ч и > retDep
+  return {outDep:hhmm(outDep),outArr:hhmm(outArr),retDep:hhmm(retDep),retArr:hhmm(retArr),dur};
+}
+
+/* ============ status bar ============ */
 const STATUS=`<div class="status"><span>9:41</span><span class="icons">
 <svg width="18" height="12" viewBox="0 0 18 12" fill="#111"><rect x="0" y="7" width="3" height="5" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/><rect x="10" y="2.5" width="3" height="9.5" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
 <svg width="17" height="12" viewBox="0 0 17 12" fill="#111"><path d="M8.5 2C5.6 2 3 3.1 1.2 4.9L0 3.6C2.2 1.4 5.2 0 8.5 0s6.3 1.4 8.5 3.6l-1.2 1.3C13.9 3.1 11.4 2 8.5 2Zm0 3.4c-1.9 0-3.6.7-4.9 1.9L2.4 5.9C4 4.5 6.1 3.6 8.5 3.6s4.5.9 6.1 2.3l-1.2 1.4c-1.3-1.2-3-1.9-4.9-1.9Zm0 3.3c-.9 0-1.7.3-2.3.9l2.3 2.4 2.3-2.4c-.6-.6-1.4-.9-2.3-.9Z"/></svg>
 <svg width="25" height="12" viewBox="0 0 25 12"><rect x=".5" y=".5" width="21" height="11" rx="3" fill="none" stroke="#111" opacity=".4"/><rect x="2" y="2" width="16" height="8" rx="1.6" fill="#111"/><path d="M23 4v4c1-.3 1.6-1 1.6-2S24 4.3 23 4Z" fill="#111" opacity=".5"/></svg>
 </span></div>`;
-document.querySelectorAll('.screen').forEach(sc=>sc.insertAdjacentHTML('afterbegin',STATUS));
+document.querySelectorAll(".screen").forEach(sc=>sc.insertAdjacentHTML("afterbegin",STATUS));
 
-/* ===== nav ===== */
+/* ============ nav ============ */
 function show(id,dir){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active','back'));
-  const el=$(id);el.classList.add('active');if(dir==='back')el.classList.add('back');
-  $('home-ind').style.display=(id==='s1')?'none':'block';
-  document.querySelectorAll('#panel .p').forEach(b=>b.classList.toggle('cur',b.dataset.go===id));
-  if(id==='s6')renderS6();
-  if(id==='s9')renderS9();
-  if(id==='e1')renderE1();
-  if(id==='s5'||id==='s7'||id==='s8'||id==='e2'||id==='s10'){syncSummary();}
-  if(id==='s7')renderTravelers();
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active","back"));
+  const el=$(id);el.classList.add("active");if(dir==="back")el.classList.add("back");
+  $("home-ind").style.display=(id==="s1")?"none":"block";
+  document.querySelectorAll("#panel .p").forEach(b=>b.classList.toggle("cur",b.dataset.go===id));
+  if(id==="s5"){ if(!renderS5()) return; }
+  if(id==="s6")renderS6();
+  if(id==="s9")renderS9();
+  if(id==="e1")renderE1();
+  if(id==="e4")$("e4-prev").textContent=fmt(S.price);
+  if(id==="s7"||id==="s8"||id==="e2"||id==="s10")syncSummary();
+  if(id==="s7")renderTravelers();
 }
 function go(id){if(stack[stack.length-1]!==id)stack.push(id);show(id);}
-function back(){if(stack.length>1){stack.pop();show(stack[stack.length-1],'back');}else show('s1','back');}
-let tT;function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),1800);}
+function back(){if(stack.length>1){stack.pop();show(stack[stack.length-1],"back");}else show("s1","back");}
+let tT;function toast(m){const t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(tT);tT=setTimeout(()=>t.classList.remove("show"),1800);}
 
-/* ===== S3 ===== */
-function validateDates(){S.from=$('in-from').value;S.to=$('in-to').value;
+/* ============ S3 ============ */
+function validateDates(){S.from=$("in-from").value;S.to=$("in-to").value;
   const bad=S.from&&S.to&&(S.to<S.from);S.invalidDates=bad;
-  $('f-dates-wrap').classList.toggle('err',bad);$('dates-err').classList.toggle('show',bad);}
-function formatBudget(inp){let d=inp.value.replace(/\D/g,'').slice(0,7);S.budgetNum=d?parseInt(d,10):0;inp.value=d?Number(d).toLocaleString('ru-RU'):'';}
-function continueS3(){if(S.invalidDates)go('e1');else go('s4');}
+  $("f-dates-wrap").classList.toggle("err",bad);$("dates-err").classList.toggle("show",bad);}
+function formatBudget(inp){let d=inp.value.replace(/\D/g,"").slice(0,7);S.budgetNum=d?parseInt(d,10):0;inp.value=d?Number(d).toLocaleString("ru-RU"):"";}
+function continueS3(){if(S.invalidDates)go("e1");else go("s4");}
 
-/* ===== S4 chips ===== */
-$('climate').addEventListener('click',e=>{const c=e.target.closest('.chip');if(!c)return;
-  S.climate=c.dataset.v;document.querySelectorAll('#climate .chip').forEach(x=>x.classList.remove('sel-dark'));c.classList.add('sel-dark');});
-$('interests').addEventListener('click',e=>{const c=e.target.closest('.chip');if(!c)return;
-  const v=c.dataset.v,on=c.classList.toggle('sel-yellow');
-  if(on)S.interests.add(v);else S.interests.delete(v);c.textContent=v+(on?' ✓':'');});
-function composeStar(){return S.star==='Без требований'?'Без требований':S.star+(S.bath?' • отдельный санузел':'');}
-function renderExcl(){const w=$('exTags');w.innerHTML='';
+/* ============ S4 чипы (делегирование) ============ */
+function radioGroup(sel_id,key,cast){
+  $(sel_id).addEventListener("click",e=>{const c=e.target.closest(".chip");if(!c)return;
+    S[key]=cast?cast(c.dataset.v):c.dataset.v;
+    document.querySelectorAll("#"+sel_id+" .chip").forEach(x=>x.classList.remove("sel-dark"));c.classList.add("sel-dark");});
+}
+radioGroup("climate","climate");
+radioGroup("meal","meal");
+radioGroup("rating","rating",v=>+v);
+$("interests").addEventListener("click",e=>{const c=e.target.closest(".chip");if(!c)return;
+  const v=c.dataset.v,on=c.classList.toggle("sel-yellow");
+  if(on)S.interests.add(v);else S.interests.delete(v);c.textContent=v+(on?" ✓":"");});
+$("amen").addEventListener("click",e=>{const c=e.target.closest(".chip");if(!c)return;
+  const v=c.dataset.v,on=c.classList.toggle("sel-yellow");
+  if(on)S.amen.add(v);else S.amen.delete(v);});
+$("strict").addEventListener("click",e=>{const c=e.target.closest(".chip");if(!c)return;
+  S.strictInt=!S.strictInt;c.classList.toggle("sel-yellow",S.strictInt);
+  c.textContent=S.strictInt?"Строго по интересам ✓":"Строго по интересам";});
+function composeStar(){return S.star==="Без требований"?"Без требований":S.star+(S.bath?" • отдельный санузел":"");}
+function renderExcl(){const w=$("exTags");w.innerHTML="";
   if(S.excl.size===0){w.innerHTML='<span style="font-size:13px;color:var(--muted)">Не выбраны — нажмите «+»</span>';return;}
-  [...S.excl].forEach(c=>{const t=document.createElement('span');t.className='tag';t.innerHTML=`${c} <b>×</b>`;
+  [...S.excl].forEach(c=>{const t=document.createElement("span");t.className="tag";t.innerHTML=`${c} <b>×</b>`;
     t.onclick=e=>{e.stopPropagation();S.excl.delete(c);renderExcl();};w.appendChild(t);});}
-function findTrip(){if(S.budgetNum>0&&S.budgetNum<70000)go('e2');else go('s5');}
+function findTrip(){const r=buildTrips();if(r.all.length===0){go("e2");return;}go("s5");}
 
-/* ===== sheets ===== */
+/* ============ engine ============ */
+function perPersonOf(g,rf,nights,starF,attrs){
+  let base=g.air*rf + HOTEL_BASE*g.ci*starF*nights;
+  const rmul=S.rating>=9?1.06:S.rating>=8?1.03:1;
+  base=base*rmul;
+  let add=MEAL_ADD[S.meal]||0;
+  S.amen.forEach(k=>add+=(AMEN_SURCHARGE[k]||0));
+  return round500((base+add)*PRICE_MULT);
+}
+function scoreTrip(g,ps){
+  const matched=g.int.filter(i=>S.interests.has(i));
+  let score=matched.length*2;
+  if(ps) score += (g.ms===ps?1:0.5);
+  const maxP=S.interests.size*2 + (ps?1:0);
+  const pct=maxP>0?Math.max(0,Math.min(100,Math.round(100*score/maxP))):100;
+  return {score,pct,matched};
+}
+function buildTrips(){
+  const nights=Math.max(1,diffDays(S.from,S.to));
+  const ps=parseStar();
+  const starF=ps?STAR_F[ps]:1.2;
+  const rf=ROUTE_FACTOR[S.city]??1;
+  const depRank=CL_RANK[climatOf(S.city)];
+  const out=[];
+  for(const g of CATALOG){
+    if(g.n===S.city) continue;
+    if(S.excl.has(g.n)) continue;
+    if(ps && g.ms<ps) continue;
+    const gr=CL_RANK[g.cl];
+    if(S.climate==="Теплее" && gr<depRank) continue;
+    if(S.climate==="Прохладнее" && gr>depRank) continue;
+    const attrs=hotelAttrs(g.n);
+    if(S.meal!=="Без требований" && !attrs.meals.includes(S.meal)) continue;   // жёстко: питание
+    let amenOk=true; S.amen.forEach(k=>{ if(!attrs.amen[k]) amenOk=false; });
+    if(!amenOk) continue;                                                       // жёстко: удобства
+    if(S.rating>0 && attrs.rating<S.rating) continue;                           // жёстко: рейтинг
+    if(S.strictInt && S.interests.size>0 && !g.int.some(i=>S.interests.has(i))) continue; // жёстко: интересы
+    const pp=perPersonOf(g,rf,nights,starF,attrs);
+    const total=pp*S.pax;
+    if(total>S.budgetNum) continue;
+    const s=scoreTrip(g,ps);
+    out.push({...g,perPerson:pp,price:total,nights,depRank,attrs,fl:flightsFor(g.n),...s});
+  }
+  return {all:out,nights};
+}
+function sortTrips(list){
+  const a=[...list];
+  if(S.sort==="cheap")a.sort((x,y)=>x.price-y.price);
+  else a.sort((x,y)=>(y.score-x.score)||(x.price-y.price));
+  return a;
+}
+function renderS5(){
+  const {all}=buildTrips();
+  if(all.length===0){ if(stack[stack.length-1]==="s5")stack.pop(); syncE2(); go("e2"); return false; }
+  const sorted=sortTrips(all);
+  const shown=sorted.slice(0,MAX_SHOW);
+  S.trips=shown;
+  const rt=rangeText(S.from,S.to);
+  $("s5-title").textContent=`Подобрано ${shown.length} ${plural(shown.length,"вариант","варианта","вариантов")}`;
+  $("s5-summary").textContent=`${S.city} · ${rt} · ${S.pax} взр · до ${S.budgetNum.toLocaleString("ru-RU")} ₽`+
+     (all.length>shown.length?` · из ${all.length} подходящих`:"");
+  $("sort-rel").className="chip"+(S.sort==="rel"?" sel-dark":"");
+  $("sort-cheap").className="chip"+(S.sort==="cheap"?" sel-dark":"");
+  $("s5-list").innerHTML=shown.map((t,i)=>tripCard(t,i)).join("");
+  $("s5-foot").textContent=S.showCities
+    ? "Режим отладки: направления показаны, чтобы проверить фильтры. По умолчанию город — сюрприз."
+    : "Город каждого варианта — сюрприз. Название откроется после оплаты, когда начнётся регистрация.";
+  return true;
+}
+function plural(n,a,b,c){const m=n%100;if(m>=11&&m<=14)return c;const k=n%10;return k===1?a:(k>=2&&k<=4?b:c);}
+function tripCard(t,i){
+  const cityLine=S.showCities?t.n:"Город-сюрприз";
+  const regionLine=S.showCities?`${t.r} · ${t.hi}`:`${t.nights} ${plural(t.nights,"ночь","ночи","ночей")} · направление откроется после оплаты`;
+  const starBadge=S.star==="Без требований"?'<span class="tb">звёзды любые</span>':`<span class="tb d">${S.star}</span>`;
+  let climateBadge;
+  if(S.climate==="Любой") climateBadge=`<span class="tb">${CL_LABEL[t.cl]}</span>`;
+  else if((S.climate==="Теплее"&&CL_RANK[t.cl]>t.depRank)||(S.climate==="Прохладнее"&&CL_RANK[t.cl]<t.depRank))
+       climateBadge=`<span class="tb g">${S.climate.toLowerCase()} ✓</span>`;
+  else climateBadge=`<span class="tb">такой же климат</span>`;
+  const mealBadge=S.meal==="Завтраки"?'<span class="tb">завтраки</span>':S.meal==="Без требований"?'<span class="tb">питание любое</span>':`<span class="tb d">${S.meal}</span>`;
+  const amenBadges=[...S.amen].map(k=>`<span class="tb g">${AMEN_LABEL[k]} ✓</span>`).join("");
+  const ratingBadge=S.rating>0?`<span class="tb g">рейтинг ${S.rating}+ ✓</span>`:"";
+  const intBadges=t.matched.length
+    ? t.matched.map(x=>`<span class="tb y">${x} ✓</span>`).join("")
+    : (S.interests.size? `<span class="tb">без ваших тем</span>`:"");
+  const pctBadge=`<span class="tb ${t.pct>=70?"g":""}">Совпадение ${t.pct}%</span>`;
+  const dest=S.showCities?t.n:"••••••";
+  const f=t.fl;
+  return `<div class="trip">
+    <div class="trip-top"><div><div class="trip-city">${cityLine}</div><div class="trip-region">${regionLine}</div></div>
+      <div><div class="trip-price">${fmt(t.price)}</div><div class="trip-pp">≈ ${fmt(t.perPerson)} / чел · ${S.pax} чел</div></div></div>
+    <div class="trip-badges">${starBadge}${climateBadge}${mealBadge}${amenBadges}${ratingBadge}${intBadges}${pctBadge}</div>
+    <div class="trip-flight">✈ <b>Туда</b> ${S.city} ${shortDate(S.from)} ${f.outDep}→${f.outArr} · <b>Обратно</b> ${shortDate(S.to)} ${f.retDep}→${f.retArr} · багаж 10 кг</div>
+    <button class="btn trip-btn" onclick="selectVariant(${i})">Оформить за ${fmt(t.price)}</button>
+  </div>`;
+}
+function setSort(m){S.sort=m;renderS5();}
+function selectVariant(i){const v=S.trips[i];if(!v)return;
+  S.selected={city:v.n,price:v.price,perPerson:v.perPerson,star:parseStar()||3,nights:v.nights,cl:v.cl,int:v.int,fl:v.fl,attrs:v.attrs};
+  setPrice(v.price); go("s6");
+}
+
+/* ============ sheets ============ */
 const SHEETS={
-  city:()=>`<h3>Город вылета</h3>`+ALL_CITIES.map(c=>`<button class="opt" onclick="pickCity('${c}')">${c}${S.city===c?'<span class="ck">✓</span>':''}</button>`).join(''),
-  pax:()=>`<h3>Путешественники</h3><div class="stepper"><button onclick="stepPax(-1)">−</button><span class="v" id="pv">${paxLabel()}</span><button onclick="stepPax(1)">+</button></div><div class="fine" style="margin-top:0">Дети и питомцы — в полной версии приложения.</div>`,
-  star:()=>`<h3>Звёздность проживания</h3>`+['Без требований','От 3 ★','От 4 ★','От 5 ★'].map(s=>`<button class="opt" onclick="pickStar('${s}')">${s}${S.star===s?'<span class="ck">✓</span>':''}</button>`).join('')+`<button class="opt ${S.bath?'on':''}" onclick="toggleBath()" style="border-bottom:none"><span>Отдельный санузел</span><span class="sq"><svg width="12" height="10" viewBox="0 0 13 11" fill="none"><path d="M1 5.5 4.5 9 12 1" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>`,
-  excl:()=>`<h3>Исключить города</h3><div class="fine" style="margin:0 0 6px">Отметьте города, которые не подходят. Они появятся тегами.</div>`+EXCL_POOL.map(c=>`<button class="opt ${S.excl.has(c)?'on':''}" onclick="toggleExcl('${c}')"><span>${c}</span><span class="sq"><svg width="12" height="10" viewBox="0 0 13 11" fill="none"><path d="M1 5.5 4.5 9 12 1" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>`).join('')
+  city:()=>`<h3>Город вылета</h3>`+ALL_CITIES.map(c=>`<button class="opt" onclick="pickCity('${c}')">${c}${S.city===c?'<span class="ck">✓</span>':''}</button>`).join(""),
+  pax:()=>`<h3>Путешественники</h3><div class="stepper"><button onclick="stepPax(-1)">−</button><span class="v" id="pv">${paxLabel()}</span><button onclick="stepPax(1)">+</button></div><div class="fine" style="margin-top:0">Цена пересчитывается на каждого гостя. Дети и питомцы — в полной версии.</div>`,
+  star:()=>`<h3>Звёздность проживания</h3>`+["Без требований","От 3 ★","От 4 ★","От 5 ★"].map(s=>`<button class="opt" onclick="pickStar('${s}')">${s}${S.star===s?'<span class="ck">✓</span>':''}</button>`).join("")+`<button class="opt ${S.bath?'on':''}" onclick="toggleBath()" style="border-bottom:none"><span>Отдельный санузел</span><span class="sq"><svg width="12" height="10" viewBox="0 0 13 11" fill="none"><path d="M1 5.5 4.5 9 12 1" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>`,
+  excl:()=>`<h3>Исключить города</h3><div class="fine" style="margin:0 0 6px">Отметьте города, которые не подходят. Они появятся тегами.</div>`+EXCL_POOL.map(c=>`<button class="opt ${S.excl.has(c)?'on':''}" onclick="toggleExcl('${c}')"><span>${c}</span><span class="sq"><svg width="12" height="10" viewBox="0 0 13 11" fill="none"><path d="M1 5.5 4.5 9 12 1" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>`).join("")
 };
-const paxLabel=()=>S.pax===1?'1 взрослый':S.pax+' взрослых';
-function openSheet(k){$('sheet').innerHTML=`<div class="grab"></div>`+SHEETS[k]();$('sheet-wrap').classList.add('open');}
-function closeSheet(){$('sheet-wrap').classList.remove('open');}
-function pickCity(c){S.city=c;$('f-city').textContent=c;closeSheet();}
-function stepPax(d){S.pax=Math.min(6,Math.max(1,S.pax+d));$('pv').textContent=paxLabel();$('f-pax').textContent=paxLabel();ensureManual();}
-function pickStar(s){S.star=s;$('f-star').textContent=composeStar();$('sheet').innerHTML=`<div class="grab"></div>`+SHEETS.star();}
-function toggleBath(){S.bath=!S.bath;$('f-star').textContent=composeStar();$('sheet').innerHTML=`<div class="grab"></div>`+SHEETS.star();}
-function toggleExcl(c){S.excl.has(c)?S.excl.delete(c):S.excl.add(c);renderExcl();$('sheet').innerHTML=`<div class="grab"></div>`+SHEETS.excl();}
+const paxLabel=()=>S.pax===1?"1 взрослый":S.pax+" взрослых";
+function openSheet(k){$("sheet").innerHTML=`<div class="grab"></div>`+SHEETS[k]();$("sheet-wrap").classList.add("open");}
+function closeSheet(){$("sheet-wrap").classList.remove("open");}
+function pickCity(c){S.city=c;$("f-city").textContent=c;closeSheet();}
+function stepPax(d){S.pax=Math.min(6,Math.max(1,S.pax+d));$("pv").textContent=paxLabel();$("f-pax").textContent=paxLabel();ensureManual();}
+function pickStar(s){S.star=s;$("f-star").textContent=composeStar();$("sheet").innerHTML=`<div class="grab"></div>`+SHEETS.star();}
+function toggleBath(){S.bath=!S.bath;$("f-star").textContent=composeStar();$("sheet").innerHTML=`<div class="grab"></div>`+SHEETS.star();}
+function toggleExcl(c){S.excl.has(c)?S.excl.delete(c):S.excl.add(c);renderExcl();$("sheet").innerHTML=`<div class="grab"></div>`+SHEETS.excl();}
 
-/* ===== S6 modes ===== */
-function ensureManual(){while(S.manual.names.length<S.pax)S.manual.names.push('');while(S.manual.docs.length<S.pax)S.manual.docs.push('');S.manual.names.length=S.pax;S.manual.docs.length=S.pax;}
-function toChoose(){S.mode6='choose';renderS6();}
-function doLogin(){S.mode6='login';S.travelers=D_NAMES.slice(0,S.pax).map((n,i)=>({name:n,doc:'Паспорт РФ • •••• '+D_DOC[i]}));S.email='traveler@example.com';$('tg-login').checked=true;renderS6();}
-function chooseManual(){S.mode6='manual';ensureManual();renderS6();}
-function setMode6(m){S.mode6=m;if(m==='login')doLogin();else{$('tg-login').checked=false;renderS6();}}
+/* ============ S6 ============ */
+function ensureManual(){while(S.manual.names.length<S.pax)S.manual.names.push("");while(S.manual.docs.length<S.pax)S.manual.docs.push("");S.manual.names.length=S.pax;S.manual.docs.length=S.pax;}
+function toChoose(){S.mode6="choose";renderS6();}
+function doLogin(){S.mode6="login";S.travelers=D_NAMES.slice(0,S.pax).map((n,i)=>({name:n,doc:"Паспорт РФ • •••• "+D_DOC[i]}));S.email="traveler@example.com";renderS6();}
+function chooseManual(){S.mode6="manual";ensureManual();renderS6();}
+function setMode6(m){S.mode6=m;if(m==="login")doLogin();else renderS6();}
 function renderS6(){
-  ['choose','login','manual'].forEach(k=>{$('s6-'+k).style.display=(S.mode6===k)?'block':'none';});
-  $('s6-cta-login').style.display=S.mode6==='login'?'block':'none';
-  $('s6-cta-manual').style.display=S.mode6==='manual'?'block':'none';
-  $('tg-login').checked=(S.mode6==='login');
-  if(S.mode6==='login')renderLoginList();
-  if(S.mode6==='manual')renderManualForm();
+  ["choose","login","manual"].forEach(k=>{$("s6-"+k).style.display=(S.mode6===k)?"block":"none";});
+  $("s6-cta-login").style.display=S.mode6==="login"?"block":"none";
+  $("s6-cta-manual").style.display=S.mode6==="manual"?"block":"none";
+  $("tg-login").checked=(S.mode6==="login");
+  if(S.mode6==="login")renderLoginList();
+  if(S.mode6==="manual")renderManualForm();
 }
 function renderLoginList(){
-  $('s6-login-list').innerHTML=S.travelers.map((t,i)=>
-    `<div class="info"><div class="tiny" style="margin:0 0 4px">Пассажир ${i+1} • данные проверены</div><div class="l" style="margin:0;font-weight:700;color:var(--text)">${esc(t.name)}<br><span style="font-weight:500;color:#555">${esc(t.doc)}</span></div></div>`).join('')
+  $("s6-login-list").innerHTML=S.travelers.map((t,i)=>
+    `<div class="info"><div class="tiny" style="margin:0 0 4px">Пассажир ${i+1} • данные проверены</div><div class="l" style="margin:0;font-weight:700;color:var(--text)">${esc(t.name)}<br><span style="font-weight:500;color:#555">${esc(t.doc)}</span></div></div>`).join("")
    +`<div class="info"><div class="tiny" style="margin:0 0 4px">Электронная почта</div><div class="l" style="margin:0;font-weight:700;color:var(--text)">${esc(S.email)}</div></div>`;
 }
 function renderManualForm(){
-  let h='';
+  let h="";
   for(let i=0;i<S.pax;i++){
     h+=`<div class="field static" id="fm-name-${i}" style="cursor:default"><div class="lbl">Пассажир ${i+1} • ФИО по документу</div><input class="txtin" value="${esc(S.manual.names[i])}" oninput="setMan('names',${i},this)"></div>`;
     h+=`<div class="field static" id="fm-doc-${i}" style="cursor:default"><div class="lbl">Документ пассажира ${i+1} • Паспорт РФ</div><input class="txtin" placeholder="Серия и номер" value="${esc(S.manual.docs[i])}" oninput="setMan('docs',${i},this)"></div>`;
   }
   h+=`<div class="field static" id="fm-email" style="cursor:default"><div class="lbl">Электронная почта</div><input class="txtin" type="email" placeholder="you@example.com" value="${esc(S.manual.email)}" oninput="setManEmail(this)"></div>`;
-  $('s6-manual-fields').innerHTML=h;
+  $("s6-manual-fields").innerHTML=h;
 }
-function setMan(arr,i,el){S.manual[arr][i]=el.value;el.closest('.field').classList.remove('err');}
-function setManEmail(el){S.manual.email=el.value;el.closest('.field').classList.remove('err');}
+function setMan(a,i,el){S.manual[a][i]=el.value;el.closest(".field").classList.remove("err");}
+function setManEmail(el){S.manual.email=el.value;el.closest(".field").classList.remove("err");}
 function submitManual(){
   let ok=true;
   for(let i=0;i<S.pax;i++){
-    if(!S.manual.names[i].trim()){$('fm-name-'+i).classList.add('err');ok=false;}
-    if(!S.manual.docs[i].trim()){$('fm-doc-'+i).classList.add('err');ok=false;}
+    if(!S.manual.names[i].trim()){$("fm-name-"+i).classList.add("err");ok=false;}
+    if(!S.manual.docs[i].trim()){$("fm-doc-"+i).classList.add("err");ok=false;}
   }
-  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(S.manual.email.trim())){$('fm-email').classList.add('err');ok=false;}
-  if(!ok){toast('Заполните все поля корректно');return;}
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(S.manual.email.trim())){$("fm-email").classList.add("err");ok=false;}
+  if(!ok){toast("Заполните все поля корректно");return;}
   S.travelers=S.manual.names.map((n,i)=>({name:n.trim(),doc:maskDoc(S.manual.docs[i])}));
   S.email=S.manual.email.trim();
-  go('s7');
+  go("s7");
 }
-function guaranteeTravelers(){if(!S.travelers){S.travelers=D_NAMES.slice(0,S.pax).map((n,i)=>({name:n,doc:'Паспорт РФ • •••• '+D_DOC[i]}));S.email=S.email||'traveler@example.com';}}
+function guaranteeTravelers(){if(!S.travelers){S.travelers=D_NAMES.slice(0,S.pax).map((n,i)=>({name:n,doc:"Паспорт РФ • •••• "+D_DOC[i]}));S.email=S.email||"traveler@example.com";}}
 
-/* ===== S7 travelers ===== */
+/* ============ S7 travelers ============ */
 function renderTravelers(){guaranteeTravelers();
-  $('s7-travelers').innerHTML=S.travelers.map((t,i)=>
-    `<div class="info"><div class="tiny" style="margin:0 0 4px">Пассажир ${i+1}</div><div class="l" style="margin:0;font-weight:700;color:var(--text)">${esc(t.name)}<br><span style="font-weight:500;color:#555">${esc(t.doc)}</span></div></div>`).join('')
+  $("s7-travelers").innerHTML=S.travelers.map((t,i)=>
+    `<div class="info"><div class="tiny" style="margin:0 0 4px">Пассажир ${i+1}</div><div class="l" style="margin:0;font-weight:700;color:var(--text)">${esc(t.name)}<br><span style="font-weight:500;color:#555">${esc(t.doc)}</span></div></div>`).join("")
    +`<div class="info"><div class="tiny" style="margin:0 0 4px">Почта для билетов</div><div class="l" style="margin:0;font-weight:700;color:var(--text)">${esc(S.email)}</div></div>`;
 }
 
-/* ===== summary sync ===== */
+/* ============ summary sync ============ */
+function hotelLine(v){
+  const a=v.attrs||hotelAttrs(v.city);
+  const parts=[`${v.star}★`];
+  if(S.meal==="Завтраки")parts.push("завтраки"); else if(S.meal!=="Без требований")parts.push(S.meal.toLowerCase());
+  const am=[...S.amen].map(k=>AMEN_LABEL[k]); if(am.length)parts.push(am.join(", "));
+  if(S.rating>0)parts.push(`рейтинг ${a.rating}`);
+  return "Отель в центре • "+parts.join(" • ");
+}
 function syncSummary(){
-  const rt=rangeText(S.from,S.to),px=S.pax+' взрослых';
-  if($('s5-sub'))$('s5-sub').textContent=`${rt} • ${px}`;
-  if($('s5-wishes')){
-    const ints=[...S.interests];
-    $('s5-wishes').innerHTML=`<div class="t">Ваши пожелания учтены</div>
-      <div class="tags" style="margin-top:8px">
-        <span class="tag ro">Климат: ${S.climate}</span>
-        ${ints.length?ints.map(i=>`<span class="tag ro">${i}</span>`).join(''):'<span class="tag ro">Интересы: любые</span>'}
-        <span class="tag ro">${S.star==='Без требований'?'Звёзды: любые':S.star}</span>
-      </div>`;
-  }
-  if($('s5-flight'))$('s5-flight').innerHTML=`${S.city} • ${shortDate(S.from)}, 10:00<br>Обратно • ${shortDate(S.to)}, до 21:00`;
-  if($('s5-hotel'))$('s5-hotel').textContent=S.star==='Без требований'?'Отель • завтраки':`${S.star.replace(' ★','')}★ • завтраки`;
-  if($('s5-excl'))$('s5-excl').textContent=S.excl.size?`Город скрыт. Исключены: ${[...S.excl].join(', ')}.`:'Город скрыт. Все ограничения учтены.';
-  if($('s7-sum'))$('s7-sum').innerHTML=`${rt} • ${px}<br>Перелёт и проживание<br>Багаж 10 кг • завтраки`;
-  if($('s8-sum'))$('s8-sum').innerHTML=`${rt} • ${px}<br>Перелёт и проживание<br>Оплачено: <b data-price>${fmt(S.price)}</b>`;
-  if($('s9-flight'))$('s9-flight').textContent=`${S.city} • ${shortDate(S.from)}, 10:00`;
-  if($('s10-leg'))$('s10-leg').textContent=`${fmtDay(S.from)} • ${S.city} → Нижний`;
-  if($('s10-hotel'))$('s10-hotel').textContent=`Отель в центре • ${S.star==='Без требований'?'3★':S.star.replace('От ','')}`;
-  if($('s10-route'))$('s10-route').innerHTML=buildRoute();
-  if($('e2-sum'))$('e2-sum').innerHTML=`${rt} • ${px}<br>До ${S.budgetNum.toLocaleString('ru-RU')} ₽ • исключены ${S.excl.size} гор.`;
+  const v=sel(), rt=rangeText(S.from,S.to), px=S.pax+" взрослых", f=v.fl;
+  if($("s7-sum"))$("s7-sum").innerHTML=`${rt} • ${px}<br>Перелёт и проживание<br>Багаж 10 кг • ${S.meal==="Без требований"?"питание по тарифу":S.meal.toLowerCase()}`;
+  if($("s7-pp"))$("s7-pp").textContent=`≈ ${fmt(v.perPerson)} / чел · ${S.pax} чел`;
+  if($("s8-sum"))$("s8-sum").innerHTML=`${rt} • ${px}<br>Перелёт и проживание<br>Оплачено: <b data-price>${fmt(S.price)}</b><br><span style="font-size:12px;color:var(--muted)">≈ ${fmt(v.perPerson)} на человека × ${S.pax}</span>`;
+  if($("s8-reveal"))$("s8-reveal").textContent=`Город откроем ${fmtDay(addDays(S.from,-1))} в 10:00`;
+  if($("s9-flight"))$("s9-flight").textContent=`${S.city} • ${shortDate(S.from)}, ${f.outDep}`;
+  if($("s10-city"))$("s10-city").textContent=v.city;
+  if($("s10-leg"))$("s10-leg").textContent=`${fmtDay(S.from)} • ${S.city} → ${v.city}`;
+  if($("s10-time"))$("s10-time").textContent=`${f.outDep} — ${f.outArr}`;
+  if($("s10-ret"))$("s10-ret").textContent=`Обратно ${fmtDay(S.to)}: ${f.retDep} → ${f.retArr} · ${S.city}`;
+  if($("s10-hotel"))$("s10-hotel").textContent=hotelLine(v);
+  if($("s10-route"))$("s10-route").innerHTML=buildRoute(v);
+  if($("e2-sum"))syncE2();
 }
-function buildRoute(){
-  const days=diffDays(S.from,S.to)+1;
+function buildRoute(v){
+  const nights=Math.max(1,diffDays(S.from,S.to));const days=nights+1;
   if(days<=1)return `${fmtDay(S.from)} • Прилёт и возвращение в ${S.city}`;
-  const pool=[...S.interests].map(i=>ACT[i]).filter(Boolean);
-  const mid=days-2;let lines=[`${fmtDay(S.from)} • Прилёт, Кремль и центр`];
-  for(let k=0;k<mid;k++)lines.push(`${fmtDay(addDays(S.from,1+k))} • ${pool.length?pool[k%pool.length]:'Свободный день'}`);
+  const pool=[...(v.int||[])].map(i=>ACT[i]).filter(Boolean);
+  const mid=days-2;let lines=[`${fmtDay(S.from)} • Прилёт, ${pool[0]||"центр города"}`];
+  for(let k=0;k<mid;k++)lines.push(`${fmtDay(addDays(S.from,1+k))} • ${pool.length?pool[(k+1)%pool.length]:"Свободный день"}`);
   lines.push(`${fmtDay(S.to)} • Возвращение в ${S.city}`);
-  return lines.join('<br>');
+  return lines.join("<br>");
 }
-function renderE1(){$('e1-city').textContent=S.city;$('e1-dates').textContent=rangeText(S.from,S.to);$('e1-pax').textContent=S.pax+' взрослых';}
+function syncE2(){
+  const extra=[];
+  if(S.meal!=="Завтраки"&&S.meal!=="Без требований")extra.push("питание: "+S.meal.toLowerCase());
+  if(S.amen.size)extra.push("удобства: "+[...S.amen].map(k=>AMEN_LABEL[k]).join(", "));
+  if(S.rating>0)extra.push("рейтинг "+S.rating+"+");
+  if(S.strictInt)extra.push("строго по интересам");
+  $("e2-sum").innerHTML=`${rangeText(S.from,S.to)} • ${S.pax} взрослых<br>До ${S.budgetNum.toLocaleString("ru-RU")} ₽ · ${S.star==="Без требований"?"звёзды любые":S.star} · климат: ${S.climate}${extra.length?" · "+extra.join(" · "):""} · исключены ${S.excl.size} гор.`;
+}
+function renderE1(){$("e1-city").textContent=S.city;$("e1-dates").textContent=rangeText(S.from,S.to);$("e1-pax").textContent=S.pax+" взрослых";}
 
-/* ===== price ===== */
-function setPrice(v){S.price=v;document.querySelectorAll('[data-price]').forEach(el=>el.textContent=fmt(v));
-  $('btn-order').textContent='Оформить за '+fmt(v);$('btn-pay').textContent='Оплатить '+fmt(v);$('tg-price').checked=v===76500;}
-function acceptNewPrice(){setPrice(76500);go('s7');toast('Новая цена принята');}
+/* ============ price / pay ============ */
+function setPrice(v){S.price=v;document.querySelectorAll("[data-price]").forEach(el=>el.textContent=fmt(v));
+  $("btn-pay").textContent="Оплатить "+fmt(v);$("tg-price").checked=v===115000;}
+function acceptNewPrice(){setPrice(115000);go("s7");toast("Новая цена принята");}
+function toggleCheck(id){$(id).classList.toggle("on");}
+function tryPay(){if(!$("ck1").classList.contains("on")||!$("ck2").classList.contains("on")){toast("Подтвердите условия и согласие узнать город");return;}
+  const b=$("btn-pay");b.classList.add("loading");b.textContent="Проводим платёж…";
+  setTimeout(()=>{b.classList.remove("loading");b.textContent="Оплатить "+fmt(S.price);go("s8");},900);}
+function retryPay(){const b=$("btn-retry");b.classList.add("loading");b.textContent="Проверяем статус платежа…";
+  setTimeout(()=>{b.classList.remove("loading");b.textContent="Повторить оплату";go("s8");toast("Платёж прошёл успешно");},900);}
 
-/* ===== pay ===== */
-function toggleCheck(id){$(id).classList.toggle('on');}
-function tryPay(){if(!$('ck1').classList.contains('on')||!$('ck2').classList.contains('on')){toast('Подтвердите условия и согласие узнать город');return;}
-  const b=$('btn-pay');b.classList.add('loading');b.textContent='Проводим платёж…';
-  setTimeout(()=>{b.classList.remove('loading');b.textContent='Оплатить '+fmt(S.price);go('s8');},900);}
-function retryPay(){const b=$('btn-retry');b.classList.add('loading');b.textContent='Проверяем статус платежа…';
-  setTimeout(()=>{b.classList.remove('loading');b.textContent='Повторить оплату';go('s8');toast('Платёж прошёл успешно');},900);}
-
-/* ===== reveal ===== */
-function renderS9(){$('reveal-title').textContent=S.revealed?'Регистрация открыта':'Остался 1 день';
-  $('reveal-desc').textContent=S.revealed?'Город раскрыт — можно открывать маршрут.':'Откроем город 19 ноября в 10:00, когда начнётся регистрация.';
-  $('reveal-box').style.cursor=S.revealed?'default':'pointer';$('btn-reveal').disabled=!S.revealed;$('tg-reveal').checked=S.revealed;}
-function revealCity(){if(S.revealed)return;S.revealed=true;renderS9();toast('Время наступило · город доступен');}
+/* ============ reveal ============ */
+function renderS9(){$("reveal-title").textContent=S.revealed?"Регистрация открыта":"Остался 1 день";
+  $("reveal-desc").textContent=S.revealed?"Город раскрыт — можно открывать маршрут.":`Откроем город ${fmtDay(addDays(S.from,-1))} в 10:00, когда начнётся регистрация.`;
+  $("reveal-box").style.cursor=S.revealed?"default":"pointer";$("btn-reveal").disabled=!S.revealed;$("tg-reveal").checked=S.revealed;}
+function revealCity(){if(S.revealed)return;S.revealed=true;renderS9();toast("Время наступило · город доступен");}
 function setRevealed(v){S.revealed=v;renderS9();}
 
-/* ===== panel ===== */
-const MAIN=['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'],ERR=['e1','e2','e3','e4'];
-const NAMES={s1:'S1',s2:'S2',s3:'S3',s4:'S4',s5:'S5',s6:'S6',s7:'S7',s8:'S8',s9:'S9',s10:'S10',e1:'E1',e2:'E2',e3:'E3',e4:'E4'};
-$('pg-main').innerHTML=MAIN.map(i=>`<button class="p" data-go="${i}" onclick="go('${i}')">${NAMES[i]}</button>`).join('');
-$('pg-err').innerHTML=ERR.map(i=>`<button class="p" data-go="${i}" onclick="go('${i}')">${NAMES[i]}</button>`).join('');
+/* ============ panel ============ */
+const MAIN=["s1","s2","s3","s4","s5","s6","s7","s8","s9","s10"],ERR=["e1","e2","e3","e4"];
+const NAMES={s1:"S1",s2:"S2",s3:"S3",s4:"S4",s5:"S5",s6:"S6",s7:"S7",s8:"S8",s9:"S9",s10:"S10",e1:"E1",e2:"E2",e3:"E3",e4:"E4"};
+$("pg-main").innerHTML=MAIN.map(i=>`<button class="p" data-go="${i}" onclick="go('${i}')">${NAMES[i]}</button>`).join("");
+$("pg-err").innerHTML=ERR.map(i=>`<button class="p" data-go="${i}" onclick="go('${i}')">${NAMES[i]}</button>`).join("");
+function fit(){const sc=Math.min(1,(innerHeight-24)/844,(innerWidth-24)/390);$("stage").style.transform=`scale(${sc})`;}
+addEventListener("resize",fit);fit();
 
-function fit(){const sc=Math.min(1,(innerHeight-24)/844,(innerWidth-24)/390);$('stage').style.transform=`scale(${sc})`;}
-addEventListener('resize',fit);fit();
-
-show('s1');renderS6();renderS9();renderExcl();setPrice(74000);validateDates();ensureManual();
+show("s1");renderS6();renderS9();renderExcl();setPrice(111000);validateDates();ensureManual();
 </script>
 </body>
 </html>
