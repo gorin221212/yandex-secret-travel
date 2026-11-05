@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Яндекс Путешествия · Прототип «Сюрприз-поездка»</title>
+<style>
+  :root{
+    --bg:#E9E9E9; --screen:#fff; --text:#1A1A1A; --muted:#8E8E93; --label:#AEAEB2;
+    --card:#F4F4F5; --line:#ECECEE;
+    --yellow:#FFDB4D; --yellow-press:#F2C93B; --soft:#FFF2A6;
+    --dark:#161616; --gray-btn:#EFEFF0;
+    --red:#F03C3C; --red-bg:#FDECEC; --green:#22A55B; --green-bg:#E7F6EC;
+    --org-bg:#FFF0DE; --org-bd:#FFC98F; --org-tx:#9A5B13;
+    --r-lg:22px; --r-md:16px; --r-sm:12px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
+  body{background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter","Helvetica Neue",Arial,sans-serif;color:var(--text);display:flex;align-items:center;justify-content:center;overflow:hidden}
+  #stage{transform-origin:center center}
+  .phone{position:relative;width:390px;height:844px;background:#000;border-radius:58px;padding:12px;box-shadow:0 30px 80px rgba(0,0,0,.28),0 0 0 2px #2a2a2a inset}
+  .phone-inner{position:relative;width:100%;height:100%;background:var(--screen);border-radius:46px;overflow:hidden}
+  .island{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:120px;height:34px;background:#000;border-radius:20px;z-index:60}
+  .indicator{position:absolute;bottom:9px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:3px;background:#111;z-index:60;opacity:.9}
+  .status{height:56px;flex:0 0 56px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 30px 6px;font-size:15px;font-weight:600;position:relative;z-index:5}
+  .status svg{display:block}.status .icons{display:flex;gap:6px;align-items:center}
+  .screen{position:absolute;inset:0;display:none;flex-direction:column;background:var(--screen);border-radius:46px;overflow:hidden}
+  .screen.active{display:flex;animation:slideIn .28s cubic-bezier(.3,.8,.3,1)}
+  .screen.active.back{animation:slideBack .28s cubic-bezier(.3,.8,.3,1)}
+  @keyframes slideIn{from{transform:translateX(36px);opacity:0}to{transform:none;opacity:1}}
+  @keyframes slideBack{from{transform:translateX(-36px);opacity:0}to{transform:none;opacity:1}}
+  .navrow{flex:0 0 48px;display:flex;align-items:center;gap:8px;padding:0 14px;position:relative;z-index:5}
+  .navrow .back{width:36px;height:36px;border:none;background:none;font-size:22px;color:var(--text);cursor:pointer;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-left:-6px}
+  .navrow .back:active{background:#F2F2F2}
+  .navrow .nt{font-size:15px;font-weight:500;color:#3A3A3C}
+  .body{flex:1;overflow-y:auto;padding:4px 20px 20px;scrollbar-width:none}
+  .body::-webkit-scrollbar{display:none}
+  .cta{flex:0 0 auto;padding:10px 20px 32px;background:linear-gradient(#fff0,#fff 26%)}
+  .micro{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--label);font-weight:600;margin:10px 0 6px}
+  h1{font-size:26px;font-weight:700;letter-spacing:-.02em;line-height:1.15}
+  .sub{font-size:14px;color:var(--muted);margin-top:6px;line-height:1.4}
+  .fine{font-size:12px;color:var(--label);line-height:1.45;margin-top:14px}
+  .field{background:var(--card);border-radius:var(--r-md);padding:12px 16px;margin-top:12px;cursor:pointer;transition:transform .08s,outline .12s}
+  .field:active{transform:scale(.985)}
+  .field .lbl{font-size:12px;color:var(--muted);margin-bottom:3px}
+  .field .val{font-size:15px;font-weight:600}
+  .field.err{outline:1.5px solid var(--red);background:#fff}
+  .field.static{cursor:default}
+  .row2{display:flex;gap:10px}.row2 .field{flex:1}
+  .soft{background:var(--soft);border-radius:var(--r-md);padding:16px;margin-top:14px}
+  .soft .t{font-size:16px;font-weight:700;line-height:1.25}
+  .soft .big{font-size:22px;font-weight:800;margin-top:2px}
+  .soft .d{font-size:13px;color:#6B5B00;margin-top:6px;line-height:1.4}
+  .info{background:var(--card);border-radius:var(--r-md);padding:14px 16px;margin-top:12px}
+  .info .t{font-size:14px;font-weight:700}
+  .info .l{font-size:13.5px;color:#3A3A3C;margin-top:5px;line-height:1.45}
+  .info .tiny{font-size:12px;color:var(--muted);margin-top:7px}
+  .info .link{color:var(--text);font-weight:600;font-size:13.5px;margin-top:6px;display:inline-block;cursor:pointer}
+  .info .link:active{opacity:.6}
+  .btn{width:100%;height:54px;border:none;border-radius:15px;background:var(--yellow);color:var(--text);font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;transition:transform .08s,background .15s}
+  .btn:active{transform:scale(.98);background:var(--yellow-press)}
+  .btn.dark{background:var(--dark);color:#fff}
+  .btn.gray{background:var(--gray-btn);color:var(--text);font-weight:600}
+  .btn[disabled]{background:#EDEDED;color:#B6B6BA;cursor:default;transform:none}
+  .btn.loading{color:#8a7a00}
+  .step{display:flex;gap:14px;margin-top:18px;align-items:flex-start}
+  .step .n{flex:0 0 26px;height:26px;border-radius:50%;background:var(--card);color:#555;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px}
+  .step .t{font-size:15px;font-weight:700}.step .d{font-size:13px;color:var(--muted);margin-top:2px}
+  .grp{font-size:13px;font-weight:700;margin:18px 0 9px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap}
+  .chip{border:none;background:var(--card);border-radius:999px;padding:9px 16px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;color:#3A3A3C;transition:transform .08s}
+  .chip:active{transform:scale(.95)}
+  .chip.sel-dark{background:var(--dark);color:#fff}
+  .chip.sel-yellow{background:var(--yellow);color:var(--text)}
+  .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+  .tag{background:#E9E9EB;border-radius:999px;padding:8px 12px;font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:7px;cursor:pointer}
+  .tag.ro{cursor:default;background:var(--card)}
+  .tag b{font-weight:700;color:#777;font-size:14px}
+  .check{display:flex;gap:12px;align-items:flex-start;margin-top:16px;cursor:pointer}
+  .check .box{flex:0 0 22px;height:22px;border-radius:7px;background:#DDDDE0;display:flex;align-items:center;justify-content:center;transition:background .15s;margin-top:1px}
+  .check.on .box{background:var(--yellow)}
+  .check .box svg{opacity:0;transition:opacity .12s}.check.on .box svg{opacity:1}
+  .check .tx{font-size:13.5px;line-height:1.4;color:#3A3A3C}
+  .trigger{background:var(--org-bg);border:1px solid var(--org-bd);border-radius:var(--r-sm);padding:10px 14px;font-size:12.5px;font-weight:700;color:var(--org-tx);margin-top:8px}
+  .trigger-arrow{text-align:center;color:var(--org-bd);font-size:14px;line-height:1;margin:2px 0}
+  .trigger-sub{text-align:center;font-size:12px;color:var(--org-tx);font-weight:600}
+  .errbox{background:var(--red-bg);border-radius:var(--r-sm);padding:12px 14px;margin-top:10px}
+  .errbox .t{color:var(--red);font-size:13.5px;font-weight:700}
+  .errbox .d{color:#B04A4A;font-size:12.5px;margin-top:3px;line-height:1.4}
+  .icon-circle{width:74px;height:74px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;margin:22px auto 14px}
+  .icon-circle.red{background:var(--red-bg)}
+  .ok-circle{width:88px;height:88px;border-radius:50%;background:var(--green-bg);display:flex;align-items:center;justify-content:center;margin:26px auto 18px}
+  .brand{display:flex;align-items:center;gap:8px;padding:6px 2px 0}
+  .brand .ya{width:22px;height:22px;border-radius:6px;background:#FC3F1D;color:#fff;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center}
+  .brand span{font-size:16px;font-weight:700}
+  .promo{position:relative}
+  .promo .doc{position:absolute;right:16px;top:18px;width:34px;height:42px;background:#fff;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.12);padding:7px 6px}
+  .promo .doc i{display:block;height:3px;border-radius:2px;background:#E3C64B;margin-bottom:5px}
+  .promo .doc i:nth-child(2){width:70%;background:#EFEFEF}.promo .doc i:nth-child(3){width:85%;background:#EFEFEF}
+  .tabbar{flex:0 0 auto;display:flex;border-top:1px solid var(--line);background:#fff;padding:8px 6px 26px}
+  .tab{flex:1;border:none;background:none;font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10.5px;color:var(--label);cursor:pointer;padding:4px 0}
+  .tab.on{color:var(--text);font-weight:700}.tab:active{opacity:.6}
+  #sheet-wrap{position:absolute;inset:0;z-index:80;display:none}#sheet-wrap.open{display:block}
+  #sheet-wrap .veil{position:absolute;inset:0;background:rgba(0,0,0,.35);animation:fade .2s}@keyframes fade{from{opacity:0}}
+  .sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:24px 24px 0 0;padding:10px 20px 34px;max-height:62%;overflow-y:auto;animation:up .28s cubic-bezier(.3,.8,.3,1)}
+  @keyframes up{from{transform:translateY(60%)}}
+  .sheet .grab{width:40px;height:5px;border-radius:3px;background:#DDD;margin:2px auto 12px}
+  .sheet h3{font-size:18px;font-weight:700;margin-bottom:8px}
+  .opt{width:100%;text-align:left;border:none;background:none;font-family:inherit;font-size:15.5px;font-weight:600;padding:14px 4px;border-bottom:1px solid var(--line);cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+  .opt:active{background:#F6F6F6}.opt.bad{color:var(--red)}.opt .ck{color:var(--green);font-weight:800}
+  .opt .sq{flex:0 0 20px;height:20px;border-radius:6px;border:1.5px solid #C7C7CC;display:flex;align-items:center;justify-content:center}
+  .opt.on .sq{background:var(--yellow);border-color:var(--yellow)}.opt .sq svg{opacity:0}.opt.on .sq svg{opacity:1}
+  .stepper{display:flex;align-items:center;justify-content:space-between;padding:10px 4px}
+  .stepper button{width:44px;height:44px;border-radius:50%;border:none;background:var(--card);font-size:22px;font-weight:700;cursor:pointer;font-family:inherit}
+  .stepper button:active{background:#E4E4E6}.stepper .v{font-size:18px;font-weight:700}
+  .daterow{display:flex;gap:10px;margin-top:2px}
+  .mini{flex:1;background:#fff;border-radius:10px;padding:8px 10px}
+  .mini .cap{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:600;margin-bottom:2px}
+  .mini input{border:none;background:none;font-family:inherit;font-size:14px;font-weight:600;color:var(--text);width:100%;padding:0}
+  .mini input:focus{outline:none}
+  .moneyrow{display:flex;align-items:center;gap:6px;margin-top:2px}
+  .moneyrow .pre{font-size:15px;font-weight:600;color:var(--muted)}
+  .moneyrow input{border:none;background:none;font-family:inherit;font-size:18px;font-weight:800;color:var(--text);width:100%;padding:0}
+  .moneyrow input:focus{outline:none}.moneyrow .suf{font-size:18px;font-weight:800}
+  .txtin{border:none;background:none;font-family:inherit;font-size:15px;font-weight:600;color:var(--text);width:100%;padding:2px 0 0}
+  .txtin:focus{outline:none}.txtin::placeholder{color:#B6B6BA;font-weight:500}
+  .inline-err{display:none;font-size:12.5px;font-weight:600;color:var(--red);margin-top:8px}
+  .inline-err.show{display:block}
+  .plus{flex:0 0 30px;height:30px;border-radius:50%;background:#E2E2E5;border:none;font-size:20px;font-weight:700;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#444}
+  .plus:active{background:#D4D4D8}
+  .exhead{display:flex;align-items:center;justify-content:space-between}
+  .seg{display:flex;gap:10px;margin-top:18px}
+  .seg .btn{height:50px}
+  #toast{position:absolute;left:50%;bottom:120px;transform:translateX(-50%) translateY(20px);background:rgba(20,20,20,.92);color:#fff;font-size:13.5px;font-weight:600;padding:11px 18px;border-radius:14px;opacity:0;pointer-events:none;transition:.25s;z-index:90;max-width:80%;text-align:center}
+  #toast.show{opacity:1;transform:translateX(-50%)}
+  #panel-btn{position:fixed;right:18px;bottom:18px;z-index:200;background:#161616;color:#FFDB4D;border:none;border-radius:14px;padding:12px 16px;font-family:inherit;font-size:13.5px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+  #panel{position:fixed;right:18px;bottom:70px;z-index:200;width:250px;max-height:70vh;overflow-y:auto;background:#161616;color:#eee;border-radius:18px;padding:14px;display:none;box-shadow:0 16px 48px rgba(0,0,0,.4)}
+  #panel.open{display:block}
+  #panel h4{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#888;margin:12px 0 6px}#panel h4:first-child{margin-top:0}
+  #panel .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+  #panel button.p{border:none;background:#262626;color:#ddd;border-radius:9px;padding:9px 0;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+  #panel button.p:active,#panel button.p.cur{background:var(--yellow);color:#111}
+  #panel .tog{display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:8px 2px;cursor:pointer;gap:8px}
+  #panel .tog input{accent-color:var(--yellow);width:16px;height:16px;flex:0 0 auto}
+  #panel .hint{font-size:11px;color:#777;margin-top:10px;line-height:1.45}
+</style>
+</head>
+<body>
+<div id="stage"><div class="phone"><div class="phone-inner">
+  <div class="island"></div>
+
+  <!-- S1 -->
+  <section class="screen" id="s1">
+    <div class="body" style="padding-top:0">
+      <div class="brand"><div class="ya">Я</div><span>Путешествия</span></div>
+      <h1 style="margin-top:22px">Куда отправимся?</h1>
+      <div class="sub">Отели, билеты и новые впечатления</div>
+      <div class="field static" onclick="toast('Поиск — вне рамок этого прототипа')"><div class="lbl">Направление</div><div class="val" style="color:#B6B6BA;font-weight:500">Город, регион или отель</div></div>
+      <div class="row2">
+        <div class="field static" onclick="toast('Календарь — вне рамок прототипа')"><div class="lbl">Даты поездки</div><div class="val" style="font-weight:500;color:#B6B6BA">Выбрать</div></div>
+        <div class="field static" onclick="toast('Гости — вне рамок прототипа')"><div class="lbl">Путешественники</div><div class="val" style="font-weight:500">2 взрослых</div></div>
+      </div>
+      <div class="soft promo" style="margin-top:22px;padding-right:64px">
+        <div class="doc"><i></i><i></i><i></i></div>
+        <div class="t" style="font-size:19px">Попробуйте<br>поездку-<br>сюрприз</div>
+        <div class="d" style="color:#6B5B00">Задайте бюджет и пожелания.<br>Город откроем перед вылетом.</div>
+        <button class="btn dark" style="margin-top:16px;height:48px;font-size:15px" onclick="go('s2')">Узнать, как это работает</button>
+      </div>
+    </div>
+    <nav class="tabbar">
+      <button class="tab on" onclick="go('s1')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Главная</button>
+      <button class="tab" onclick="toast('Поиск — вне рамок прототипа')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Поиск</button>
+      <button class="tab" onclick="go('s9')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg>Поездки</button>
+      <button class="tab" onclick="toast('Профиль — вне рамок прототипа')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-5.5 8-5.5s6.5 1.5 8 5.5"/></svg>Профиль</button>
+    </nav>
+  </section>
+
+  <!-- S2 -->
+  <section class="screen" id="s2">
+    <div class="navrow"><button class="back" onclick="back()">‹</button><div class="nt">Сюрприз-поездка</div></div>
+    <div class="body">
+      <div class="micro">Знакомство</div><h1>Поездка с сюрпризом</h1>
+      <div class="sub">Город — сюрприз. Условия — заранее.</div>
+      <div class="soft"><div class="t">Всё главное<br>в одном заказе</div><div class="d">Перелёт и проживание включены</div></div>
+      <div class="step"><div class="n">1</div><div><div class="t">Задайте условия</div><div class="d">Даты, бюджет и города-исключения</div></div></div>
+      <div class="step"><div class="n">2</div><div><div class="t">Проверьте предложение</div><div class="d">Цена, время и условия до оплаты</div></div></div>
+      <div class="step"><div class="n">3</div><div><div class="t">Узнайте город</div><div class="d">Когда откроется регистрация</div></div></div>
+      <div class="fine">Питание вне отеля и развлечения оплачиваются отдельно. Правила изменения и отмены доступны до покупки.</div>
+    </div>
+    <div class="cta"><button class="btn" onclick="go('s3')">Подобрать поездку</button></div>
+  </section>
+
+  <!-- S3 -->
+  <section class="screen" id="s3">
+    <div class="navrow"><button class="back" onclick="back()">‹</button><div class="nt">Сюрприз-поездка</div></div>
+    <div class="body">
+      <div class="micro">Шаг 1 из 3</div><h1>Ваша поездка</h1><div class="sub">Начнём с самого важного</div>
+      <div class="field" onclick="openSheet('city')"><div class="lbl">Город вылета</div><div class="val" id="f-city">Москва</div></div>
+      <div class="field static" id="f-dates-wrap" style="cursor:default"><div class="lbl">Даты поездки</div>
+        <div class="daterow">
+          <div class="mini"><div class="cap">Вылет</div><input type="date" id="in-from" value="2026-11-20" onchange="validateDates()"></div>
+          <div class="mini"><div class="cap">Возвращение</div><input type="date" id="in-to" value="2026-11-23" onchange="validateDates()"></div>
+        </div>
+        <div class="inline-err" id="dates-err">Возвращение раньше вылета — исправьте даты</div>
+      </div>
+      <div class="field" onclick="openSheet('pax')"><div class="lbl">Путешественники</div><div class="val" id="f-pax">2 взрослых</div></div>
+      <div class="field static" style="cursor:default"><div class="lbl">Общий бюджет</div>
+        <div class="moneyrow"><span class="pre">До</span><input type="text" inputmode="numeric" id="in-budget" value="80 000" oninput="formatBudget(this)"><span class="suf">₽</span></div>
+      </div>
+      <div class="soft"><div class="t">Бюджет на всех</div><div class="d">Включает перелёт и проживание</div></div>
+    </div>
+    <div class="cta"><button class="btn" onclick="continueS3()">Продолжить</button></div>
+  </section>
+
+  <!-- S4 -->
+  <section class="screen" id="s4">
+    <div class="navrow"><button class="back" onclick="back()">‹</button><div class="nt">Сюрприз-поездка</div></div>
+    <div class="body">
+      <div class="micro">Шаг 2 из 3</div><h1>Что вам подходит</h1><div class="sub">Учтём пожелания и ограничения</div>
+      <div class="grp">Климат</div>
+      <div class="chips" id="climate">
+        <button class="chip sel-dark" data-v="Любой">Любой</button>
+        <button class="chip" data-v="Теплее">Теплее</button>
+        <button class="chip" data-v="Прохладнее">Прохладнее</button>
+      </div>
+      <div class="grp">Интересы</div>
+      <div class="chips" id="interests">
+        <button class="chip sel-yellow" data-v="Культура">Культура ✓</button>
+        <button class="chip sel-yellow" data-v="Прогулки">Прогулки ✓</button>
+        <button class="chip" data-v="Гастрономия">Гастрономия</button>
+        <button class="chip" data-v="Природа">Природа</button>
+      </div>
+      <div class="field" onclick="openSheet('star')"><div class="lbl">Звёздность проживания</div><div class="val" id="f-star">От 3 ★ • отдельный санузел</div></div>
+      <div class="field static" id="exField" style="cursor:default" onclick="openSheet('excl')">
+        <div class="exhead"><div class="lbl" style="margin:0">Исключить города</div><button class="plus" onclick="event.stopPropagation();openSheet('excl')" aria-label="Добавить город">+</button></div>
+        <div class="tags" id="exTags"></div>
+      </div>
+      <div class="fine">Обязательные ограничения соблюдаем. Если вариантов нет, предложим изменить условия.</div>
+    </div>
+    <div class="cta"><button class="btn" onclick="findTrip()">Найти поездку</button></div>
+  </section>
+
+  <!-- S5 -->
+  <section class="screen" id="s5">
+    <div class="navrow"><button class="back" onclick="back()">‹</button><div class="nt">Сюрприз-поездка</div></div>
+    <div class="body">
+      <div class="micro">Шаг 3 из 3</div><h1>Ваша поездка найдена</h1><div class="sub" id="s5-sub">20—23 ноября • 2 взрослых</div>
+      <div class="soft"><div class="big" data-price>74 000 ₽</div><div class="d">За всех • перелёт и проживание</div></div>
+      <div class="info" id="s5-wishes"></div>
+      <div class="info"><div class="t">Перелёт туда и обратно</div><div class="l" id="s5-flight"></div><div class="tiny">Ручная кладь + багаж 10 кг</div></div>
+      <div class="info"><div class="t" id="s5-hotel">Отель 3★ • завтраки</div><div class="l">Отдельный номер с санузлом<br>Название откроется вместе с городом</div></div>
+      <div class="info"><div class="t">Условия изменения и отмены</div><span class="link" onclick="toast('Правила тарифа — демо-экран')">Посмотреть правила тарифа ›</span></div>
+      <div class="fine" id="s5-excl"></div>
+    </div>
+    <div class="cta"><button class="btn" id="btn-order" onclick="go('s6')">Оформить за 74 000 ₽</button></div>
+  </section>
+
+  <!-- S6 -->
+  <section class="screen" id="s6">
+    <div class="navrow"><button class="back" onclick="back()">‹</button><div class="nt">Сюрприз-поездка</div></div>
+
+    <!-- choose -->
+    <div class="body" id="s6-choose">
+      <div class="micro">Оформление</div><h1>Кто едет?</h1>
+      <div class="sub">Данные нужны для билетов и заселения</div>
+      <div class="icon-circle"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#9B9B9B" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-5.5 8-5.5s6.5 1.5 8 5.5"/></svg></div>
+      <div class="fine" style="text-align:center;margin-top:0">Войдите, чтобы подставить пассажиров из профиля, или заполните данные вручную. Параметры поездки сохранятся в любом случае.</div>
+      <div class="seg">
+        <button class="btn" onclick="doLogin()">Войти через Яндекс ID</button>
+      </div>
+      <div class="seg" style="margin-top:0"><button class="btn gray" onclick="chooseManual()">Заполнить вручную</button></div>
+    </div>
+
+    <!-- logged in -->
+    <div class="body" id="s6-login" style="display:none">
+      <div class="micro">Оформление</div><h1>Кто едет?</h1><div class="sub">Данные взяты из профиля</div>
+      <div id="s6-login-list"></div>
+      <div class="soft"><div class="t">Вы вошли через Яндекс ID</div><div class="d">Данные пассажиров заполнены. Черновик сохранён в аккаунте.</div></div>
+    </div>
+
+    <!-- manual -->
+    <div class="body" id="s6-manual" style="display:none">
+      <div class="micro">Оформление</div><h1>Кто едет?</h1><div class="sub">Заполните данные по документу</div>
+      <div id="s6-manual-fields"></div>
+      <div class="fine">Данные используются только для оформления заказа и передачи перевозчику.</div>
+    </div>
+
+    <div class="cta" id="s6-cta-login" style="display:none">
+      <button class="btn" onclick="go('s7')">Перейти к оплате</button>
+      <button class="btn gray" style="margin-top:10px" onclick="toChoose()">Сменить способ</button>
+    </div>
+    <div class="cta" id="s6-cta-manual" style="display:none">
+      <button class="btn" onclick="submitManual()">Перейти к оплате</button>
+      <button class="btn gray" style="margin-top:10px" onclick="toChoose()">Назад</button>
+    </div>
+  </section>
+
+  <!-- S7 -->
+  <section class="screen" id="s7">
+    <div class="navrow"><button class="back" onclick="back()">‹</button><div class="nt">Сюрприз-поездка</div></div>
+    <div class="body">
+      <div class="micro">Оформление</div><h1>Проверьте заказ</h1><div class="sub">Перед оплатой ещё раз проверим цену</div>
+      <div class="info"><div class="t">Сюрприз-поездка</div><div class="l" id="s7-sum"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px"><span style="font-size:13px;color:var(--muted)">Итого</span><b style="font-size:20px" data-price>74 000 ₽</b></div>
+      </div>
+      <div class="micro" style="margin-top:18px">Пассажиры и контакты</div>
+      <div id="s7-travelers"></div>
+      <div class="field static" onclick="toast('Смена карты — демо-экран')"><div class="lbl">Способ оплаты</div><div class="val">Банковская карта • •••• 4242</div></div>
+      <label class="check" id="ck1" onclick="toggleCheck('ck1')"><span class="box"><svg width="13" height="11" viewBox="0 0 13 11" fill="none"><path d="M1 5.5 4.5 9 12 1" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="tx">Принимаю условия тарифа и правила изменений и отмены</span></label>
+      <label class="check" id="ck2" onclick="toggleCheck('ck2')"><span class="box"><svg width="13" height="11" viewBox="0 0 13 11" fill="none"><path d="M1 5.5 4.5 9 12 1" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="tx">Согласен узнать город при открытии регистрации</span></label>
+      <div class="fine">Платёж защищён. Проверим статус заказа.</div>
+    </div>
+    <div class="cta"><button class="btn" id="btn-pay" onclick="tryPay()">Оплатить 74 000 ₽</button></div>
+  </section>
+
+  <!-- S8 -->
+  <section class="screen" id="s8">
+    <div class="navrow"><button class="back" onclick="go('s1')">‹</button><div class="nt">Сюрприз-поездка</div></div>
+    <div class="body" style="text-align:center">
+      <div class="micro">Оплата подтверждена</div>
+      <div class="ok-circle"><svg width="40" height="40" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#DFF3E6"/><path d="M7 12.5 10.5 16 17 8.5" stroke="#22A55B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <h1>Можно собирать<br>чемодан</h1>
+      <div class="info" style="text-align:left;margin-top:24px"><div class="l" style="font-weight:700;color:var(--text);margin:0">Ваш заказ № SP-001</div><div class="l" id="s8-sum"></div>
+        <div style="border-top:1px solid var(--line);margin-top:10px;padding-top:10px" class="tiny">Город откроем 19 ноября в 10:00</div></div>
+      <div class="fine">Заказ и памятка уже в «Моих поездках».</div>
+    </div>
+    <div class="cta"><button class="btn" onclick="go('s9')">Открыть мою поездку</button></div>
+  </section>
+
+  <!-- S9 -->
+  <section class="screen" id="s9">
+    <div class="navrow"><button class="back" onclick="go('s1')">‹</button><div class="nt">Сюрприз-поездка</div></div>
+    <div class="body">
+      <div class="micro">Мои поездки</div><h1>Город пока скрыт</h1><div class="sub">Заказ SP-001 • всё готово к поездке</div>
+      <div class="soft" id="reveal-box" style="cursor:pointer" onclick="revealCity()" title="Нажмите, чтобы ускорить время (демо)">
+        <div class="t">Сюрприз уже близко</div><div class="big" id="reveal-title">Остался 1 день</div><div class="d" id="reveal-desc">Откроем город 19 ноября в 10:00, когда начнётся регистрация.</div>
+      </div>
+      <div class="info"><div class="tiny" style="margin:0 0 4px">Вылет</div><div class="l" style="margin:0;font-weight:700;color:var(--text)" id="s9-flight"></div></div>
+      <div class="info"><div class="tiny" style="margin:0 0 4px">Подготовка к поездке</div><span class="link" onclick="toast('Памятка, документы и багаж — демо-экран')">Памятка, документы и багаж ›</span></div>
+      <div class="fine">Можно связаться с поддержкой. Кнопка включится в момент раскрытия.</div>
+    </div>
+    <div class="cta"><button class="btn" id="btn-reveal" disabled onclick="go('s10')">Открыть город</button></div>
+  </section>
+
+  <!-- S10 -->
+  <section class="screen" id="s10">
+    <div class="navrow"><button class="back" onclick="go('s9')">‹</button><div class="nt">Сюрприз-поездка</div></div>
+    <div class="body">
+      <div class="micro">Ваш сюрприз</div><h1>Нижний Новгород</h1><div class="sub">Новая поездка начинается здесь</div>
+      <div class="soft"><div class="d" style="margin:0 0 4px;color:#6B5B00;font-weight:600" id="s10-leg"></div><div class="big" style="font-size:24px">10:00 — 11:15</div><span class="link" style="color:#6B5B00;margin-top:8px" onclick="toast('Регистрация на рейс — демо-экран')">Регистрация открыта ›</span></div>
+      <div class="info"><div class="tiny" style="margin:0 0 4px">Ваше проживание</div><span class="link" id="s10-hotel" onclick="toast('Карточка отеля — демо-экран')">Отель в центре • 3★ ›</span></div>
+      <div class="info"><div class="t" style="margin-bottom:8px">Маршрут поездки</div><div class="l" id="s10-route"></div></div>
+    </div>
+    <div class="cta"><button class="btn" onclick="toast('Маршрут открыт • демо')">Открыть маршрут</button></div>
+  </section>
+
+  <!-- E1 -->
+  <section class="screen" id="e1">
+    <div class="navrow"><button class="back" onclick="back()">‹</button><div class="nt">Сюрприз-поездка</div></div>
+    <div class="body">
+      <div class="trigger">S3 / S6 · проверка данных</div><div class="trigger-arrow">↓</div><div class="trigger-sub">Неверные даты / документ</div>
+      <div class="micro" style="margin-top:18px">Проверка параметров</div><h1>Проверьте даты</h1><div class="sub">Остальные значения сохранены</div>
+      <div class="field static"><div class="lbl">Город вылета</div><div class="val" id="e1-city">Москва</div></div>
+      <div class="field err static"><div class="lbl">Даты поездки</div><div class="val" style="color:var(--red)" id="e1-dates">23 — 20 ноября 2026</div></div>
+      <div class="errbox"><div class="t">Возвращение раньше вылета</div><div class="d">Выберите дату возвращения после даты отправления.</div></div>
+      <div class="field static"><div class="lbl">Путешественники</div><div class="val" id="e1-pax">2 взрослых</div></div>
+      <div class="fine">Для документов: подсказка появляется у поля с ошибкой на экране S6.</div>
+    </div>
+    <div class="cta"><button class="btn" onclick="go('s3')">Исправить данные</button></div>
+  </section>
+
+  <!-- E2 -->
+  <section class="screen" id="e2">
+    <div class="navrow"><button class="back" onclick="back()">‹</button><div class="nt">Сюрприз-поездка</div></div>
+    <div class="body">
+      <div class="trigger">S4 · результат подбора</div><div class="trigger-arrow">↓</div><div class="trigger-sub">Нет вариантов</div>
+      <div class="micro" style="margin-top:18px">Результат подбора</div><h1>Пока ничего не нашли</h1><div class="sub">Ваши ограничения остаются в силе</div>
+      <div class="icon-circle"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#9B9B9B" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></div>
+      <div style="text-align:center"><b style="font-size:16px">Попробуем другие условия?</b><div class="fine" style="margin-top:8px">Можно увеличить бюджет, выбрать другие даты или пересмотреть список исключённых городов.</div></div>
+      <div class="info"><div class="tiny" style="margin:0 0 4px">Ваши параметры</div><div class="l" id="e2-sum"></div></div>
+      <div class="fine">Измените даты, бюджет или исключения. Остальные параметры сохраним.</div>
+    </div>
+    <div class="cta"><button class="btn" onclick="go('s3')">Изменить условия</button></div>
+  </section>
+
+  <!-- E3 -->
+  <section class="screen" id="e3">
+    <div class="navrow"><button class="back" onclick="back()">‹</button><div class="nt">Сюрприз-поездка</div></div>
+    <div class="body">
+      <div class="trigger">S7 · попытка оплаты</div><div class="trigger-arrow">↓</div><div class="trigger-sub">Отказ банка</div>
+      <div class="micro" style="margin-top:18px">Оплата</div><h1>Платёж отклонён</h1><div class="sub">Банк не подтвердил операцию</div>
+      <div class="icon-circle red"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#F03C3C" stroke-width="2.6" stroke-linecap="round"><path d="M12 6v8"/><circle cx="12" cy="18" r=".5" fill="#F03C3C"/></svg></div>
+      <div style="text-align:center"><b style="font-size:16px">Попробуйте ещё раз</b><div class="fine" style="margin-top:8px">Проверьте лимит и баланс карты или выберите другой способ. Перед повтором проверим статус предыдущего платежа.</div></div>
+      <div class="info"><div class="tiny" style="margin:0 0 4px">К оплате</div><div class="l" style="font-weight:700;color:var(--text)"><span data-price>74 000 ₽</span> • заказ SP-001</div></div>
+    </div>
+    <div class="cta"><button class="btn gray" style="margin-bottom:10px" onclick="go('s7');toast('Выберите другой способ оплаты')">Другой способ оплаты</button><button class="btn" id="btn-retry" onclick="retryPay()">Повторить оплату</button></div>
+  </section>
+
+  <!-- E4 -->
+  <section class="screen" id="e4">
+    <div class="navrow"><button class="back" onclick="back()">‹</button><div class="nt">Сюрприз-поездка</div></div>
+    <div class="body">
+      <div class="trigger">S5–S7 · проверка предложения</div><div class="trigger-arrow">↓</div><div class="trigger-sub">Изменились цена / наличие</div>
+      <div class="micro" style="margin-top:18px">Проверка предложения</div><h1>Цена изменилась</h1><div class="sub">Нужно подтвердить новые условия</div>
+      <div class="soft"><div class="d" style="margin:0 0 2px;color:#6B5B00;font-weight:600">Новая стоимость поездки</div><div class="big">76 500 ₽</div></div>
+      <div class="info"><div class="tiny" style="margin:0 0 6px">Ранее: 74 000 ₽</div><div class="l">20—23 ноября • 2 взрослых<br>Перелёт и проживание<br>Остальные условия прежние.</div><div class="tiny" style="margin-top:8px;font-weight:700;color:#3A3A3C">Без согласия оплату не проводим.</div></div>
+      <div class="fine">Если мест больше нет, предложим вернуться к подбору.</div>
+    </div>
+    <div class="cta"><button class="btn gray" style="margin-bottom:10px" onclick="go('s4')">Вернуться к подбору</button><button class="btn" onclick="acceptNewPrice()">Принять 76 500 ₽</button></div>
+  </section>
+
+  <div id="sheet-wrap"><div class="veil" onclick="closeSheet()"></div><div class="sheet" id="sheet"></div></div>
+  <div id="toast"></div><div class="indicator" id="home-ind"></div>
+</div></div></div>
+
+<button id="panel-btn" onclick="document.getElementById('panel').classList.toggle('open')">⚡ Экраны</button>
+<div id="panel">
+  <h4>Основные</h4><div class="grid" id="pg-main"></div>
+  <h4>Ошибки</h4><div class="grid" id="pg-err"></div>
+  <h4>Демо-переключатели</h4>
+  <label class="tog">S6 · сразу войти (Яндекс ID)<input type="checkbox" id="tg-login" onchange="setMode6(this.checked?'login':'choose')"></label>
+  <label class="tog">S9 · город уже раскрыт<input type="checkbox" id="tg-reveal" onchange="setRevealed(this.checked)"></label>
+  <label class="tog">Цена 76 500 ₽ (после E4)<input type="checkbox" id="tg-price" onchange="setPrice(this.checked?76500:74000)"></label>
+  <div class="hint">S3: возвращение раньше вылета → «Продолжить» → <b>E1</b>; бюджет &lt; 70 000 ₽ → в S4 «Найти поездку» → <b>E2</b>. S4: климат/интересы/звёздность/исключения влияют на S5 и маршрут S10. S6: «Заполнить вручную» → данные идут в S7.</div>
+</div>
+
+<script>
+/* ===== state ===== */
+const S={city:'Москва',from:'2026-11-20',to:'2026-11-23',pax:2,budgetNum:80000,
+  star:'От 3 ★',bath:true,excl:new Set(['Казань','Санкт-Петербург']),
+  climate:'Любой',interests:new Set(['Культура','Прогулки']),
+  mode6:'choose',travelers:null,email:'',manual:{names:[],docs:[],email:''},
+  revealed:false,price:74000,invalidDates:false};
+const stack=['s1'];
+const $=id=>document.getElementById(id);
+const fmt=n=>n.toLocaleString('ru-RU')+' ₽';
+const MONTHS=['','января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+const MSHORT=['','янв','фев','мар','апр','мая','июн','июл','авг','сен','окт','ноя','дек'];
+const ALL_CITIES=['Москва','Санкт-Петербург','Екатеринбург','Новосибирск','Самара','Нижний Новгород','Казань','Краснодар','Сочи'];
+const EXCL_POOL=['Казань','Санкт-Петербург','Екатеринбург','Новосибирск','Самара','Нижний Новгород','Краснодар','Сочи','Владивосток','Мурманск'];
+const D_NAMES=['Иван Иванович Иванов','Анна Ивановна Иванова','Пётр Петрович Петров','Мария Сергеевна Сидорова','Олег Игоревич Кузнецов','Елена Викторовна Смирнова'];
+const D_DOC=['1234','5678','9012','3456','7890','2345'];
+const ACT={'Культура':'Театры и музеи','Прогулки':'Покровская улица и Стрелка','Гастрономия':'Рынки и фуд-корты','Природа':'Набережная и парки'};
+
+const pd=s=>{const[y,m,d]=s.split('-').map(Number);return{y,m,d};};
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+function rangeText(a,b){const A=pd(a),B=pd(b);
+  if(A.y===B.y&&A.m===B.m)return `${A.d}—${B.d} ${MONTHS[A.m]} ${A.y}`;
+  if(A.y===B.y)return `${A.d} ${MONTHS[A.m]} — ${B.d} ${MONTHS[B.m]} ${A.y}`;
+  return `${A.d} ${MONTHS[A.m]} ${A.y} — ${B.d} ${MONTHS[B.m]} ${B.y}`;}
+const shortDate=s=>{const A=pd(s);return `${A.d} ${MSHORT[A.m]}`;};
+const fmtDay=s=>{const A=pd(s);return `${A.d} ${MONTHS[A.m]}`;};
+function addDays(s,n){const d=new Date(s+'T00:00');d.setDate(d.getDate()+n);return d.toISOString().slice(0,10);}
+function diffDays(a,b){return Math.round((new Date(b+'T00:00')-new Date(a+'T00:00'))/86400000);}
+const maskDoc=raw=>{const d=String(raw).replace(/\D/g,'');return 'Паспорт РФ • •••• '+(d.slice(-4)||'****');};
+
+/* ===== status bar ===== */
+const STATUS=`<div class="status"><span>9:41</span><span class="icons">
+<svg width="18" height="12" viewBox="0 0 18 12" fill="#111"><rect x="0" y="7" width="3" height="5" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/><rect x="10" y="2.5" width="3" height="9.5" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
+<svg width="17" height="12" viewBox="0 0 17 12" fill="#111"><path d="M8.5 2C5.6 2 3 3.1 1.2 4.9L0 3.6C2.2 1.4 5.2 0 8.5 0s6.3 1.4 8.5 3.6l-1.2 1.3C13.9 3.1 11.4 2 8.5 2Zm0 3.4c-1.9 0-3.6.7-4.9 1.9L2.4 5.9C4 4.5 6.1 3.6 8.5 3.6s4.5.9 6.1 2.3l-1.2 1.4c-1.3-1.2-3-1.9-4.9-1.9Zm0 3.3c-.9 0-1.7.3-2.3.9l2.3 2.4 2.3-2.4c-.6-.6-1.4-.9-2.3-.9Z"/></svg>
+<svg width="25" height="12" viewBox="0 0 25 12"><rect x=".5" y=".5" width="21" height="11" rx="3" fill="none" stroke="#111" opacity=".4"/><rect x="2" y="2" width="16" height="8" rx="1.6" fill="#111"/><path d="M23 4v4c1-.3 1.6-1 1.6-2S24 4.3 23 4Z" fill="#111" opacity=".5"/></svg>
+</span></div>`;
+document.querySelectorAll('.screen').forEach(sc=>sc.insertAdjacentHTML('afterbegin',STATUS));
+
+/* ===== nav ===== */
+function show(id,dir){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active','back'));
+  const el=$(id);el.classList.add('active');if(dir==='back')el.classList.add('back');
+  $('home-ind').style.display=(id==='s1')?'none':'block';
+  document.querySelectorAll('#panel .p').forEach(b=>b.classList.toggle('cur',b.dataset.go===id));
+  if(id==='s6')renderS6();
+  if(id==='s9')renderS9();
+  if(id==='e1')renderE1();
+  if(id==='s5'||id==='s7'||id==='s8'||id==='e2'||id==='s10'){syncSummary();}
+  if(id==='s7')renderTravelers();
+}
+function go(id){if(stack[stack.length-1]!==id)stack.push(id);show(id);}
+function back(){if(stack.length>1){stack.pop();show(stack[stack.length-1],'back');}else show('s1','back');}
+let tT;function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),1800);}
+
+/* ===== S3 ===== */
+function validateDates(){S.from=$('in-from').value;S.to=$('in-to').value;
+  const bad=S.from&&S.to&&(S.to<S.from);S.invalidDates=bad;
+  $('f-dates-wrap').classList.toggle('err',bad);$('dates-err').classList.toggle('show',bad);}
+function formatBudget(inp){let d=inp.value.replace(/\D/g,'').slice(0,7);S.budgetNum=d?parseInt(d,10):0;inp.value=d?Number(d).toLocaleString('ru-RU'):'';}
+function continueS3(){if(S.invalidDates)go('e1');else go('s4');}
+
+/* ===== S4 chips ===== */
+$('climate').addEventListener('click',e=>{const c=e.target.closest('.chip');if(!c)return;
+  S.climate=c.dataset.v;document.querySelectorAll('#climate .chip').forEach(x=>x.classList.remove('sel-dark'));c.classList.add('sel-dark');});
+$('interests').addEventListener('click',e=>{const c=e.target.closest('.chip');if(!c)return;
+  const v=c.dataset.v,on=c.classList.toggle('sel-yellow');
+  if(on)S.interests.add(v);else S.interests.delete(v);c.textContent=v+(on?' ✓':'');});
+function composeStar(){return S.star==='Без требований'?'Без требований':S.star+(S.bath?' • отдельный санузел':'');}
+function renderExcl(){const w=$('exTags');w.innerHTML='';
+  if(S.excl.size===0){w.innerHTML='<span style="font-size:13px;color:var(--muted)">Не выбраны — нажмите «+»</span>';return;}
+  [...S.excl].forEach(c=>{const t=document.createElement('span');t.className='tag';t.innerHTML=`${c} <b>×</b>`;
+    t.onclick=e=>{e.stopPropagation();S.excl.delete(c);renderExcl();};w.appendChild(t);});}
+function findTrip(){if(S.budgetNum>0&&S.budgetNum<70000)go('e2');else go('s5');}
+
+/* ===== sheets ===== */
+const SHEETS={
+  city:()=>`<h3>Город вылета</h3>`+ALL_CITIES.map(c=>`<button class="opt" onclick="pickCity('${c}')">${c}${S.city===c?'<span class="ck">✓</span>':''}</button>`).join(''),
+  pax:()=>`<h3>Путешественники</h3><div class="stepper"><button onclick="stepPax(-1)">−</button><span class="v" id="pv">${paxLabel()}</span><button onclick="stepPax(1)">+</button></div><div class="fine" style="margin-top:0">Дети и питомцы — в полной версии приложения.</div>`,
+  star:()=>`<h3>Звёздность проживания</h3>`+['Без требований','От 3 ★','От 4 ★','От 5 ★'].map(s=>`<button class="opt" onclick="pickStar('${s}')">${s}${S.star===s?'<span class="ck">✓</span>':''}</button>`).join('')+`<button class="opt ${S.bath?'on':''}" onclick="toggleBath()" style="border-bottom:none"><span>Отдельный санузел</span><span class="sq"><svg width="12" height="10" viewBox="0 0 13 11" fill="none"><path d="M1 5.5 4.5 9 12 1" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>`,
+  excl:()=>`<h3>Исключить города</h3><div class="fine" style="margin:0 0 6px">Отметьте города, которые не подходят. Они появятся тегами.</div>`+EXCL_POOL.map(c=>`<button class="opt ${S.excl.has(c)?'on':''}" onclick="toggleExcl('${c}')"><span>${c}</span><span class="sq"><svg width="12" height="10" viewBox="0 0 13 11" fill="none"><path d="M1 5.5 4.5 9 12 1" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>`).join('')
+};
+const paxLabel=()=>S.pax===1?'1 взрослый':S.pax+' взрослых';
+function openSheet(k){$('sheet').innerHTML=`<div class="grab"></div>`+SHEETS[k]();$('sheet-wrap').classList.add('open');}
+function closeSheet(){$('sheet-wrap').classList.remove('open');}
+function pickCity(c){S.city=c;$('f-city').textContent=c;closeSheet();}
+function stepPax(d){S.pax=Math.min(6,Math.max(1,S.pax+d));$('pv').textContent=paxLabel();$('f-pax').textContent=paxLabel();ensureManual();}
+function pickStar(s){S.star=s;$('f-star').textContent=composeStar();$('sheet').innerHTML=`<div class="grab"></div>`+SHEETS.star();}
+function toggleBath(){S.bath=!S.bath;$('f-star').textContent=composeStar();$('sheet').innerHTML=`<div class="grab"></div>`+SHEETS.star();}
+function toggleExcl(c){S.excl.has(c)?S.excl.delete(c):S.excl.add(c);renderExcl();$('sheet').innerHTML=`<div class="grab"></div>`+SHEETS.excl();}
+
+/* ===== S6 modes ===== */
+function ensureManual(){while(S.manual.names.length<S.pax)S.manual.names.push('');while(S.manual.docs.length<S.pax)S.manual.docs.push('');S.manual.names.length=S.pax;S.manual.docs.length=S.pax;}
+function toChoose(){S.mode6='choose';renderS6();}
+function doLogin(){S.mode6='login';S.travelers=D_NAMES.slice(0,S.pax).map((n,i)=>({name:n,doc:'Паспорт РФ • •••• '+D_DOC[i]}));S.email='traveler@example.com';$('tg-login').checked=true;renderS6();}
+function chooseManual(){S.mode6='manual';ensureManual();renderS6();}
+function setMode6(m){S.mode6=m;if(m==='login')doLogin();else{$('tg-login').checked=false;renderS6();}}
+function renderS6(){
+  ['choose','login','manual'].forEach(k=>{$('s6-'+k).style.display=(S.mode6===k)?'block':'none';});
+  $('s6-cta-login').style.display=S.mode6==='login'?'block':'none';
+  $('s6-cta-manual').style.display=S.mode6==='manual'?'block':'none';
+  $('tg-login').checked=(S.mode6==='login');
+  if(S.mode6==='login')renderLoginList();
+  if(S.mode6==='manual')renderManualForm();
+}
+function renderLoginList(){
+  $('s6-login-list').innerHTML=S.travelers.map((t,i)=>
+    `<div class="info"><div class="tiny" style="margin:0 0 4px">Пассажир ${i+1} • данные проверены</div><div class="l" style="margin:0;font-weight:700;color:var(--text)">${esc(t.name)}<br><span style="font-weight:500;color:#555">${esc(t.doc)}</span></div></div>`).join('')
+   +`<div class="info"><div class="tiny" style="margin:0 0 4px">Электронная почта</div><div class="l" style="margin:0;font-weight:700;color:var(--text)">${esc(S.email)}</div></div>`;
+}
+function renderManualForm(){
+  let h='';
+  for(let i=0;i<S.pax;i++){
+    h+=`<div class="field static" id="fm-name-${i}" style="cursor:default"><div class="lbl">Пассажир ${i+1} • ФИО по документу</div><input class="txtin" value="${esc(S.manual.names[i])}" oninput="setMan('names',${i},this)"></div>`;
+    h+=`<div class="field static" id="fm-doc-${i}" style="cursor:default"><div class="lbl">Документ пассажира ${i+1} • Паспорт РФ</div><input class="txtin" placeholder="Серия и номер" value="${esc(S.manual.docs[i])}" oninput="setMan('docs',${i},this)"></div>`;
+  }
+  h+=`<div class="field static" id="fm-email" style="cursor:default"><div class="lbl">Электронная почта</div><input class="txtin" type="email" placeholder="you@example.com" value="${esc(S.manual.email)}" oninput="setManEmail(this)"></div>`;
+  $('s6-manual-fields').innerHTML=h;
+}
+function setMan(arr,i,el){S.manual[arr][i]=el.value;el.closest('.field').classList.remove('err');}
+function setManEmail(el){S.manual.email=el.value;el.closest('.field').classList.remove('err');}
+function submitManual(){
+  let ok=true;
+  for(let i=0;i<S.pax;i++){
+    if(!S.manual.names[i].trim()){$('fm-name-'+i).classList.add('err');ok=false;}
+    if(!S.manual.docs[i].trim()){$('fm-doc-'+i).classList.add('err');ok=false;}
+  }
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(S.manual.email.trim())){$('fm-email').classList.add('err');ok=false;}
+  if(!ok){toast('Заполните все поля корректно');return;}
+  S.travelers=S.manual.names.map((n,i)=>({name:n.trim(),doc:maskDoc(S.manual.docs[i])}));
+  S.email=S.manual.email.trim();
+  go('s7');
+}
+function guaranteeTravelers(){if(!S.travelers){S.travelers=D_NAMES.slice(0,S.pax).map((n,i)=>({name:n,doc:'Паспорт РФ • •••• '+D_DOC[i]}));S.email=S.email||'traveler@example.com';}}
+
+/* ===== S7 travelers ===== */
+function renderTravelers(){guaranteeTravelers();
+  $('s7-travelers').innerHTML=S.travelers.map((t,i)=>
+    `<div class="info"><div class="tiny" style="margin:0 0 4px">Пассажир ${i+1}</div><div class="l" style="margin:0;font-weight:700;color:var(--text)">${esc(t.name)}<br><span style="font-weight:500;color:#555">${esc(t.doc)}</span></div></div>`).join('')
+   +`<div class="info"><div class="tiny" style="margin:0 0 4px">Почта для билетов</div><div class="l" style="margin:0;font-weight:700;color:var(--text)">${esc(S.email)}</div></div>`;
+}
+
+/* ===== summary sync ===== */
+function syncSummary(){
+  const rt=rangeText(S.from,S.to),px=S.pax+' взрослых';
+  if($('s5-sub'))$('s5-sub').textContent=`${rt} • ${px}`;
+  if($('s5-wishes')){
+    const ints=[...S.interests];
+    $('s5-wishes').innerHTML=`<div class="t">Ваши пожелания учтены</div>
+      <div class="tags" style="margin-top:8px">
+        <span class="tag ro">Климат: ${S.climate}</span>
+        ${ints.length?ints.map(i=>`<span class="tag ro">${i}</span>`).join(''):'<span class="tag ro">Интересы: любые</span>'}
+        <span class="tag ro">${S.star==='Без требований'?'Звёзды: любые':S.star}</span>
+      </div>`;
+  }
+  if($('s5-flight'))$('s5-flight').innerHTML=`${S.city} • ${shortDate(S.from)}, 10:00<br>Обратно • ${shortDate(S.to)}, до 21:00`;
+  if($('s5-hotel'))$('s5-hotel').textContent=S.star==='Без требований'?'Отель • завтраки':`${S.star.replace(' ★','')}★ • завтраки`;
+  if($('s5-excl'))$('s5-excl').textContent=S.excl.size?`Город скрыт. Исключены: ${[...S.excl].join(', ')}.`:'Город скрыт. Все ограничения учтены.';
+  if($('s7-sum'))$('s7-sum').innerHTML=`${rt} • ${px}<br>Перелёт и проживание<br>Багаж 10 кг • завтраки`;
+  if($('s8-sum'))$('s8-sum').innerHTML=`${rt} • ${px}<br>Перелёт и проживание<br>Оплачено: <b data-price>${fmt(S.price)}</b>`;
+  if($('s9-flight'))$('s9-flight').textContent=`${S.city} • ${shortDate(S.from)}, 10:00`;
+  if($('s10-leg'))$('s10-leg').textContent=`${fmtDay(S.from)} • ${S.city} → Нижний`;
+  if($('s10-hotel'))$('s10-hotel').textContent=`Отель в центре • ${S.star==='Без требований'?'3★':S.star.replace('От ','')}`;
+  if($('s10-route'))$('s10-route').innerHTML=buildRoute();
+  if($('e2-sum'))$('e2-sum').innerHTML=`${rt} • ${px}<br>До ${S.budgetNum.toLocaleString('ru-RU')} ₽ • исключены ${S.excl.size} гор.`;
+}
+function buildRoute(){
+  const days=diffDays(S.from,S.to)+1;
+  if(days<=1)return `${fmtDay(S.from)} • Прилёт и возвращение в ${S.city}`;
+  const pool=[...S.interests].map(i=>ACT[i]).filter(Boolean);
+  const mid=days-2;let lines=[`${fmtDay(S.from)} • Прилёт, Кремль и центр`];
+  for(let k=0;k<mid;k++)lines.push(`${fmtDay(addDays(S.from,1+k))} • ${pool.length?pool[k%pool.length]:'Свободный день'}`);
+  lines.push(`${fmtDay(S.to)} • Возвращение в ${S.city}`);
+  return lines.join('<br>');
+}
+function renderE1(){$('e1-city').textContent=S.city;$('e1-dates').textContent=rangeText(S.from,S.to);$('e1-pax').textContent=S.pax+' взрослых';}
+
+/* ===== price ===== */
+function setPrice(v){S.price=v;document.querySelectorAll('[data-price]').forEach(el=>el.textContent=fmt(v));
+  $('btn-order').textContent='Оформить за '+fmt(v);$('btn-pay').textContent='Оплатить '+fmt(v);$('tg-price').checked=v===76500;}
+function acceptNewPrice(){setPrice(76500);go('s7');toast('Новая цена принята');}
+
+/* ===== pay ===== */
+function toggleCheck(id){$(id).classList.toggle('on');}
+function tryPay(){if(!$('ck1').classList.contains('on')||!$('ck2').classList.contains('on')){toast('Подтвердите условия и согласие узнать город');return;}
+  const b=$('btn-pay');b.classList.add('loading');b.textContent='Проводим платёж…';
+  setTimeout(()=>{b.classList.remove('loading');b.textContent='Оплатить '+fmt(S.price);go('s8');},900);}
+function retryPay(){const b=$('btn-retry');b.classList.add('loading');b.textContent='Проверяем статус платежа…';
+  setTimeout(()=>{b.classList.remove('loading');b.textContent='Повторить оплату';go('s8');toast('Платёж прошёл успешно');},900);}
+
+/* ===== reveal ===== */
+function renderS9(){$('reveal-title').textContent=S.revealed?'Регистрация открыта':'Остался 1 день';
+  $('reveal-desc').textContent=S.revealed?'Город раскрыт — можно открывать маршрут.':'Откроем город 19 ноября в 10:00, когда начнётся регистрация.';
+  $('reveal-box').style.cursor=S.revealed?'default':'pointer';$('btn-reveal').disabled=!S.revealed;$('tg-reveal').checked=S.revealed;}
+function revealCity(){if(S.revealed)return;S.revealed=true;renderS9();toast('Время наступило · город доступен');}
+function setRevealed(v){S.revealed=v;renderS9();}
+
+/* ===== panel ===== */
+const MAIN=['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'],ERR=['e1','e2','e3','e4'];
+const NAMES={s1:'S1',s2:'S2',s3:'S3',s4:'S4',s5:'S5',s6:'S6',s7:'S7',s8:'S8',s9:'S9',s10:'S10',e1:'E1',e2:'E2',e3:'E3',e4:'E4'};
+$('pg-main').innerHTML=MAIN.map(i=>`<button class="p" data-go="${i}" onclick="go('${i}')">${NAMES[i]}</button>`).join('');
+$('pg-err').innerHTML=ERR.map(i=>`<button class="p" data-go="${i}" onclick="go('${i}')">${NAMES[i]}</button>`).join('');
+
+function fit(){const sc=Math.min(1,(innerHeight-24)/844,(innerWidth-24)/390);$('stage').style.transform=`scale(${sc})`;}
+addEventListener('resize',fit);fit();
+
+show('s1');renderS6();renderS9();renderExcl();setPrice(74000);validateDates();ensureManual();
+</script>
+</body>
+</html>
